@@ -1,23 +1,28 @@
 (
+Server.default = s = Server.local;
+////server setup
+(
 s.options.numWireBufs = 1024*4;
 s.options.numOutputBusChannels=6;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(0.5);
 s.options.memSize = 8192*128*2;
-s.options.blockSize = 64;
+s.options.blockSize = 64*1;
 s.options.maxNodes = 1024 * 16;
 s.options.sampleRate= 44100;
-s.boot
-)
+);
 
+s.waitForBoot{
+/////wavetables
+Buffer.freeAll;
 (
 ~controlBus_az = Bus.control(s, 1);
 ~controlBus_el = Bus.control(s, 1);
 ~controlBus_magx = Bus.control(s, 1);
 ~controlBus_magy = Bus.control(s, 1);
 ~controlBus_magz = Bus.control(s, 1);
-~controlBus_angle  = Bus.control(s, 1);
-)
+//~controlBus_angle  = Bus.control(s, 1);
+);
 
 
 (
@@ -26,7 +31,7 @@ var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle = 0;
 
-~tempo=0.1;
+~tempo=2;
 
 
 ~az =  Routine({
@@ -114,7 +119,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 		~tempo.wait;
 }});
 
-~angleRoutine = Routine({
+/*~angleRoutine = Routine({
     loop {
         // Calculate the next angle
       angle = (angle + (360 - (360 / 1.6180339887499))).wrap(0, 360);
@@ -123,8 +128,17 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 		~controlBus_angle.set(angle.degrad);
 		~tempo.wait;
     }
-});
+});*/
 )
+
+({
+		var angle=0;
+		~angle=(512).collect{
+		angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);
+		}
+		}.value;
+	~angle1=~angle/2;
+	);
 
 
 (
@@ -142,7 +156,7 @@ wt = signal.asWavetable;
 ~t.loadCollection(wt);
 signal.plot;
 		}.value;
-)
+);
 (
 ~lag=0.01;
 SynthDef.new(\ospace1, {
@@ -171,7 +185,10 @@ var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
 
 freq=(fundamental*octave);
 
-	mag_o=Cartesian(In.kr(~controlBus_magx).lag(~lag),In.kr(~controlBus_magy).lag(~lag),In.kr(~controlBus_magz).lag(~lag));
+
+256.do{
+
+			mag_o=Cartesian(In.kr(~controlBus_magx).lag(~lag),In.kr(~controlBus_magy).lag(~lag),In.kr(~controlBus_magz).lag(~lag));
 
 	sphere1=Spherical(mag_o.x,In.kr(~controlBus_az).lag(~lag),In.kr(~controlBus_el).lag(~lag));
 	sphere2=Spherical(mag_o.y,In.kr(~controlBus_az).lag(~lag),In.kr(~controlBus_el).lag(~lag));
@@ -181,28 +198,14 @@ freq=(fundamental*octave);
 	xyz=Spherical(mult*mag_o.rho.round(0.00000001)/(2.sqrt),sphere.theta,sphere.phi);
 	xyz_array=[xyz.x.round(0.000001),xyz.y.round(0.000001),xyz.z.round(0.000001)];
 
-v6=Quaternion(0, xyz_array.[0], xyz_array.[1], xyz_array.[2]);
-	// v0=Quaternion(0,0.57735026918963,0.57735026918963,0.57735026918963);
-	//
-	// axis=[xr,yr,zr].normalizeSum.sqrt;
-	// i=Quaternion(0, axis.[0], 0, 0);
-	// j=Quaternion(0, 0,  axis.[1], 0);
-	// k=Quaternion(0, 0, 0,  axis.[2]);
-	// v=(i+j+k);
-	//
-	// q1=((v0*exp(Complex(0,1)*In.kr(~controlBus_angle)).imag)+exp(Complex(0,1)*In.kr(~controlBus_angle)).real);
-	// v=q1*v*q1.conjugate;
-	// q2=((v*exp(Complex(0,1)*In.kr(~controlBus_angle)).imag)+exp(Complex(0,1)*In.kr(~controlBus_angle)).real);
-	// v=q2*v*q2.conjugate;
-	// q3=((v*exp(Complex(0,1)*In.kr(~controlBus_angle)).imag)+exp(Complex(0,1)*In.kr(~controlBus_angle)).real);
-	// v=q3*v*q3.conjugate;
-	// q4=((v*exp(Complex(0,1)*In.kr(~controlBus_angle)).imag)+exp(Complex(0,1)*In.kr(~controlBus_angle)).real);
-	// v=q4*v*q4.conjugate;
-	// q5=((v*exp(Complex(0,1)*In.kr(~controlBus_angle)).imag)+exp(Complex(0,1)*In.kr(~controlBus_angle)).real);
-	// v6=q5*v6*q5.conjugate;
-	//
+v=Quaternion(0, xyz_array.[0], xyz_array.[1], xyz_array.[2]);
+	 v0=Quaternion(0,0.57735026918963,0.57735026918963,0.57735026918963);
 
-	pitch=Cartesian(v6.b,v6.c,v6.d);
+
+		q1=((v0*exp(Complex(0,1)*~angle1.[pl].degrad).imag)+exp(Complex(0,1)*~angle1.[pl].degrad).real);
+	 v=q1*v*q1.conjugate;
+
+	pitch=Cartesian(v.b,v.c,v.d);
 
 	n1=(pitch.x).round(0.00001); n2=(pitch.y).round(0.00001); n3=(pitch.z).round(0.00001);
 
@@ -220,7 +223,7 @@ ton3=2.pow(n3/(2*6));
 	pitch3=(freq*ton3*sphere3.rho.reciprocal).round(0.0000000000001);
 
 				phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
-1.do{
+
 
 osc1=VBAP.ar(4,
 				//Osc.ar(~w1.bufnum,pitch1,mul:amp1,phase:phase+ph_x.theta),
@@ -262,6 +265,8 @@ sphere3.theta.raddeg,sphere3.phi.raddeg
 	}
 
 }).add;
+);
+}
 )
 
 
@@ -272,5 +277,5 @@ sphere3.theta.raddeg,sphere3.phi.raddeg
 ~magy.play;
 ~magz.play;
 Synth(\ospace1);
-s.record(numChannels:4)
+//s.record(numChannels:4)
 )
