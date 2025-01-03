@@ -29,7 +29,7 @@ var  sph1,m_x=3,m_y=4,m_z=3;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
 var angle = 0;
 
-~tempo=0.5;
+~tempo=0.2;
 
 
 ~o =  Routine({
@@ -91,11 +91,11 @@ wt = signal.asWavetable;
 		}.value;
 );
 (
-~lag=0.1;
+~lag=0.05;
 SynthDef.new(\ospace1, {
 	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=4,mult=24,xr=1,yr=1,zr=1;
 	var tonx1,tonx2,tonx3,tony1,tony2,tony3,tonz1,tonz2,tonz3;
-	var fundamental=55;
+	var fundamental=110;
 	var freq,m=1;
 	var ampx1,ampx2,ampx3,ampy1,ampy2,ampy3,ampz1,ampz2,ampz3;
 	var pitchx1,pitchx2,pitchx3,pitchy1,pitchy2,pitchy3,pitchz1,pitchz2,pitchz3;
@@ -104,7 +104,10 @@ SynthDef.new(\ospace1, {
 	var nx1,nx2,nx3,ny1,ny2,ny3,nz1,nz2,nz3;
 	var sphere1,sphere2,sphere3;
 	var sph1,sph2,sph3;
-	var angle,sph;
+	var angle,sph,n1,n2,n3;
+	var ton1,ton2,ton3;
+	var amp1,amp2,amp3;
+	var pitch1,pitch2,pitch3;
 
 	var wrappedOut1 = { |busArray, signalArray|
 	[busArray, signalArray].flop.do { |pair|
@@ -130,22 +133,26 @@ freq=(fundamental*octave);
 
 			sph1=Spherical(sphere1.rho*mult,sphere.theta,sphere.phi);
 			sph2=Spherical(sphere2.rho*mult,sphere.theta,sphere.phi);
-			sph1=Spherical(sphere3.rho*mult,sphere.theta,sphere.phi);
+			sph3=Spherical(sphere3.rho*mult,sphere.theta,sphere.phi);
+			sph=Spherical(sphere.rho*mult,sphere.theta,sphere.phi);
 
 
+			n1=(sph.x).round(0.00001); n2=(sph.y).round(0.00001); n3=(sph.z).round(0.00001);
 	nx1=(sph1.x).round(0.00001); nx2=(sph1.y).round(0.00001); nx3=(sph1.z).round(0.00001);
 	ny1=(sph2.x).round(0.00001); ny2=(sph2.y).round(0.00001); ny3=(sph2.z).round(0.00001);
-	nz1=(sph1.x).round(0.00001); nz2=(sph1.y).round(0.00001); nz3=(sph1.z).round(0.00001);
+	nz1=(sph3.x).round(0.00001); nz2=(sph3.y).round(0.00001); nz3=(sph3.z).round(0.00001);
 
+			ton1=2.pow(n1/(2*6));ton2=2.pow(n2/(2*6));ton3=2.pow(n3/(2*6));
 tonx1=2.pow(nx1/(2*6));tonx2=2.pow(nx2/(2*6));tonx3=2.pow(nx3/(2*6));
 tony1=2.pow(ny1/(2*6));tony2=2.pow(ny2/(2*6));tony3=2.pow(ny3/(2*6));
 tonz1=2.pow(nz1/(2*6));tonz2=2.pow(nz2/(2*6));tonz3=2.pow(nz3/(2*6));
 
-
+ amp1=(ton1.reciprocal*octave.reciprocal).round(0.00001);amp2=(ton2.reciprocal*octave.reciprocal).round(0.00001);amp3=(ton3.reciprocal*octave.reciprocal).round(0.00001);
    ampx1=(tonx1.reciprocal*octave.reciprocal).round(0.00001);ampx2=(tonx2.reciprocal*octave.reciprocal).round(0.00001);ampx3=(tonx3.reciprocal*octave.reciprocal).round(0.00001);
    ampy1=(tony1.reciprocal*octave.reciprocal).round(0.00001);ampy2=(tony2.reciprocal*octave.reciprocal).round(0.00001);ampy3=(tony3.reciprocal*octave.reciprocal).round(0.00001);
    ampz1=(tonz1.reciprocal*octave.reciprocal).round(0.00001);ampz2=(tonz2.reciprocal*octave.reciprocal).round(0.00001);ampz3=(tonz3.reciprocal*octave.reciprocal).round(0.00001);
 
+			pitch1=(freq*ton1).round(0.00001);pitch2=(freq*ton2).round(0.00001);pitch3=(freq*ton3).round(0.00001);
 	pitchx1=(freq*tonx1).round(0.00001);pitchx2=(freq*tonx2).round(0.00001);pitchx3=(freq*tonx3).round(0.00001);
 	pitchy1=(freq*tony1).round(0.00001);pitchy2=(freq*tony2).round(0.00001);pitchy3=(freq*tony3).round(0.00001);
 	pitchz1=(freq*tonz1).round(0.00001);pitchz2=(freq*tonz2).round(0.00001);pitchz3=(freq*tonz3).round(0.00001);
@@ -154,7 +161,8 @@ tonz1=2.pow(nz1/(2*6));tonz2=2.pow(nz2/(2*6));tonz3=2.pow(nz3/(2*6));
 
 
 osc1=VBAP.ar(4,
-SinOsc.ar(pitchx1,mul:ampx1,phase:phase)*SinOsc.ar(pitchx2,mul:ampx2,phase:phase)*SinOsc.ar(ampx3,mul:ampx3,phase:phase),
+//SinOsc.ar(pitchx1,mul:ampx1,phase:phase)+SinOsc.ar(pitchx2,mul:ampx2,phase:phase)+SinOsc.ar(ampx3,mul:ampx3,phase:phase),
+				SinOsc.ar(pitch1,mul:amp1,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -162,7 +170,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-SinOsc.ar(pitchy1,mul:ampy1,phase:phase)*SinOsc.ar(pitchy2,mul:ampy2,phase:phase)*SinOsc.ar(ampy3,mul:ampy3,phase:phase),
+//SinOsc.ar(pitchy1,mul:ampy1,phase:phase)+SinOsc.ar(pitchy2,mul:ampy2,phase:phase)+SinOsc.ar(ampy3,mul:ampy3,phase:phase),
+				SinOsc.ar(pitch2,mul:amp2,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -170,7 +179,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-SinOsc.ar(pitchz1,mul:ampz1,phase:phase)*SinOsc.ar(pitchz2,mul:ampz2,phase:phase)*SinOsc.ar(ampz3,mul:ampz3,phase:phase),
+//SinOsc.ar(pitchz1,mul:ampz1,phase:phase)+SinOsc.ar(pitchz2,mul:ampz2,phase:phase)+SinOsc.ar(ampz3,mul:ampz3,phase:phase),
+				SinOsc.ar(pitch3,mul:amp3,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -178,13 +188,13 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-					Out.ar(0,LeakDC.ar(LeakDC.ar(osc3,mul:10)));
+					Out.ar(0,LeakDC.ar(LeakDC.ar(osc3,mul:1)));
 
 	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
-					Out.ar(0,LeakDC.ar(LeakDC.ar(osc2,mul:10)));
+					Out.ar(0,LeakDC.ar(LeakDC.ar(osc2,mul:1)));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-					Out.ar(0,LeakDC.ar(LeakDC.ar(osc1,mul:10)));
+					Out.ar(0,LeakDC.ar(LeakDC.ar(osc1,mul:1)));
 
 }).add;
 );
