@@ -9,7 +9,7 @@ TempoClock.default.tempo_(0.5);
 s.options.memSize = 8192*128*2;
 s.options.blockSize = 64*1;
 s.options.maxNodes = 1024 * 16;
-s.options.sampleRate= 44100;
+//s.options.sampleRate= 44100;
 );
 
 s.waitForBoot{
@@ -29,13 +29,13 @@ var  sph1,m_x=3,m_y=4,m_z=3;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
 var angle = 0;
 
-~tempo=0.2;
+~tempo=0.1;
 
 
 ~o =  Routine({
 		loop{
-		az1=(az1+(360-(360/1.6180339887499))).wrap(180.neg,180);
-	el1=(el1+(1)).wrap(90.neg,90);
+		az1=(az1+(1)).wrap(180.neg,180);
+	el1=(el1+(360-(360/1.6180339887499))).wrap(90.neg,90);
 	sph1=Spherical(1,(az1.degrad).wrap(pi.neg,pi),(el1.degrad).wrap((pi/2).neg,(pi/2)));
 
 	mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;
@@ -91,9 +91,9 @@ wt = signal.asWavetable;
 		}.value;
 );
 (
-~lag=0.05;
+~lag=0.5;
 SynthDef.new(\ospace1, {
-	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=4,mult=24,xr=1,yr=1,zr=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=1,mult=24,xr=1,yr=1,zr=1;
 	var tonx1,tonx2,tonx3,tony1,tony2,tony3,tonz1,tonz2,tonz3;
 	var fundamental=110;
 	var freq,m=1;
@@ -162,7 +162,7 @@ tonz1=2.pow(nz1/(2*6));tonz2=2.pow(nz2/(2*6));tonz3=2.pow(nz3/(2*6));
 
 osc1=VBAP.ar(4,
 //SinOsc.ar(pitchx1,mul:ampx1,phase:phase)+SinOsc.ar(pitchx2,mul:ampx2,phase:phase)+SinOsc.ar(ampx3,mul:ampx3,phase:phase),
-				SinOsc.ar(pitch1,mul:amp1,phase:phase),
+				SinOsc.ar(freq*6,mul:amp1,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -171,7 +171,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 osc2=VBAP.ar(4,
 //SinOsc.ar(pitchy1,mul:ampy1,phase:phase)+SinOsc.ar(pitchy2,mul:ampy2,phase:phase)+SinOsc.ar(ampy3,mul:ampy3,phase:phase),
-				SinOsc.ar(pitch2,mul:amp2,phase:phase),
+				SinOsc.ar(freq*8,mul:amp2,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -180,7 +180,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 osc3=VBAP.ar(4,
 //SinOsc.ar(pitchz1,mul:ampz1,phase:phase)+SinOsc.ar(pitchz2,mul:ampz2,phase:phase)+SinOsc.ar(ampz3,mul:ampz3,phase:phase),
-				SinOsc.ar(pitch3,mul:amp3,phase:phase),
+				SinOsc.ar(freq*9,mul:amp3,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -188,13 +188,13 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-					Out.ar(0,LeakDC.ar(LeakDC.ar(osc3,mul:1)));
+					Out.ar(0,LeakDC.ar(osc3,mul:0.1));
 
 	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
-					Out.ar(0,LeakDC.ar(LeakDC.ar(osc2,mul:1)));
+					Out.ar(0,LeakDC.ar(osc2,mul:0.1));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-					Out.ar(0,LeakDC.ar(LeakDC.ar(osc1,mul:1)));
+					Out.ar(0,LeakDC.ar(osc1,mul:0.1));
 
 }).add;
 );
