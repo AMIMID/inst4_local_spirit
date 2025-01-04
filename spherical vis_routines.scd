@@ -184,11 +184,11 @@ r.play;
 ////////////////////////////////////////////static visualizer (rotated fixed pitches via golden ratio quaternion)
 (
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=2,m_z=3;
+var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=2,m_z=2;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
 
-~az = (360*100).collect{
+~az = (360*8).collect{
 	pl1=pl1+1;
 
 		az1 = (az1 + 3);  // Increment azimuth
@@ -203,7 +203,7 @@ var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
 
 	};
 
-~el = (360*100).collect{
+~el = (360*8).collect{
 	pl2=pl2+1;
 
 			az2 = (az2 + 3);  // Increment azimuth
@@ -218,7 +218,7 @@ var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
 
 	};
 
-~magx = (360*100).collect{
+~magx = (360*8).collect{
 pl3=pl3+1;
 		az3 = (az3 + 3);  // Increment azimuth
         if (az3 > 180) { az3 = az3 - 360 };  // Wrap to [-180, 180)
@@ -241,7 +241,7 @@ pl3=pl3+1;
 
 };
 
-~magy = (360*100).collect{
+~magy = (360*8).collect{
 pl4=pl4+1;
 		az4 = (az4 + 3);  // Increment azimuth
         if (az4 > 180) { az4 = az4 - 360 };  // Wrap to [-180, 180)
@@ -262,7 +262,7 @@ pl4=pl4+1;
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 };
 
-~magz = (360*100).collect{
+~magz = (360*8).collect{
 pl5=pl5+1;
 		az5 = (az5 + 3);  // Increment azimuth
         if (az5 > 180) { az5 = az5 - 360 };  // Wrap to [-180, 180)
@@ -289,16 +289,25 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
  );
 )
 
-({
+/*({
 		var angle=0;
 		~angle=(360*100).collect{
 		angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);
 		}
 		}.value;
 	~angle1=~angle/2;
-	)
+	)*/
 
-~controlBus_rotation = Bus.control(s, 1);
+({
+	var angle1,angle2;
+
+	~az_rot=(360*4).collect{~az=(~az+(360-(360/1.6180339887499)).degrad).wrap(180.neg.degrad,180.degrad)};
+	~el_rot=(360*4).collect{~el=(~el+(360-(360/1.6180339887499)).degrad).wrap(90.neg.degrad,90.degrad)};
+
+}.value
+
+)
+/*~controlBus_rotation = Bus.control(s, 1);
 (
 var angle=0
 
@@ -316,25 +325,29 @@ var angle=0
 }});
 
 )
-~r.play
+~r.play*/
 /////////////////////////////////visualizer
 (
 var data;
-var az=0,el=0;
-var m=600,sph,az1,el1,pl=0,daz,del,harm,mag,r;
-var r1,harm1,r2,harm2,rad;
+var az=0,el=0,az_rot;
+var m=600,sph,az1,el1,pl=0,daz,del,harm,mag,r=1.neg;
+var r1,harm1,r2,harm2,rad,call;
+data=[[0,0,0]];
+8.do{
 
-data = (360*64).collect{
+	r=r+1;
+	pl=0;
 
-	az=~az.[pl];
+call=(360).collect{
+
+		az=~az_rot.[r].[pl];
 	el=~el.[pl];
 	//mag=~magz.[pl];
 	mag=Cartesian(~magx.[pl],~magy.[pl],~magz.[pl]).rho/(2.sqrt);
 	pl=pl+1;
-
-	sph=Spherical(mag*600,az,el).asCartesian.asArray;
-
-
+		sph=Spherical(mag*600,az,el).asCartesian.asArray;
+	};
+	data=data++call
 };
 data.postln;
 
@@ -360,6 +373,7 @@ Slider(w, Rect(920, 10, 10, 450)).action_{|me|
     a.rotZ = me.value * 2pi;
     w.refresh;
 };
+
 )
 
 
