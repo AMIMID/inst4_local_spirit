@@ -21,8 +21,6 @@ Buffer.freeAll;
 ~controlBus_magx = Bus.control(s, 1);
 ~controlBus_magy = Bus.control(s, 1);
 ~controlBus_magz = Bus.control(s, 1);
-//~controlBus_pan_el= Bus.control(s, 1);
-//~controlBus_pan_az= Bus.control(s, 1);
 );
 
 
@@ -31,18 +29,23 @@ var  sph1,m_x=3,m_y=4,m_z=3,n=0;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
 var angle = 0;
 
-~tempo=0.01;
+~tempo=0.5;
 
 
 ~t =  Routine({
 		loop{
-
-		az1=(az1+(2.pow(n/12))).wrap(180.neg,180);
 		//az1=(az1 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
-
-	el1=(el1+((2.pow(n/12)))).wrap(90.neg,90);
 		//el1=(el1 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
-				n=(n+1);
+		az1 = (az1 + 9);  // Increment azimuth
+        if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
+        if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
+
+        el1 = (el1 + 3);  // Increment elevation
+        if (el1 > 90) { el1 = el1 - 180 };  // Wrap to [-90, 90)
+        if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)
+
+					"az".postln;
+		az1.postln;
 	sph1=Spherical(1,(az1.degrad).wrap(pi.neg,pi),(el1.degrad).wrap((pi/2).neg,(pi/2)));
 
 	mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;
@@ -67,8 +70,6 @@ mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	);
 		mag_z=mag_z/(2.sqrt);
 
-		"az".postln;
-		sph1.postln;
 		~controlBus_az.set(sph1.theta.round(0.00001));
 		~controlBus_el.set(sph1.phi.round(0.00001));
 	~controlBus_magx.set(mag_x);
@@ -79,29 +80,6 @@ mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 )
 
-	(
-var  sph1,m_x=2,m_y=2,m_z=2;
-var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
-var angle = 0;
-
-~tempo=0.01;
-
-
-~o =  Routine({
-		loop{
-		az1=(az1+(1)).wrap(180.neg,180);
-	el1=(el1+(360-(360/1.6180339887499))).wrap(90.neg,90);
-	sph1=Spherical(1,(az1.degrad).wrap(pi.neg,pi),(el1.degrad).wrap((pi/2).neg,(pi/2)));
-
-		"az".postln;
-		sph1.postln;
-		~controlBus_pan_az.set(sph1.theta.round(0.00001));
-		~controlBus_pan_el.set(sph1.phi.round(0.00001));
-
-	~tempo.wait;
-}});
-
-)
 
 
 
@@ -237,7 +215,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 (
-~o.play;
+~t.play;
 Synth(\ospace1);
 //s.record(numChannels:4)
 )
