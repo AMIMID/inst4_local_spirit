@@ -22,7 +22,7 @@ var angle = 0;
 		loop{
 		az1=(az1+(360-(360/1.6180339887499))).wrap(180.neg,180);
 	el1=(el1+(1)).wrap(90.neg,90);
-	sph1=Spherical(1,(az1.degrad).wrap(pi.neg,pi),(el1.degrad).wrap((pi/2).neg,(pi/2))).theta.round(0.00001);
+	sph1=Spherical(1,(az1.degrad),(el1.degrad).theta.round(0.00001);
 	//	"az".postln;
 	//	sph1.postln;
 		~controlBus_az.set(sph1);
@@ -34,7 +34,7 @@ var angle = 0;
 		loop{
 		az2=(az2+(360-(360/1.6180339887499))).wrap(180.neg,180);
 	el2=(el2+(1)).wrap(90.neg,90);
-	sph2=Spherical(1,(az2.degrad).wrap(pi.neg,pi),(el2.degrad).wrap((pi/2).neg,(pi/2))).phi.round(0.00001);
+	sph2=Spherical(1,(az2.degrad),(el2.degrad)).phi.round(0.00001);
 		//	"el".postln;
 	//	sph2.postln;
 		~controlBus_el.set(sph2);
@@ -46,7 +46,7 @@ var angle = 0;
 		loop{
 	az3=(az3+(360-(360/1.6180339887499))).wrap(180.neg,180);
 	el3=(el3+(1)).wrap(90.neg,90);
-	sph3=Spherical(1,(az3.degrad).wrap(pi.neg,pi),(el3.degrad).wrap((pi/2).neg,(pi/2)));	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
+	sph3=Spherical(1,(az3.degrad),(el3.degrad));	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 
 ////for in-between harmonics multiply sin(phi) after cos, when m is 2 then harm 3/2 is formed in oder 3, when m is 3 harm 4/3 is formed in oder 4 and when m is 3 for theta and 2 for phi harm 4/2 is formed for order4//////same for y axis
 
@@ -67,7 +67,7 @@ var angle = 0;
 		loop{
 	az4=(az4+(360-(360/1.6180339887499))).wrap(180.neg,180);
 	el4=(el4+(1)).wrap(90.neg,90);
-	sph4=Spherical(1,(az4.degrad).wrap(pi.neg,pi),(el4.degrad).wrap((pi/2).neg,(pi/2)));
+	sph4=Spherical(1,(az4.degrad),(el4.degrad));
 	mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
 		sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
 		Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/
@@ -88,7 +88,7 @@ var angle = 0;
 pl5=pl5+1;
 	az5=(az5+(360-(360/1.6180339887499))).wrap(180.neg,180);
 	el5=(el5+(1)).wrap(90.neg,90);
-		sph5=Spherical(1,(az5.degrad).wrap(pi.neg,pi),(el5.degrad).wrap((pi/2).neg,(pi/2)));
+		sph5=Spherical(1,(az5.degrad),(el5.degrad));
 
 if(
 m_z.even,
@@ -191,38 +191,44 @@ var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
 ~az = (360*100).collect{
 	pl1=pl1+1;
 
-		az1=(az1+(2.pow(pl1/12))).wrap(180.neg,180);
-		//az1=(az1 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
+		az1 = (az1 + 3);  // Increment azimuth
+        if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
+        if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
 
-	el1=(el1+((2.pow(pl1/12)))).wrap(90.neg,90);
-		//el1=(el1 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
+        el1 = (el1 + 3);  // Increment elevation
+        if (el1 > 90) { el1 = el1 - 180 };  // Wrap to [-90, 90)
+        if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)
 
-		sph1=Spherical(1,(az1.degrad).wrap(pi.neg,pi),(el1.degrad).wrap((pi/2).neg,(pi/2))).theta.round(0.00001);
+		sph1=Spherical(1,(az1.degrad),(el1.degrad)).theta.round(0.00001);
 
 	};
 
 ~el = (360*100).collect{
 	pl2=pl2+1;
 
-		az2=(az2+(2.pow(pl2/12))).wrap(180.neg,180);
-		//az2=(az2 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
+			az2 = (az2 + 3);  // Increment azimuth
+        if (az2 > 180) { az2 = az2 - 360 };  // Wrap to [-180, 180)
+        if (az2 <= -180) { az2 = az2 + 360 };  // Wrap to [-180, 180)
 
-	el2=(el2+((2.pow(pl2/12)))).wrap(90.neg,90);
-		//el2=(el2 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
+        el2 = (el2 + 3);  // Increment elevation
+        if (el2 > 90) { el2 = el2 - 180 };  // Wrap to [-90, 90)
+        if (el2 <= -90) { el2 = el2 + 180 };  // Wrap to [-90, 90)
 
-	sph2=Spherical(1,(az2.degrad).wrap(pi.neg,pi),(el2.degrad).wrap((pi/2).neg,(pi/2))).phi.round(0.00001);
+		sph2=Spherical(1,(az2.degrad),(el2.degrad)).phi.round(0.00001);
 
 	};
 
 ~magx = (360*100).collect{
 pl3=pl3+1;
-	az3=(az3+(2.pow(pl3/12))).wrap(180.neg,180);
-		//az3=(az3 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
+		az3 = (az3 + 3);  // Increment azimuth
+        if (az3 > 180) { az3 = az3 - 360 };  // Wrap to [-180, 180)
+        if (az3 <= -180) { az3 = az3 + 360 };  // Wrap to [-180, 180)
 
-	el3=(el3+((2.pow(pl3/12)))).wrap(90.neg,90);
-	//	el3=(el3 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
+        el3 = (el3 + 3);  // Increment elevation
+        if (el3 > 90) { el3 = el3 - 180 };  // Wrap to [-90, 90)
+        if (el3 <= -90) { el3 = el3 + 180 };  // Wrap to [-90, 90)
 
-	sph3=Spherical(1,(az3.degrad).wrap(pi.neg,pi),(el3.degrad).wrap((pi/2).neg,(pi/2)));
+	sph3=Spherical(1,(az3.degrad),(el3.degrad));
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 
 ////for in-between harmonics multiply sin(phi) after cos, when m is 2 then harm 3/2 is formed in oder 3, when m is 3 harm 4/3 is formed in oder 4 and when m is 3 for theta and 2 for phi harm 4/2 is formed for order4//////same for y axis
@@ -237,13 +243,15 @@ pl3=pl3+1;
 
 ~magy = (360*100).collect{
 pl4=pl4+1;
-	az4=(az4+(2.pow(pl4/12))).wrap(180.neg,180);
-		//az4=(az4 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
+		az4 = (az4 + 3);  // Increment azimuth
+        if (az4 > 180) { az4 = az4 - 360 };  // Wrap to [-180, 180)
+        if (az4 <= -180) { az4 = az4 + 360 };  // Wrap to [-180, 180)
 
-	el4=(el4+((2.pow(pl4/12)))).wrap(90.neg,90);
-	//	el4=(el4 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
+        el4 = (el4 + 3);  // Increment elevation
+        if (el4 > 90) { el4 = el4 - 180 };  // Wrap to [-90, 90)
+        if (el4 <= -90) { el4 = el4 + 180 };  // Wrap to [-90, 90)
 
-	sph4=Spherical(1,(az4.degrad).wrap(pi.neg,pi),(el4.degrad).wrap((pi/2).neg,(pi/2)));
+	sph4=Spherical(1,(az4.degrad),(el4.degrad));
 
 	mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
 		sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
@@ -256,13 +264,15 @@ pl4=pl4+1;
 
 ~magz = (360*100).collect{
 pl5=pl5+1;
-	az5=(az5+((2.pow(pl5/12)))).wrap(180.neg,180);
-	//az5=(az5 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
+		az5 = (az5 + 3);  // Increment azimuth
+        if (az5 > 180) { az5 = az5 - 360 };  // Wrap to [-180, 180)
+        if (az5 <= -180) { az5 = az5 + 360 };  // Wrap to [-180, 180)
 
-	el5=(el5+((2.pow(pl5/12)))).wrap(90.neg,90);
-		//el5=(el5 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
+        el5 = (el5 + 3);  // Increment elevation
+        if (el5 > 90) { el5 = el5 - 180 };  // Wrap to [-90, 90)
+        if (el5 <= -90) { el5 = el5 + 180 };  // Wrap to [-90, 90)
 
-		sph5=Spherical(1,(az5.degrad).wrap(pi.neg,pi),(el5.degrad).wrap((pi/2).neg,(pi/2)));
+		sph5=Spherical(1,(az5.degrad),(el5.degrad));
 
 if(
 m_z.even,
