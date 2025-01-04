@@ -23,7 +23,7 @@ var angle = 0, value1, value2,tone1,tone2,mult=12;
         // Calculate the next angle
       angle = (angle + (360 - (360 / 1.6180339887499))).wrap(0, 360);
 	//angle = (angle + 1).wrap(0, 360);
-       // angle.yield; // Yield the value to the routine
+        angle.postln; // Yield the value to the routine
 		value1=exp(Complex(0,1)*angle.degrad).imag*mult;
 		value2=exp(Complex(0,1)*angle.degrad).real*mult;
 		tone1=2.pow(value1/12);
@@ -44,8 +44,8 @@ var angle = 0, value1, value2,tone1,tone2,mult=12;
 
 (
 {
-		Out.ar(0,SinOsc.ar(220*In.kr(~controlBus2),mul:In.kr(~controlBus1).reciprocal));
-	    Out.ar(1,SinOsc.ar(22*In.kr(~controlBus2),phase:90.degrad,mul:In.kr(~controlBus2).reciprocal));
+		Out.ar(0,SinOsc.ar(220*In.kr(~controlBus1),mul:In.kr(~controlBus1).reciprocal));
+	    Out.ar(1,SinOsc.ar(220*In.kr(~controlBus2),mul:In.kr(~controlBus2).reciprocal));
 }
 .play
 )
@@ -75,23 +75,31 @@ exp(Complex(0,1)*45.degrad).real
 (
 
  // Initialize angle
-var angle = 360, value1, value2,tone1,tone2,mult=2,n=0;
-~tempo=0.05;
+var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
+~tempo=0.1;
 ~angleRoutine = Routine({
     loop {
         // Calculate the next angle
 		//angle = (angle + (45*(2.pow(1/12)-1))).wrap(0, 360);
-		angle= (2.pow(n/12)).wrap(0,360);
-		n=(n+1).wrap(96.neg,96);
+		//angle=(angle+45);
+	//	angle=(angle+3).wrap(0,360);
+
+		angle = (angle + 9);  // Increment azimuth
+        if (angle > 360) { angle = angle - 360 };
+       // if (angle <= -180) { az1 = az1 + 360 };
+
+		//angle= (2.pow(n/12)).wrap(0,360);
+		//n=(n+1).postln;
+		"angle".postln;
 		angle.postln;
 	//angle = (angle + 1).wrap(0, 360);
        // angle.yield; // Yield the value to the routine
 		value1=exp(Complex(0,1)*angle.degrad).imag.abs.linlin(0,1,1,2);
 		value2=exp(Complex(0,1)*angle.degrad).real.abs.linlin(0,1,1,2);
-		//"tone1".postln;
-		//value1.postln;
-		//"tone2".postln;
-		//value2.postln;
+		"tone1".postln;
+		value1.postln;
+		"tone2".postln;
+	   value2.postln;
 		~controlBus1.set(value1);
 		~controlBus2.set(value2);
 		~tempo.wait;
@@ -105,8 +113,8 @@ var angle = 360, value1, value2,tone1,tone2,mult=2,n=0;
 (
 ~angleRoutine.play;
 {
-		Out.ar(0,SinOsc.ar(220*In.kr(~controlBus1),mul:In.kr(~controlBus1).reciprocal));
-	    Out.ar(1,SinOsc.ar(220*In.kr(~controlBus2),mul:In.kr(~controlBus2).reciprocal));
+		Out.ar(0,SinOsc.ar(440*In.kr(~controlBus1),mul:In.kr(~controlBus1).reciprocal));
+	    Out.ar(1,SinOsc.ar(440*In.kr(~controlBus2),mul:In.kr(~controlBus2).reciprocal));
 }
 .play
 )
