@@ -26,26 +26,29 @@ Buffer.freeAll;
 
 
 (
-var  sph1,m_x=3,m_y=3,m_z=3,n=0;
+var  sph1,m_x=1,m_y=1,m_z=1,n=0;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
-var angle = 0;
+var angle=0;
 
 ~tempo=0.1;
 
 
 ~t =  Routine({
 		loop{
-		//az1=(az1 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
-		//el1=(el1 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
-		az1 = (az1 + 3);  // Increment azimuth
+
+		az1=(360*2.pow(n/12)).wrap(180.neg,180);
+		el1=(360*2.pow(n/12)).wrap(90.neg,90);
+	/*	az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
         if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
 
         el1 = (el1 + 3);  // Increment elevation
         if (el1 > 90) { el1 = el1 - 180 };  // Wrap to [-90, 90)
         if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)
+*/
+				n=(n+1).mod(12);
 
-	sph1=Spherical(1,(az1.degrad).wrap(pi.neg,pi),(el1.degrad).wrap((pi/2).neg,(pi/2)));
+	sph1=Spherical(1,(az1.degrad),(el1.degrad));
 
 mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;
 		/* mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),
@@ -230,7 +233,7 @@ Synth(\ospace1);
 ///////////////////////////synth static values amp modulation on fixed freqs
 
 (
-~lag=0.01;
+~lag=0.05;
 SynthDef.new(\ospace1, {
 	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=1,mult=24,xr=1,yr=1,zr=1;
 	var fundamental=110;
