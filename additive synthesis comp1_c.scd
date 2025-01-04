@@ -29,7 +29,7 @@ var  sph1,m_x=3,m_y=4,m_z=3;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
 var angle = 0;
 
-~tempo=1;
+~tempo=0.1;
 
 
 ~o =  Routine({
@@ -94,7 +94,7 @@ wt = signal.asWavetable;
 		}.value;
 );
 (
-~lag=0.05;
+~lag=0.01;
 SynthDef.new(\ospace1, {
 	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=4,mult=24,xr=1,yr=1,zr=1;
 	var tonx1,tonx2,tonx3,tony1,tony2,tony3,tonz1,tonz2,tonz3;

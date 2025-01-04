@@ -208,11 +208,8 @@ var angle=0
 
 ~t =  Routine({
 		loop{
-		//az1=(az1 + (45*(2.pow(1/12)-1))).wrap(180.neg,180);
-		//el1=(el1 + (45*(2.pow(1/12)-1))).wrap(90.neg,90);
 		angle = (angle + (360-(360/1.6180339887499)));  // Increment azimuth
-        if (angle > 360) { angle = angle - 360 };  // Wrap to [-180, 180)
-       // if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
+        if (angle > 360) { angle = angle - 360 };
 		angle.postln;
 
 		~controlBus_rotation.set(angle);
