@@ -184,49 +184,68 @@ r.play;
 ////////////////////////////////////////////static visualizer (rotated fixed pitches via golden ratio quaternion)
 (
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=2,m_z=2;
+var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=1,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
+var angle1=0,angle2=0,angle3=0,angle4=0,angle5=0;
+var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 
-~az = (360*8).collect{
+~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
+
+		360.do{
+azimuth=(48).collect{
 	pl1=pl1+1;
 
-		az1 = (az1 + 3);  // Increment azimuth
+		/*az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
         if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
 
         el1 = (el1 + 3);  // Increment elevation
         if (el1 > 90) { el1 = el1 - 180 };  // Wrap to [-90, 90)
-        if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)
+        if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)*/
+
+		az1 = angle1+(90*2.pow(pl1/12)).wrap(180.neg,180);  // Increment azimuth
+		el1 = (90*2.pow(pl1/12)).wrap(90.neg,90);
+		pl1=(pl1+1).mod(25);
 
 		sph1=Spherical(1,(az1.degrad),(el1.degrad)).theta.round(0.00001);
 
-	};
+	};angle1=(angle1+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth};
 
-~el = (360*8).collect{
+ 360.do{
+elevation=(48).collect{
 	pl2=pl2+1;
 
-			az2 = (az2 + 3);  // Increment azimuth
+		/*	az2 = (az2 + 3);  // Increment azimuth
         if (az2 > 180) { az2 = az2 - 360 };  // Wrap to [-180, 180)
         if (az2 <= -180) { az2 = az2 + 360 };  // Wrap to [-180, 180)
 
         el2 = (el2 + 3);  // Increment elevation
         if (el2 > 90) { el2 = el2 - 180 };  // Wrap to [-90, 90)
-        if (el2 <= -90) { el2 = el2 + 180 };  // Wrap to [-90, 90)
+        if (el2 <= -90) { el2 = el2 + 180 };  // Wrap to [-90, 90)*/
+
+		az2 = angle2+(90*2.pow(pl2/12)).wrap(180.neg,180);  // Increment azimuth
+		el2 = (90*2.pow(pl2/12)).wrap(90.neg,90);
+		pl2=(pl2+1).mod(25);
 
 		sph2=Spherical(1,(az2.degrad),(el2.degrad)).phi.round(0.00001);
 
-	};
+	};angle2=(angle2+(360-(360/1.6180339887499))).wrap(0,360);~el=~el++elevation};
 
-~magx = (360*8).collect{
+ 360.do{
+magnitudex=(48).collect{
 pl3=pl3+1;
-		az3 = (az3 + 3);  // Increment azimuth
+		/*az3 = (az3 + 3);  // Increment azimuth
         if (az3 > 180) { az3 = az3 - 360 };  // Wrap to [-180, 180)
         if (az3 <= -180) { az3 = az3 + 360 };  // Wrap to [-180, 180)
 
         el3 = (el3 + 3);  // Increment elevation
         if (el3 > 90) { el3 = el3 - 180 };  // Wrap to [-90, 90)
-        if (el3 <= -90) { el3 = el3 + 180 };  // Wrap to [-90, 90)
+        if (el3 <= -90) { el3 = el3 + 180 };  // Wrap to [-90, 90)*/
+
+		az3 = angle3+(90*2.pow(pl3/12)).wrap(180.neg,180);  // Increment azimuth
+		el3 = (90*2.pow(pl3/12)).wrap(90.neg,90);
+		pl3=(pl3+1).mod(25);
 
 	sph3=Spherical(1,(az3.degrad),(el3.degrad));
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
@@ -239,17 +258,23 @@ pl3=pl3+1;
 		 	2).neg,(pi/2)))).rho*
 		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 
-};
+};angle3=(angle3+(360-(360/1.6180339887499))).wrap(0,360);~magx=~magx++magnitudex};
 
-~magy = (360*8).collect{
+ 360.do{
+magnitudey=(48).collect{
 pl4=pl4+1;
-		az4 = (az4 + 3);  // Increment azimuth
+		/*az4 = (az4 + 3);  // Increment azimuth
         if (az4 > 180) { az4 = az4 - 360 };  // Wrap to [-180, 180)
         if (az4 <= -180) { az4 = az4 + 360 };  // Wrap to [-180, 180)
 
         el4 = (el4 + 3);  // Increment elevation
         if (el4 > 90) { el4 = el4 - 180 };  // Wrap to [-90, 90)
         if (el4 <= -90) { el4 = el4 + 180 };  // Wrap to [-90, 90)
+*/
+
+		az4 = angle4+(90*2.pow(pl4/12)).wrap(180.neg,180);  // Increment azimuth
+		el4 = (90*2.pow(pl4/12)).wrap(90.neg,90);
+		pl4=(pl4+1).mod(25);
 
 	sph4=Spherical(1,(az4.degrad),(el4.degrad));
 
@@ -260,17 +285,22 @@ pl4=pl4+1;
 //		mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
 //Complex(sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2))),sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2)))).rho*
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
-};
+};angle4=(angle4+(360-(360/1.6180339887499))).wrap(0,360);~magy=~magy++magnitudey};
 
-~magz = (360*8).collect{
+ 360.do{
+magnitudez=(48).collect{
 pl5=pl5+1;
-		az5 = (az5 + 3);  // Increment azimuth
+		/*az5 = (az5 + 3);  // Increment azimuth
         if (az5 > 180) { az5 = az5 - 360 };  // Wrap to [-180, 180)
         if (az5 <= -180) { az5 = az5 + 360 };  // Wrap to [-180, 180)
 
         el5 = (el5 + 3);  // Increment elevation
         if (el5 > 90) { el5 = el5 - 180 };  // Wrap to [-90, 90)
-        if (el5 <= -90) { el5 = el5 + 180 };  // Wrap to [-90, 90)
+        if (el5 <= -90) { el5 = el5 + 180 };  // Wrap to [-90, 90)*/
+
+		az5 = angle5+(90*2.pow(pl5/12)).wrap(180.neg,180);  // Increment azimuth
+		el5 = (90*2.pow(pl5/12)).wrap(90.neg,90);
+		pl5=(pl5+1).mod(25);
 
 		sph5=Spherical(1,(az5.degrad),(el5.degrad));
 
@@ -280,7 +310,7 @@ mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sp
 mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
-	};
+};angle5=(angle5+(360-(360/1.6180339887499))).wrap(0,360);~magz=~magz++magnitudez};
 }.value;
 (
 ~magx=~magx/(2.sqrt);
@@ -289,66 +319,24 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
  );
 )
 
-/*({
-		var angle=0;
-		~angle=(360*100).collect{
-		angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);
-		}
-		}.value;
-	~angle1=~angle/2;
-	)*/
-
-({
-	var angle1,angle2;
-
-	~az_rot=(360*4).collect{~az=(~az+(360-(360/1.6180339887499)).degrad).wrap(180.neg.degrad,180.degrad)};
-	~el_rot=(360*4).collect{~el=(~el+(360-(360/1.6180339887499)).degrad).wrap(90.neg.degrad,90.degrad)};
-
-}.value
-
-)
-/*~controlBus_rotation = Bus.control(s, 1);
-(
-var angle=0
-
-~tempo=0.1;
-
-
-~r =  Routine({
-		loop{
-		angle = (angle + (360-(360/1.6180339887499)));  // Increment azimuth
-        if (angle > 360) { angle = angle - 360 };
-		angle.postln;
-
-		~controlBus_rotation.set(angle/2);
-	~tempo.wait;
-}});
-
-)
-~r.play*/
 /////////////////////////////////visualizer
 (
 var data;
 var az=0,el=0,az_rot;
 var m=600,sph,az1,el1,pl=0,daz,del,harm,mag,r=1.neg;
 var r1,harm1,r2,harm2,rad,call;
-data=[[0,0,0]];
-8.do{
 
-	r=r+1;
-	pl=0;
 
-call=(360).collect{
+data=(360*48).collect{
 
-		az=~az_rot.[r].[pl];
-	el=~el.[pl];
+	az=~az.[pl].round(0.000001);
+	el=~el.[pl].round(0.000001);
 	//mag=~magz.[pl];
-	mag=Cartesian(~magx.[pl],~magy.[pl],~magz.[pl]).rho/(2.sqrt);
+	mag=Cartesian(~magx.[pl].round(0.000001),~magy.[pl].round(0.000001),~magz.[pl].round(0.000001)).rho/(2.sqrt);
 	pl=pl+1;
 		sph=Spherical(mag*600,az,el).asCartesian.asArray;
 	};
-	data=data++call
-};
+
 data.postln;
 
 w = Window.new("3D Scatterplot", Rect(40,40, 1000, 800)).front;
