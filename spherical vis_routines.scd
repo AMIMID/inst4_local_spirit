@@ -193,7 +193,7 @@ var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 ~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
 
 		360.do{
-azimuth=(24).collect{
+azimuth=(12).collect{
 
 		/*az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
@@ -205,14 +205,14 @@ azimuth=(24).collect{
 
 		az1 = angle1+(360*2.pow(pl1/12)).wrap(180.neg,180);  // Increment azimuth
 		el1 = (360*2.pow(pl1/12)).wrap(90.neg,90);
-		pl1=(pl1+1).mod(25);
+		pl1=(pl1+1).mod(12);
 
 		sph1=Spherical(1,(az1.degrad),(el1.degrad)).theta.round(0.00001);
 
 	};angle1=(angle1+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth};
 
  360.do{
-elevation=(24).collect{
+elevation=(12).collect{
 
 		/*	az2 = (az2 + 3);  // Increment azimuth
         if (az2 > 180) { az2 = az2 - 360 };  // Wrap to [-180, 180)
@@ -224,14 +224,14 @@ elevation=(24).collect{
 
 		az2 = angle2+(360*2.pow(pl2/12)).wrap(180.neg,180);  // Increment azimuth
 		el2 = (360*2.pow(pl2/12)).wrap(90.neg,90);
-		pl2=(pl2+1).mod(25);
+		pl2=(pl2+1).mod(12);
 
 		sph2=Spherical(1,(az2.degrad),(el2.degrad)).phi.round(0.00001);
 
 	};angle2=(angle2+(360-(360/1.6180339887499))).wrap(0,360);~el=~el++elevation};
 
  360.do{
-magnitudex=(24).collect{
+magnitudex=(12).collect{
 		/*az3 = (az3 + 3);  // Increment azimuth
         if (az3 > 180) { az3 = az3 - 360 };  // Wrap to [-180, 180)
         if (az3 <= -180) { az3 = az3 + 360 };  // Wrap to [-180, 180)
@@ -242,7 +242,7 @@ magnitudex=(24).collect{
 
 		az3 = angle3+(360*2.pow(pl3/12)).wrap(180.neg,180);  // Increment azimuth
 		el3 = (360*2.pow(pl3/12)).wrap(90.neg,90);
-		pl3=(pl3+1).mod(25);
+		pl3=(pl3+1).mod(12);
 
 	sph3=Spherical(1,(az3.degrad),(el3.degrad));
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
@@ -258,7 +258,7 @@ magnitudex=(24).collect{
 };angle3=(angle3+(360-(360/1.6180339887499))).wrap(0,360);~magx=~magx++magnitudex};
 
  360.do{
-magnitudey=(24).collect{
+magnitudey=(12).collect{
 		/*az4 = (az4 + 3);  // Increment azimuth
         if (az4 > 180) { az4 = az4 - 360 };  // Wrap to [-180, 180)
         if (az4 <= -180) { az4 = az4 + 360 };  // Wrap to [-180, 180)
@@ -270,7 +270,7 @@ magnitudey=(24).collect{
 
 		az4 = angle4+(360*2.pow(pl4/12)).wrap(180.neg,180);  // Increment azimuth
 		el4 = (360*2.pow(pl4/12)).wrap(90.neg,90);
-		pl4=(pl4+1).mod(25);
+		pl4=(pl4+1).mod(12);
 
 	sph4=Spherical(1,(az4.degrad),(el4.degrad));
 
@@ -284,7 +284,7 @@ magnitudey=(24).collect{
 };angle4=(angle4+(360-(360/1.6180339887499))).wrap(0,360);~magy=~magy++magnitudey};
 
  360.do{
-magnitudez=(24).collect{
+magnitudez=(12).collect{
 		/*az5 = (az5 + 3);  // Increment azimuth
         if (az5 > 180) { az5 = az5 - 360 };  // Wrap to [-180, 180)
         if (az5 <= -180) { az5 = az5 + 360 };  // Wrap to [-180, 180)
@@ -295,7 +295,7 @@ magnitudez=(24).collect{
 
 		az5 = angle5+(360*2.pow(pl5/12)).wrap(180.neg,180);  // Increment azimuth
 		el5 = (360*2.pow(pl5/12)).wrap(90.neg,90);
-		pl5=(pl5+1).mod(25);
+		pl5=(pl5+1).mod(12);
 
 		sph5=Spherical(1,(az5.degrad),(el5.degrad));
 
@@ -322,7 +322,7 @@ var m=600,sph,az1,el1,pl=0,daz,del,harm,mag,r=1.neg;
 var r1,harm1,r2,harm2,rad,call;
 
 
-data=(360*24).collect{
+data=(360*12).collect{
 
 	az=~az.[pl].round(0.000001);
 	el=~el.[pl].round(0.000001);
@@ -373,7 +373,7 @@ var r1,harm1,r2,harm2,rad;
 var run = true;
 var ot=0.degrad;
 
-data = (360*16).collect{
+data = (360*12).collect{
 
 	az=~az.[pl];
 	el=~el.[pl];
