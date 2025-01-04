@@ -58,7 +58,6 @@ var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 
 		360.do{
 azimuth=(24).collect{
-	pl1=pl1+1;
 
 		/*az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
@@ -78,7 +77,6 @@ azimuth=(24).collect{
 
  360.do{
 elevation=(24).collect{
-	pl2=pl2+1;
 
 		/*	az2 = (az2 + 3);  // Increment azimuth
         if (az2 > 180) { az2 = az2 - 360 };  // Wrap to [-180, 180)
@@ -98,7 +96,6 @@ elevation=(24).collect{
 
  360.do{
 magnitudex=(24).collect{
-pl3=pl3+1;
 		/*az3 = (az3 + 3);  // Increment azimuth
         if (az3 > 180) { az3 = az3 - 360 };  // Wrap to [-180, 180)
         if (az3 <= -180) { az3 = az3 + 360 };  // Wrap to [-180, 180)
@@ -126,7 +123,6 @@ pl3=pl3+1;
 
  360.do{
 magnitudey=(24).collect{
-pl4=pl4+1;
 		/*az4 = (az4 + 3);  // Increment azimuth
         if (az4 > 180) { az4 = az4 - 360 };  // Wrap to [-180, 180)
         if (az4 <= -180) { az4 = az4 + 360 };  // Wrap to [-180, 180)
@@ -153,7 +149,6 @@ pl4=pl4+1;
 
  360.do{
 magnitudez=(24).collect{
-pl5=pl5+1;
 		/*az5 = (az5 + 3);  // Increment azimuth
         if (az5 > 180) { az5 = az5 - 360 };  // Wrap to [-180, 180)
         if (az5 <= -180) { az5 = az5 + 360 };  // Wrap to [-180, 180)
