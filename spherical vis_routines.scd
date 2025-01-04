@@ -181,7 +181,7 @@ r.play;
 
 
 
-////////////////////////////////////////////static visualizer
+////////////////////////////////////////////static visualizer (rotated fixed pitches via golden ratio quaternion)
 (
 {
 var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=2,m_z=3;
@@ -289,6 +289,34 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
  );
 )
 
+({
+		var angle=0;
+		~angle=(360*100).collect{
+		angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);
+		}
+		}.value;
+	~angle1=~angle/2;
+	)
+
+~controlBus_rotation = Bus.control(s, 1);
+(
+var angle=0
+
+~tempo=0.1;
+
+
+~r =  Routine({
+		loop{
+		angle = (angle + (360-(360/1.6180339887499)));  // Increment azimuth
+        if (angle > 360) { angle = angle - 360 };
+		angle.postln;
+
+		~controlBus_rotation.set(angle/2);
+	~tempo.wait;
+}});
+
+)
+~r.play
 /////////////////////////////////visualizer
 (
 var data;
