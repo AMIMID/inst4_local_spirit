@@ -4,26 +4,27 @@
 ~controlBus3 = Bus.control(s, 1);
 ~controlBus4 = Bus.control(s, 1);
 )
-(360-(360/1.6180339887499))
+
 (
 
  // Initialize angle
-var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,pos1,pos2;
-~tempo=0.1;
+var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,pos1,pos2,rotation=0;
+~tempo=1;
 ~angleRoutine = Routine({
     loop {
+		angle = (rotation.degrad+(pi/2)*2.pow(n/12)).wrap(0,2pi);  // Increment azimuth
 
-		angle = (pi/2)*2.pow(n/12);  // Increment azimuth
 		n=(n+1).mod(25);
+		rotation=(rotation+(360-(360/1.6180339887499))).wrap(0,360);
 		angle.postln;
 		value1=exp(Complex(0,1)*angle).imag.abs.linlin(0,1,1,4);
 		value2=exp(Complex(0,1)*angle).real.abs.linlin(0,1,1,4);
 		pos1=exp(Complex(0,1)*angle).imag;
 		pos2=exp(Complex(0,1)*angle).real;
-		"tone1".postln;
-		value1.postln;
-		"tone2".postln;
-	   value2.postln;
+		//"tone1".postln;
+	//	value1.postln;
+	//	"tone2".postln;
+	 //  value2.postln;
 		~controlBus1.set(value1);
 		~controlBus2.set(value2);
 		~controlBus3.set(pos1);
