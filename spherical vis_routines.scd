@@ -186,7 +186,7 @@ r.play;
 {
 var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=1,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
-var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
+var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle1=0,angle2=0,angle3=0,angle4=0,angle5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 
