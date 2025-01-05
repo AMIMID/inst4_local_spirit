@@ -50,7 +50,7 @@ Buffer.freeAll;
 {
 var  sph1,sph2,sph3,sph4,sph5,m_x=3,m_y=4,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
-var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
+var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle1=0,angle2=0,angle3=0,angle4=0,angle5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 
@@ -226,22 +226,22 @@ SynthDef.new(\ospace1, {
 	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=0.04444,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
-	var freq,m=1,pitch1,pitch2,pitch3,env;
+	var freq,pitch1,pitch2,pitch3,env;
 	var pitch;
 	var n1,n2,n3;
 	var sphere1,sphere2,sphere3;
 	var xyz;
 
-	var wrappedOut1 = { |busArray, signalArray|
-	[busArray, signalArray].flop.do { |pair|
-		Out.ar(pair[0], pair[1])}};
-	var wrappedOut2 = { |busArray, signalArray|
-	[busArray, signalArray].flop.do { |pair|
-		Out.ar(pair[0], pair[1])}};
-	var wrappedOut3 = { |busArray, signalArray|
-	[busArray, signalArray].flop.do { |pair|
-		Out.ar(pair[0], pair[1])}};
-var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
@@ -313,15 +313,13 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
 					Out.ar(0,LeakDC.ar(osc1,mul:env));
-							//	m=m+1;
-					//pl1=pl1+1;
 
 }).add;
 );
 
 ////////////list
 	({
-		var n=0;
+		var n=1;
 		~list1=(360*12).collect{
 		n=n+1;
 		}
@@ -331,7 +329,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 //////////pattern for mobius strib of sequential or parallel play of directions
 (
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-				\dur,Pseq(~dur,inf),
+				\dur,Pseq(~dur,1),
 			\pl1,Prand(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
