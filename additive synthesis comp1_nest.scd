@@ -48,7 +48,7 @@ Buffer.freeAll;
 
 //////////////////////////////////////////////////basis
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=1,m_z=3;
+var  sph1,sph2,sph3,sph4,sph5,m_x=3,m_y=4,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=1.neg,pl2=1.neg,pl3=1.neg,pl4=1.neg,pl5=1.neg;
 var angle1=0,angle2=0,angle3=0,angle4=0,angle5=0;
@@ -224,15 +224,13 @@ signal.plot;
 SynthDef.new(\ospace1, {
 	arg mult=12,gate=1,pl1=1;
 	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=0.04444,pl2=0,envp,octave=1;
-	var ton1,ton2,ton3,rq1=1,rq2=1,rq3=1,cutt_freq1=1,cutt_freq2=1,cutt_freq3=1;
+	var ton1,ton2,ton3;
 	var fundamental;
-	var freq,m=1,pitch1,pitch2,pitch3,env,cutt=440;
-	var v0,v,v6,q1,q2,q3,q4,q5,axis;
+	var freq,m=1,pitch1,pitch2,pitch3,env;
 	var pitch;
-	var xyz,xyz_array;
 	var n1,n2,n3;
 	var sphere1,sphere2,sphere3;
-	var env_mag,env_phase;
+	var xyz;
 
 	var wrappedOut1 = { |busArray, signalArray|
 	[busArray, signalArray].flop.do { |pair|
@@ -249,7 +247,7 @@ var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
 
 				env=EnvGen.ar(Env.adsr(0.1,0.5,0.5,4),gate:gate,doneAction:2,levelScale:0.5);
 
-fundamental=(440);
+fundamental=(220);
 freq=(fundamental*octave);
 
 		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
@@ -325,14 +323,6 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	({
 		var n=0;
 		~list1=(360*12).collect{
-		n=n+1;
-		}
-		}.value
-	);
-
-	({
-		var n=0;
-		~list2=(360*12).collect{
 		n=n+1;
 		}
 		}.value
