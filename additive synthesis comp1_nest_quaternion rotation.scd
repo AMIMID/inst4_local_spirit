@@ -48,12 +48,12 @@ Buffer.freeAll;
 
 //////////////////////////////////////////////////basis
 {
-var m_x=3,m_y=2,m_z=4,az=0,el=0;
+var m_x=3,m_y=3,m_z=4,az=0,el=0;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 var axis=Quaternion(0,0.57735026918963,0.57735026918963,0.57735026918963);
-var angle=0;
+var angle=(360-(360/1.6180339887499))/2;
 var sph1,sph2,sph3,sph4,sph5,sph;
 var rotation,v;
 
@@ -69,23 +69,32 @@ var rotation,v;
 		angle=(360-(360/1.6180339887499))/2;
 
 azimuth=(12).collect{
-		az1 = az+(2pi*2.pow(pl1/12)).wrap(pi.neg,pi);  // Increment azimuth
-		el1 = el+(2pi*2.pow(pl1/12)).wrap((pi/2).neg,(pi/2));
-		pl1=(pl1+1).mod(12);
+		/*	az1 = (az+(2pi*2.pow(pl1/12))).wrap(pi.neg,pi);  // Increment azimuth
+			el1 = (el+(2pi*2.pow(pl1/12))).wrap((pi/2).neg,(pi/2));
+		pl1=(pl1+1).mod(12);*/
+			az1 = (az+((pi/2)*2.pow(pl1/12))).wrap(pi.neg,pi);
+			el1 = (el+(pi/4)*2.pow(pl1/12)).wrap((pi/2).neg,(pi/2));
+		pl1=(pl1+1).mod(25);
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
 elevation=(12).collect{
-		az2 = az+(2pi*2.pow(pl2/12)).wrap(pi.neg,pi);  // Increment azimuth
-		el2 = el+(2pi*2.pow(pl2/12)).wrap((pi/2).neg,(pi/2));
-		pl2=(pl2+1).mod(12);
+		/*	az2 = (az+(2pi*2.pow(pl2/12))).wrap(pi.neg,pi);  // Increment azimuth
+			el2 = (el+(2pi*2.pow(pl2/12))).wrap((pi/2).neg,(pi/2));
+		pl2=(pl2+1).mod(12);*/
+				az2 = (az+((pi/2)*2.pow(pl2/12))).wrap(pi.neg,pi);
+			el2 = (el+(pi/4)*2.pow(pl2/12)).wrap((pi/2).neg,(pi/2));
+		pl2=(pl2+1).mod(25);
 		sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
 magnitudex=(12).collect{
-		az3 = az+(2pi*2.pow(pl3/12)).wrap(pi.neg,pi);  // Increment azimuth
-		el3 = el+(2pi*2.pow(pl3/12)).wrap((pi/2).neg,(pi/2));
-		pl3=(pl3+1).mod(12);
+	/*		az3 = (az+(2pi*2.pow(pl3/12))).wrap(pi.neg,pi);  // Increment azimuth
+			el3 = (el+(2pi*2.pow(pl3/12))).wrap((pi/2).neg,(pi/2));
+		pl3=(pl3+1).mod(12);*/
+					az3 = (az+((pi/2)*2.pow(pl3/12))).wrap(pi.neg,pi);
+			el3 = (el+(pi/4)*2.pow(pl3/12)).wrap((pi/2).neg,(pi/2));
+		pl3=(pl3+1).mod(25);
 			sph3=Spherical(1,az3,el3);
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 
@@ -98,9 +107,12 @@ magnitudex=(12).collect{
 		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 };
 magnitudey=(12).collect{
-		az4 =  az+(2pi*2.pow(pl4/12)).wrap(pi.neg,pi);   // Increment azimuth
-		el4 =  el+(2pi*2.pow(pl4/12)).wrap((pi/2).neg,(pi/2));
-		pl4=(pl4+1).mod(12);
+		/*	az4 =  (az+(2pi*2.pow(pl4/12))).wrap(pi.neg,pi);   // Increment azimuth
+			el4 =  (el+(2pi*2.pow(pl4/12))).wrap((pi/2).neg,(pi/2));
+		pl4=(pl4+1).mod(12);*/
+					az4 = (az+((pi/2)*2.pow(pl4/12))).wrap(pi.neg,pi);
+			el4 = (el+(pi/4)*2.pow(pl4/12)).wrap((pi/2).neg,(pi/2));
+		pl4=(pl4+1).mod(25);
 sph4=Spherical(1,az4,el4);
 
 	mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
@@ -113,9 +125,12 @@ sph4=Spherical(1,az4,el4);
 };
 magnitudez=(12).collect{
 
-		az5 =  az+(2pi*2.pow(pl5/12)).wrap(pi.neg,pi);   // Increment azimuth
-		el5 =  el+(2pi*2.pow(pl5/12)).wrap((pi/2).neg,(pi/2));
-		pl5=(pl5+1).mod(12);
+		/*	az5 = (az+(2pi*2.pow(pl5/12))).wrap(pi.neg,pi);   // Increment azimuth
+			el5 =  (el+(2pi*2.pow(pl5/12))).wrap((pi/2).neg,(pi/2));
+		pl5=(pl5+1).mod(12);*/
+					az5 = (az+((pi/2)*2.pow(pl5/12))).wrap(pi.neg,pi);
+			el5 = (el+(pi/4)*2.pow(pl5/12)).wrap((pi/2).neg,(pi/2));
+		pl5=(pl5+1).mod(25);
 sph5=Spherical(1,az5,el5);
 
 if(
@@ -204,7 +219,7 @@ SynthDef.new(\ospace1, {
 
 				env=EnvGen.ar(Env.adsr(0.1,0.5,0.5,4),gate:gate,doneAction:2,levelScale:0.5);
 
-fundamental=(220);
+fundamental=(440);
 freq=(fundamental*octave);
 
 		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
@@ -286,7 +301,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 //////////pattern for mobius strib of sequential or parallel play of directions
 (
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq([1],inf),
+			\dur,Pseq(~dur,inf),
 			\pl1,Prand(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),

@@ -92,7 +92,7 @@ elevation=(12).collect{
         if (el2 > 90) { el2 = el2 - 180 };  // Wrap to [-90, 90)
         if (el2 <= -90) { el2 = el2 + 180 };  // Wrap to [-90, 90)*/
 
-	/*	az2 = angle2+(360*2.pow(pl2/12)).wrap(180.neg,180);  // Increment azimuth
+			/*	az2 = (angle2+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
 		el2 = (360*2.pow(pl2/12)).wrap(90.neg,90);
 		pl2=(pl2+1).mod(12);*/
 			az2 = (angle2+(90*2.pow(pl2/12))).wrap(180.neg,180);
@@ -114,7 +114,7 @@ magnitudex=(12).collect{
         if (el3 > 90) { el3 = el3 - 180 };  // Wrap to [-90, 90)
         if (el3 <= -90) { el3 = el3 + 180 };  // Wrap to [-90, 90)*/
 
-		/*az3 = angle3+(360*2.pow(pl3/12)).wrap(180.neg,180);  // Increment azimuth
+			/*az3 = (angle3+(360*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
 		el3 = (360*2.pow(pl3/12)).wrap(90.neg,90);
 		pl3=(pl3+1).mod(12);*/
 
@@ -146,7 +146,7 @@ magnitudey=(12).collect{
         if (el4 <= -90) { el4 = el4 + 180 };  // Wrap to [-90, 90)
 */
 
-		/*az4 = angle4+(360*2.pow(pl4/12)).wrap(180.neg,180);  // Increment azimuth
+			/*az4 = (angle4+(360*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
 		el4 = (360*2.pow(pl4/12)).wrap(90.neg,90);
 		pl4=(pl4+1).mod(12);*/
 
@@ -176,7 +176,7 @@ magnitudez=(12).collect{
         if (el5 > 90) { el5 = el5 - 180 };  // Wrap to [-90, 90)
         if (el5 <= -90) { el5 = el5 + 180 };  // Wrap to [-90, 90)*/
 
-		/*az5 = angle5+(360*2.pow(pl5/12)).wrap(180.neg,180);  // Increment azimuth
+			/*az5 = (angle5+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
 		el5 = (360*2.pow(pl5/12)).wrap(90.neg,90);
 		pl5=(pl5+1).mod(12);*/
 
