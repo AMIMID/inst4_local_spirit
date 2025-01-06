@@ -254,7 +254,7 @@ ton3=n3.abs.linlin(0,1,1,2*mult);
 
 
 osc1=VBAP.ar(4,
-				SinOsc.ar(pitch1,mul:amp1,phase:0),
+				SinOsc.ar(pitch1,mul:amp1*In.kr(~controlBus_magx).lag(0.1),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -262,7 +262,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2,phase:0),
+						SinOsc.ar(pitch2,mul:amp2*In.kr(~controlBus_magy).lag(0.1),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -270,7 +270,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						SinOsc.ar(pitch3,mul:amp3,phase:0),
+						SinOsc.ar(pitch3,mul:amp3*In.kr(~controlBus_magz).lag(0.1),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -312,32 +312,97 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	);
 	TempoClock.default.tempo_(2/1);
 
-//s.record(numChannels:4);
-	/////////////////////scales
-//Scale.directory;
-
-		//	s.record(numChannels:4);
-
-	(
-Tdef.new(\h,{
-//loop({
-			(1).wait;
-//s.record(numChannels:4);
-			(1).wait;
-		//	s.record(numChannels:4);
-~aa.play;
-s.record(numChannels:4);
-			(1).wait;
-//s.stopRecording
-//	})
-})
-);
-
-
-
-//Tdef(\h).stop;
-//Tdef(\h).play;
-//Tdef(\h).clear;
 
 }
+)
+
+~aa.play;
+			~t.play;
+~angleRoutine1.play;
+s.record(numChannels:4);
+
+(
+~controlBus_az = Bus.control(s, 1);
+~controlBus_el = Bus.control(s, 1);
+~controlBus_magx = Bus.control(s, 1);
+~controlBus_magy = Bus.control(s, 1);
+~controlBus_magz = Bus.control(s, 1);
+)
+(
+
+ // Initialize angle
+var rotation=0;
+
+~tempo=0.5;
+~tempo2=(~tempo*12);
+~angleRoutine1 = Routine({
+
+    loop {
+		rotation.postln;
+			~controlBus_rotation.set(rotation);
+		rotation=(rotation+(360-(360/1.6180339887499))).wrap(0,360);
+		rotation.postln;
+		(~tempo2).wait;
+    };
+
+});
+)
+(
+var  sph1,m_x=3,m_y=4,m_z=3,n=0;
+var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
+var angle=0;
+
+~t =  Routine({
+		loop{
+
+	/*			az1 = (0+(90*2.pow(n/12))).wrap(180.neg,180);
+		el1 = (45*2.pow(n/12)).wrap(90.neg,90);
+
+		n =24.rand;*/
+
+		az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
+		el1=(180*2.pow(n/12)).wrap(90.neg,90);
+
+	/*	az1 = (az1 + 3);  // Increment azimuth
+        if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
+        if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
+
+        el1 = (el1 + 3);  // Increment elevation
+        if (el1 > 90) { el1 = el1 - 180 };  // Wrap to [-90, 90)
+        if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)
+*/
+					n =12.rand;
+
+	sph1=Spherical(1,(az1.degrad),(el1.degrad));
+
+mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;
+		/* mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),
+			cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*
+		 	Complex(sin((sph1.phi.round(0.00001)*(m_x-1)).wrap((pi/2).neg,(pi/2))),sin((sph1.phi.round(0.00001)*(m_x-1)).wrap((pi/
+		 	2).neg,(pi/2)))).rho*
+		 Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;*/
+		mag_x=mag_x/(2.sqrt);
+mag_y=(Complex(sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
+		sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
+		Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/
+		2)))).rho)*sph1.rho;
+//		mag_y=(Complex(sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
+//Complex(sin((sph1.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2))),sin((sph1.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2)))).rho*
+//Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;
+		mag_y=mag_y/(2.sqrt);
+	if(
+m_z.even,
+mag_z=Complex(cos((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph1.rho,
+mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph1.rho
+	);
+		mag_z=mag_z/(2.sqrt);
+
+		~controlBus_az.set(sph1.theta.round(0.00001));
+		~controlBus_el.set(sph1.phi.round(0.00001));
+	~controlBus_magx.set(mag_x);
+		~controlBus_magy.set(mag_y);
+		~controlBus_magz.set(mag_z);
+	~tempo.wait;
+}});
+
 )
