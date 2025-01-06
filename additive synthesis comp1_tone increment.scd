@@ -10,9 +10,10 @@ s.options.memSize = 8192*128*2;
 s.options.blockSize = 64*1;
 s.options.maxNodes = 1024 * 16;
 //s.options.sampleRate= 44100;
+s.waitForBoot
 );
 
-s.waitForBoot{
+
 /////wavetables
 Buffer.freeAll;
 (
@@ -24,19 +25,36 @@ Buffer.freeAll;
 ~controlBus_rotation = Bus.control(s, 1);
 );
 
+(
+
+ // Initialize angle
+var rotation=0;
+
+~tempo=1;
+~tempo2=(~tempo*12);
+~angleRoutine1 = Routine({
+
+    loop {
+		rotation.postln;
+			~controlBus_rotation.set(rotation);
+		rotation=(rotation+(360-(360/1.6180339887499))).wrap(0,360);
+		rotation.postln;
+		(~tempo2).wait;
+    };
+
+});
+);
 
 (
-var  sph1,m_x=1,m_y=1,m_z=1,n=0;
+var  sph1,m_x=3,m_y=4,m_z=3,n=0;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
 var angle=0;
-
-~tempo=0.1;
 
 
 ~t =  Routine({
 		loop{
 
-		az1=(360*2.pow(n/12)).wrap(180.neg,180);
+		az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
 		el1=(360*2.pow(n/12)).wrap(90.neg,90);
 	/*	az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
@@ -71,12 +89,6 @@ mag_z=Complex(cos((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sp
 mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph1.rho
 	);
 		mag_z=mag_z/(2.sqrt);
-
-		angle = (angle + (360-(360/1.6180339887499)));  // Increment azimuth
-        if (angle > 360) { angle = angle - 360 };
-		angle.postln;
-
-		~controlBus_rotation.set(angle);
 
 		~controlBus_az.set(sph1.theta.round(0.00001));
 		~controlBus_el.set(sph1.phi.round(0.00001));
@@ -113,11 +125,11 @@ wt = signal.asWavetable;
 
 	/////////////////////synth static values tones on pitches
 (
-~lag=0.01;
+~lag=0.1;
 SynthDef.new(\ospace1, {
-	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=4,mult=24,xr=1,yr=1,zr=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=4,mult=24;
 	var tonx1,tonx2,tonx3,tony1,tony2,tony3,tonz1,tonz2,tonz3;
-	var fundamental=110;
+	var fundamental=220;
 	var freq,m=1;
 	var ampx1,ampx2,ampx3,ampy1,ampy2,ampy3,ampz1,ampz2,ampz3;
 	var pitchx1,pitchx2,pitchx3,pitchy1,pitchy2,pitchy3,pitchz1,pitchz2,pitchz3;
@@ -210,32 +222,25 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-					Out.ar(0,LeakDC.ar(osc3,mul:1));
+					Out.ar(0,LeakDC.ar(osc3,mul:1/2));
 
 	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
-					Out.ar(0,LeakDC.ar(osc2,mul:1));
+					Out.ar(0,LeakDC.ar(osc2,mul:1/2));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-					Out.ar(0,LeakDC.ar(osc1,mul:1));
+					Out.ar(0,LeakDC.ar(osc1,mul:1/2));
 
 }).add;
 );
-}
-)
 
 
-(
-~t.play;
-Synth(\ospace1);
-//s.record(numChannels:4)
-)
 
 ///////////////////////////synth static values amp modulation on fixed freqs
 
 (
-~lag=0.05;
+~lag=0.1;
 SynthDef.new(\ospace1, {
-	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=1,mult=24,xr=1,yr=1,zr=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=1,mult=24;
 	var fundamental=110;
 	var freq,m=1;
 	var v0,v,v6,q1,q2,q3,q4,q5,axis;
@@ -319,10 +324,75 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 (
 ~t.play;
+~angleRoutine1.play;
 Synth(\ospace1);
 //s.record(numChannels:4)
 )
 //////////////////////////////synth rotated values via quaternion and golden angle tones on pitches
+
+(
+var  sph1,m_x=1,m_y=1,m_z=1,n=0;
+var az1=0,el1=0,mag,mag_x,mag_y,mag_z;
+var angle=0;
+
+~tempo=0.1;
+
+
+~t =  Routine({
+		loop{
+
+		az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
+		el1=(360*2.pow(n/12)).wrap(90.neg,90);
+	/*	az1 = (az1 + 3);  // Increment azimuth
+        if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
+        if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
+
+        el1 = (el1 + 3);  // Increment elevation
+        if (el1 > 90) { el1 = el1 - 180 };  // Wrap to [-90, 90)
+        if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)
+*/
+				n=(n+1).mod(12);
+
+	sph1=Spherical(1,(az1.degrad),(el1.degrad));
+
+mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;
+		/* mag_x=(Complex(cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),
+			cos((sph1.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*
+		 	Complex(sin((sph1.phi.round(0.00001)*(m_x-1)).wrap((pi/2).neg,(pi/2))),sin((sph1.phi.round(0.00001)*(m_x-1)).wrap((pi/
+		 	2).neg,(pi/2)))).rho*
+		 Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;*/
+		mag_x=mag_x/(2.sqrt);
+mag_y=(Complex(sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
+		sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
+		Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/
+		2)))).rho)*sph1.rho;
+//		mag_y=(Complex(sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),sin((sph1.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
+//Complex(sin((sph1.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2))),sin((sph1.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2)))).rho*
+//Complex(cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph1.rho;
+		mag_y=mag_y/(2.sqrt);
+	if(
+m_z.even,
+mag_z=Complex(cos((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph1.rho,
+mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph1.rho
+	);
+		mag_z=mag_z/(2.sqrt);
+
+		angle = (angle + (360-(360/1.6180339887499)));  // Increment azimuth
+        if (angle > 360) { angle = angle - 360 };
+		angle.postln;
+
+		~controlBus_rotation.set(angle);
+
+		~controlBus_az.set(sph1.theta.round(0.00001));
+		~controlBus_el.set(sph1.phi.round(0.00001));
+	~controlBus_magx.set(mag_x);
+		~controlBus_magy.set(mag_y);
+		~controlBus_magz.set(mag_z);
+	~tempo.wait;
+}});
+
+);
+
 (
 ~lag=0.01;
 SynthDef.new(\ospace1, {
@@ -431,8 +501,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 }).add;
 );
-}
-)
+
 
 
 (
