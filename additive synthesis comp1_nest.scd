@@ -48,7 +48,7 @@ Buffer.freeAll;
 
 //////////////////////////////////////////////////basis
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=4,m_y=3,m_z=3;
+var  sph1,sph2,sph3,sph4,sph5,m_x=3,m_y=3,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0;
@@ -70,7 +70,7 @@ azimuth=(12).collect{
 
 
 			az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
-			el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
+			el1 = (0+(360*2.pow(pl1/12))).wrap(90.neg,90);
 		pl1=(pl1+1).mod(12);
 
 		/*	az1 = (0+(90*2.pow(pl1/12))).wrap(180.neg,180);
@@ -92,7 +92,7 @@ elevation=(12).collect{
         if (el2 <= -90) { el2 = el2 + 180 };  // Wrap to [-90, 90)*/
 
 				az2 = (angle+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
-			el2 = (angle+(180*2.pow(pl2/12))).wrap(90.neg,90);
+			el2 = (0+(360*2.pow(pl2/12))).wrap(90.neg,90);
 		pl2=(pl2+1).mod(12);
 		/*	az2 = (0+(90*2.pow(pl2/12))).wrap(180.neg,180);
 		el2 = (45*2.pow(pl2/12)).wrap(90.neg,90);
@@ -113,7 +113,7 @@ magnitudex=(12).collect{
         if (el3 <= -90) { el3 = el3 + 180 };  // Wrap to [-90, 90)*/
 
 			az3 = (angle+(360*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
-			el3 = (angle+ (180*2.pow(pl3/12))).wrap(90.neg,90);
+			el3 = (0+ (360*2.pow(pl3/12))).wrap(90.neg,90);
 		pl3=(pl3+1).mod(12);
 
 		/*	az3 = (0+(90*2.pow(pl3/12))).wrap(180.neg,180);
@@ -144,7 +144,7 @@ magnitudey=(12).collect{
 */
 
 			az4 = (angle+(360*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
-			el4 = (angle+(180*2.pow(pl4/12))).wrap(90.neg,90);
+			el4 = (0+(360*2.pow(pl4/12))).wrap(90.neg,90);
 		pl4=(pl4+1).mod(12);
 
 		/*	az4 = (0+(90*2.pow(pl4/12))).wrap(180.neg,180);
@@ -172,7 +172,7 @@ magnitudez=(12).collect{
         if (el5 <= -90) { el5 = el5 + 180 };  // Wrap to [-90, 90)*/
 
 			az5 = (angle+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
-			el5 = (angle+(180*2.pow(pl5/12))).wrap(90.neg,90);
+			el5 = (0+(360*2.pow(pl5/12))).wrap(90.neg,90);
 		pl5=(pl5+1).mod(12);
 			//
 			// az5 = (0+(90*2.pow(pl5/12))).wrap(180.neg,180);
@@ -347,7 +347,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 //////////pattern for mobius strib of sequential or parallel play of directions
 (
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq([1],inf),
+			\dur,Pseq(~dur,inf),
 			\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
