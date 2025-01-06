@@ -30,7 +30,7 @@ Buffer.freeAll;
  // Initialize angle
 var rotation=0;
 
-~tempo=1;
+~tempo=0.1;
 ~tempo2=(~tempo*12);
 ~angleRoutine1 = Routine({
 
@@ -54,8 +54,15 @@ var angle=0;
 ~t =  Routine({
 		loop{
 
-		az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
-		el1=(360*2.pow(n/12)).wrap(90.neg,90);
+			az1 = (90*2.pow(n/12));
+			if (az1 > 180) { az1 = az1 - 360 };
+		el1 = (45*2.pow(n /12));
+			if (el1 > 90) { el1 = el1 - 180 };
+		n =25.rand;
+
+	/*	az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
+		el1=(360*2.pow(n/12)).wrap(90.neg,90);*/
+
 	/*	az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
         if (az1 <= -180) { az1 = az1 + 360 };  // Wrap to [-180, 180)
@@ -125,7 +132,7 @@ wt = signal.asWavetable;
 
 	/////////////////////synth static values tones on pitches
 (
-~lag=0.1;
+~lag=0.05;
 SynthDef.new(\ospace1, {
 	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=4,mult=24;
 	var tonx1,tonx2,tonx3,tony1,tony2,tony3,tonz1,tonz2,tonz3;
@@ -233,7 +240,12 @@ sphere.theta.raddeg,sphere.phi.raddeg
 }).add;
 );
 
-
+(
+~t.play;
+//~angleRoutine1.play;
+Synth(\ospace1);
+//s.record(numChannels:4)
+)
 
 ///////////////////////////synth static values amp modulation on fixed freqs
 
