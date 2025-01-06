@@ -54,11 +54,10 @@ var angle=0;
 ~t =  Routine({
 		loop{
 
-			az1 = (90*2.pow(n/12));
-			if (az1 > 180) { az1 = az1 - 360 };
-		el1 = (45*2.pow(n /12));
-			if (el1 > 90) { el1 = el1 - 180 };
-		n =25.rand;
+				az1 = (angle1+(90*2.pow(n/12))).wrap(180.neg,180);
+		el1 = (45*2.pow(n/12)).wrap(90.neg,90);
+
+		n =24.rand;
 
 	/*	az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
 		el1=(360*2.pow(n/12)).wrap(90.neg,90);*/
