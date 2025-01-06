@@ -69,13 +69,13 @@ azimuth=(12).collect{
         if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)*/
 
 
-	/*	az1 = angle1+(360*2.pow(pl1/12)).wrap(180.neg,180);  // Increment azimuth
+		az1 = angle1+(360*2.pow(pl1/12)).wrap(180.neg,180);  // Increment azimuth
 		el1 = (360*2.pow(pl1/12)).wrap(90.neg,90);
-		pl1=(pl1+1).mod(12);*/
+		pl1=(pl1+1).mod(12);
 
-			az1 = (angle1+(90*2.pow(pl1/12))).wrap(180.neg,180);
+		/*	az1 = (angle1+(90*2.pow(pl1/12))).wrap(180.neg,180);
 		el1 = (45*2.pow(pl1/12)).wrap(90.neg,90);
-		pl1=(pl1+1).mod(25);
+		pl1=(pl1+1).mod(25);*/
 
 		sph1=Spherical(1,(az1.degrad),(el1.degrad)).theta.round(0.00001);
 
@@ -92,12 +92,13 @@ elevation=(12).collect{
         if (el2 > 90) { el2 = el2 - 180 };  // Wrap to [-90, 90)
         if (el2 <= -90) { el2 = el2 + 180 };  // Wrap to [-90, 90)*/
 
-			/*	az2 = (angle2+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
+				az2 = (angle2+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
 		el2 = (360*2.pow(pl2/12)).wrap(90.neg,90);
-		pl2=(pl2+1).mod(12);*/
-			az2 = (angle2+(90*2.pow(pl2/12))).wrap(180.neg,180);
+		pl2=(pl2+1).mod(12);
+
+		/*	az2 = (angle2+(90*2.pow(pl2/12))).wrap(180.neg,180);
 		el2 = (45*2.pow(pl2/12)).wrap(90.neg,90);
-		pl2=(pl2+1).mod(25);
+		pl2=(pl2+1).mod(25);*/
 
 
 		sph2=Spherical(1,(az2.degrad),(el2.degrad)).phi.round(0.00001);
@@ -114,13 +115,13 @@ magnitudex=(12).collect{
         if (el3 > 90) { el3 = el3 - 180 };  // Wrap to [-90, 90)
         if (el3 <= -90) { el3 = el3 + 180 };  // Wrap to [-90, 90)*/
 
-			/*az3 = (angle3+(360*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
+			az3 = (angle3+(360*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
 		el3 = (360*2.pow(pl3/12)).wrap(90.neg,90);
-		pl3=(pl3+1).mod(12);*/
+		pl3=(pl3+1).mod(12);
 
-			az3 = (angle3+(90*2.pow(pl3/12))).wrap(180.neg,180);
+			/*az3 = (angle3+(90*2.pow(pl3/12))).wrap(180.neg,180);
 		el3 = (45*2.pow(pl3/12)).wrap(90.neg,90);
-		pl3=(pl3+1).mod(25);
+		pl3=(pl3+1).mod(25);*/
 
 	sph3=Spherical(1,(az3.degrad),(el3.degrad));
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
@@ -146,14 +147,13 @@ magnitudey=(12).collect{
         if (el4 <= -90) { el4 = el4 + 180 };  // Wrap to [-90, 90)
 */
 
-			/*az4 = (angle4+(360*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
+			az4 = (angle4+(360*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
 		el4 = (360*2.pow(pl4/12)).wrap(90.neg,90);
-		pl4=(pl4+1).mod(12);*/
+		pl4=(pl4+1).mod(12);
 
-			az4 = (angle4+(90*2.pow(pl4/12))).wrap(180.neg,180);
+		/*	az4 = (angle4+(90*2.pow(pl4/12))).wrap(180.neg,180);
 		el4 = (45*2.pow(pl4/12)).wrap(90.neg,90);
-
-		pl4=(pl4+1).mod(25);
+		pl4=(pl4+1).mod(25);*/
 
 	sph4=Spherical(1,(az4.degrad),(el4.degrad));
 
@@ -176,13 +176,13 @@ magnitudez=(12).collect{
         if (el5 > 90) { el5 = el5 - 180 };  // Wrap to [-90, 90)
         if (el5 <= -90) { el5 = el5 + 180 };  // Wrap to [-90, 90)*/
 
-			/*az5 = (angle5+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
+		az5 = (angle5+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
 		el5 = (360*2.pow(pl5/12)).wrap(90.neg,90);
-		pl5=(pl5+1).mod(12);*/
+		pl5=(pl5+1).mod(12);
 
-			az5 = (angle5+(90*2.pow(pl5/12))).wrap(180.neg,180);
+		/*	az5 = (angle5+(90*2.pow(pl5/12))).wrap(180.neg,180);
 		el5 = (45*2.pow(pl5/12)).wrap(90.neg,90);
-		pl5=(pl5+1).mod(25);
+		pl5=(pl5+1).mod(25);*/
 
 		sph5=Spherical(1,(az5.degrad),(el5.degrad));
 
@@ -353,7 +353,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 (
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
 			\dur,Pseq([1],inf),
-			\pl1,Prand(~list1,inf),
+			\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -361,7 +361,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
 ));
 	);
-	TempoClock.default.tempo_(2/1);
+	TempoClock.default.tempo_(4/1);
 
 //s.record(numChannels:4);
 	/////////////////////scales
