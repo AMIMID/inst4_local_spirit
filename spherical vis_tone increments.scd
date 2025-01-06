@@ -34,7 +34,7 @@ azimuth=(12).collect{
         if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)*/
 
 
-		az1 = angle1+(360*2.pow(pl1/12)).wrap(180.neg,180);  // Increment azimuth
+			az1 = (angle1+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
 		el1 = (180*2.pow(pl1/12)).wrap(90.neg,90);
 		pl1=(pl1+1).mod(12);
 
