@@ -30,7 +30,7 @@ Buffer.freeAll;
  // Initialize angle
 var rotation=0;
 
-~tempo=0.1;
+~tempo=0.5;
 ~tempo2=(~tempo*12);
 ~angleRoutine1 = Routine({
 
@@ -54,13 +54,13 @@ var angle=0;
 ~t =  Routine({
 		loop{
 
-				az1 = (angle1+(90*2.pow(n/12))).wrap(180.neg,180);
+	/*			az1 = (0+(90*2.pow(n/12))).wrap(180.neg,180);
 		el1 = (45*2.pow(n/12)).wrap(90.neg,90);
 
-		n =24.rand;
+		n =24.rand;*/
 
-	/*	az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
-		el1=(360*2.pow(n/12)).wrap(90.neg,90);*/
+		az1=(~controlBus_rotation.getSynchronous+(360*2.pow(n/12))).wrap(180.neg,180);
+		el1=(360*2.pow(n/12)).wrap(90.neg,90);
 
 	/*	az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
@@ -70,7 +70,7 @@ var angle=0;
         if (el1 > 90) { el1 = el1 - 180 };  // Wrap to [-90, 90)
         if (el1 <= -90) { el1 = el1 + 180 };  // Wrap to [-90, 90)
 */
-				n=(n+1).mod(12);
+					n =12.rand;
 
 	sph1=Spherical(1,(az1.degrad),(el1.degrad));
 
@@ -241,7 +241,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 (
 ~t.play;
-//~angleRoutine1.play;
+~angleRoutine1.play;
 Synth(\ospace1);
 //s.record(numChannels:4)
 )
