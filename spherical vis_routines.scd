@@ -218,10 +218,8 @@ azimuth=(12).collect{
 		el1 = (360*2.pow(pl1/12)).wrap(90.neg,90);
 		pl1=(pl1+1).mod(12);*/
 
-			az1 = angle1+(90*2.pow(pl1/12));
-			if (az1 > 180) { az1 = az1 - 360 };
-		el1 = (45*2.pow(pl1/12));
-			if (el1 > 90) { el1 = el1 - 180 };
+			az1 = (angle1+(90*2.pow(pl1/12))).wrap(180.neg,180);
+		el1 = (45*2.pow(pl1/12)).wrap(90.neg,90);
 		pl1=(pl1+1).mod(25);
 
 		sph1=Spherical(1,(az1.degrad),(el1.degrad)).theta.round(0.00001);
@@ -239,13 +237,11 @@ elevation=(12).collect{
         if (el2 > 90) { el2 = el2 - 180 };  // Wrap to [-90, 90)
         if (el2 <= -90) { el2 = el2 + 180 };  // Wrap to [-90, 90)*/
 
-	/*	az2 = angle2+(360*2.pow(pl2/12)).wrap(180.neg,180);  // Increment azimuth
+			/*	az2 = (angle2+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
 		el2 = (360*2.pow(pl2/12)).wrap(90.neg,90);
 		pl2=(pl2+1).mod(12);*/
-				az2 = angle2+(90*2.pow(pl2/12));
-			if (az2 > 180) { az2 = az2 - 360 };
-		el2 = (45*2.pow(pl2/12));
-			if (el2 > 90) { el2 = el2 - 180 };
+			az2 = (angle2+(90*2.pow(pl2/12))).wrap(180.neg,180);
+		el2 = (45*2.pow(pl2/12)).wrap(90.neg,90);
 		pl2=(pl2+1).mod(25);
 
 
@@ -263,14 +259,12 @@ magnitudex=(12).collect{
         if (el3 > 90) { el3 = el3 - 180 };  // Wrap to [-90, 90)
         if (el3 <= -90) { el3 = el3 + 180 };  // Wrap to [-90, 90)*/
 
-		/*az3 = angle3+(360*2.pow(pl3/12)).wrap(180.neg,180);  // Increment azimuth
+			/*az3 = (angle3+(360*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
 		el3 = (360*2.pow(pl3/12)).wrap(90.neg,90);
 		pl3=(pl3+1).mod(12);*/
 
-					az3 = angle3+(90*2.pow(pl3/12));
-			if (az3 > 180) { az3 = az3 - 360 };
-		el3 = (45*2.pow(pl3/12));
-			if (el3 > 90) { el3 = el3 - 180 };
+			az3 = (angle3+(90*2.pow(pl3/12))).wrap(180.neg,180);
+		el3 = (45*2.pow(pl3/12)).wrap(90.neg,90);
 		pl3=(pl3+1).mod(25);
 
 	sph3=Spherical(1,(az3.degrad),(el3.degrad));
@@ -297,14 +291,13 @@ magnitudey=(12).collect{
         if (el4 <= -90) { el4 = el4 + 180 };  // Wrap to [-90, 90)
 */
 
-		/*az4 = angle4+(360*2.pow(pl4/12)).wrap(180.neg,180);  // Increment azimuth
+			/*az4 = (angle4+(360*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
 		el4 = (360*2.pow(pl4/12)).wrap(90.neg,90);
 		pl4=(pl4+1).mod(12);*/
 
-					az4 = angle4+(90*2.pow(pl4/12));
-			if (az4 > 180) { az4 = az4 - 360 };
-		el4 = (45*2.pow(pl4/12));
-			if (el4 > 90) { el4 = el4 - 180 };
+			az4 = (angle4+(90*2.pow(pl4/12))).wrap(180.neg,180);
+		el4 = (45*2.pow(pl4/12)).wrap(90.neg,90);
+
 		pl4=(pl4+1).mod(25);
 
 	sph4=Spherical(1,(az4.degrad),(el4.degrad));
@@ -328,14 +321,12 @@ magnitudez=(12).collect{
         if (el5 > 90) { el5 = el5 - 180 };  // Wrap to [-90, 90)
         if (el5 <= -90) { el5 = el5 + 180 };  // Wrap to [-90, 90)*/
 
-		/*az5 = angle5+(360*2.pow(pl5/12)).wrap(180.neg,180);  // Increment azimuth
+			/*az5 = (angle5+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
 		el5 = (360*2.pow(pl5/12)).wrap(90.neg,90);
 		pl5=(pl5+1).mod(12);*/
 
-							az5 = angle5+(90*2.pow(pl5/12));
-			if (az5 > 180) { az5 = az5 - 360 };
-		el5 = (45*2.pow(pl5/12));
-			if (el5 > 90) { el5 = el5 - 180 };
+			az5 = (angle5+(90*2.pow(pl5/12))).wrap(180.neg,180);
+		el5 = (45*2.pow(pl5/12)).wrap(90.neg,90);
 		pl5=(pl5+1).mod(25);
 
 		sph5=Spherical(1,(az5.degrad),(el5.degrad));
@@ -454,7 +445,7 @@ Pen.translate(400,400);
 
 (
 {
-var m_x=2,m_y=2,m_z=2,az=0,el=0;
+var m_x=3,m_y=3,m_z=4,az=0,el=0;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
@@ -475,23 +466,32 @@ var rotation,v;
 		angle=(360-(360/1.6180339887499))/2;
 
 azimuth=(12).collect{
-		az1 = az+(2pi*2.pow(pl1/12)).wrap(pi.neg,pi);  // Increment azimuth
-		el1 = el+(2pi*2.pow(pl1/12)).wrap((pi/2).neg,(pi/2));
-		pl1=(pl1+1).mod(12);
+		/*	az1 = (az+(2pi*2.pow(pl1/12))).wrap(pi.neg,pi);  // Increment azimuth
+			el1 = (el+(2pi*2.pow(pl1/12))).wrap((pi/2).neg,(pi/2));
+		pl1=(pl1+1).mod(12);*/
+			az1 = (az+((pi/2)*2.pow(pl1/12))).wrap(pi.neg,pi);
+			el1 = (el+(pi/4)*2.pow(pl1/12)).wrap((pi/2).neg,(pi/2));
+		pl1=(pl1+1).mod(25);
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
 elevation=(12).collect{
-		az2 = az+(2pi*2.pow(pl2/12)).wrap(pi.neg,pi);  // Increment azimuth
-		el2 = el+(2pi*2.pow(pl2/12)).wrap((pi/2).neg,(pi/2));
-		pl2=(pl2+1).mod(12);
+		/*	az2 = (az+(2pi*2.pow(pl2/12))).wrap(pi.neg,pi);  // Increment azimuth
+			el2 = (el+(2pi*2.pow(pl2/12))).wrap((pi/2).neg,(pi/2));
+		pl2=(pl2+1).mod(12);*/
+				az2 = (az+((pi/2)*2.pow(pl2/12))).wrap(pi.neg,pi);
+			el2 = (el+(pi/4)*2.pow(pl2/12)).wrap((pi/2).neg,(pi/2));
+		pl2=(pl2+1).mod(25);
 		sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
 magnitudex=(12).collect{
-		az3 = az+(2pi*2.pow(pl3/12)).wrap(pi.neg,pi);  // Increment azimuth
-		el3 = el+(2pi*2.pow(pl3/12)).wrap((pi/2).neg,(pi/2));
-		pl3=(pl3+1).mod(12);
+	/*		az3 = (az+(2pi*2.pow(pl3/12))).wrap(pi.neg,pi);  // Increment azimuth
+			el3 = (el+(2pi*2.pow(pl3/12))).wrap((pi/2).neg,(pi/2));
+		pl3=(pl3+1).mod(12);*/
+					az3 = (az+((pi/2)*2.pow(pl3/12))).wrap(pi.neg,pi);
+			el3 = (el+(pi/4)*2.pow(pl3/12)).wrap((pi/2).neg,(pi/2));
+		pl3=(pl3+1).mod(25);
 			sph3=Spherical(1,az3,el3);
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 
@@ -504,9 +504,12 @@ magnitudex=(12).collect{
 		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 };
 magnitudey=(12).collect{
-		az4 =  az+(2pi*2.pow(pl4/12)).wrap(pi.neg,pi);   // Increment azimuth
-		el4 =  el+(2pi*2.pow(pl4/12)).wrap((pi/2).neg,(pi/2));
-		pl4=(pl4+1).mod(12);
+		/*	az4 =  (az+(2pi*2.pow(pl4/12))).wrap(pi.neg,pi);   // Increment azimuth
+			el4 =  (el+(2pi*2.pow(pl4/12))).wrap((pi/2).neg,(pi/2));
+		pl4=(pl4+1).mod(12);*/
+					az4 = (az+((pi/2)*2.pow(pl4/12))).wrap(pi.neg,pi);
+			el4 = (el+(pi/4)*2.pow(pl4/12)).wrap((pi/2).neg,(pi/2));
+		pl4=(pl4+1).mod(25);
 sph4=Spherical(1,az4,el4);
 
 	mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
@@ -519,9 +522,12 @@ sph4=Spherical(1,az4,el4);
 };
 magnitudez=(12).collect{
 
-		az5 =  az+(2pi*2.pow(pl5/12)).wrap(pi.neg,pi);   // Increment azimuth
-		el5 =  el+(2pi*2.pow(pl5/12)).wrap((pi/2).neg,(pi/2));
-		pl5=(pl5+1).mod(12);
+		/*	az5 = (az+(2pi*2.pow(pl5/12))).wrap(pi.neg,pi);   // Increment azimuth
+			el5 =  (el+(2pi*2.pow(pl5/12))).wrap((pi/2).neg,(pi/2));
+		pl5=(pl5+1).mod(12);*/
+					az5 = (az+((pi/2)*2.pow(pl5/12))).wrap(pi.neg,pi);
+			el5 = (el+(pi/4)*2.pow(pl5/12)).wrap((pi/2).neg,(pi/2));
+		pl5=(pl5+1).mod(25);
 sph5=Spherical(1,az5,el5);
 
 if(
