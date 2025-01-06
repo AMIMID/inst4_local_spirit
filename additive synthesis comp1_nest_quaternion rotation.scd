@@ -48,53 +48,62 @@ Buffer.freeAll;
 
 //////////////////////////////////////////////////basis
 {
-var m_x=3,m_y=3,m_z=4,az=0,el=0;
+var m_x=2,m_y=3,m_z=3,az=0,el=0,sph_axis;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 var axis=Quaternion(0,0.57735026918963,0.57735026918963,0.57735026918963);
 var angle=(360-(360/1.6180339887499))/2;
 var sph1,sph2,sph3,sph4,sph5,sph;
-var rotation,v;
+var rotation,v,v1,v2,v3,v4,v5;
+var rotation1,rotation2,rotation3,rotation4,rotation5;
+
 
 ~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
 
- 360.do{
+ 720.do{
 		sph=Spherical(1,(az),(el));
 		v=Quaternion(0, sph.x, sph.y, sph.z);
 		rotation=((axis*exp(Complex(0,1)*angle.degrad).imag)+exp(Complex(0,1)*angle.degrad).real);
 		v=rotation*v*rotation.conjugate;
 		az=Cartesian(v.b,v.c,v.d).theta.round(0.000001);
 		el=Cartesian(v.b,v.c,v.d).phi.round(0.000001);
+		sph_axis=Quaternion(0,v.b,v.c,v.d);
 		angle=(360-(360/1.6180339887499))/2;
 
 azimuth=(12).collect{
-			az1 = (az+(2pi*2.pow(pl1/12))).wrap(pi.neg,pi);  // Increment azimuth
-			el1 = (el+(pi*2.pow(pl1/12))).wrap((pi/2).neg,(pi/2));
+
+			sph1=Spherical(1,pi,pi);
+			v1=Quaternion(0, sph1.x, sph1.y, sph1.z);
+			rotation1=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl1/12))).imag)+exp(Complex(0,1)*(2pi*2.pow(pl1/12))).real);
+			v1=rotation1*v1*rotation1.conjugate;
+			az1 = Cartesian(v1.b,v1.c,v1.d).theta.round(0.000001);
+			el1 =Cartesian(v1.b,v1.c,v1.d).phi.round(0.000001);
 		pl1=(pl1+1).mod(12);
-		/*	az1 = (az+((pi/2)*2.pow(pl1/12))).wrap(pi.neg,pi);
-			el1 = (el+(pi/4)*2.pow(pl1/12)).wrap((pi/2).neg,(pi/2));
-		pl1=(pl1+1).mod(25);*/
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
 elevation=(12).collect{
-			az2 = (az+(2pi*2.pow(pl2/12))).wrap(pi.neg,pi);  // Increment azimuth
-			el2 = (el+(pi*2.pow(pl2/12))).wrap((pi/2).neg,(pi/2));
+
+		sph2=Spherical(1,pi,pi);
+			v2=Quaternion(0, sph2.x, sph2.y, sph2.z);
+			rotation2=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl2/12))).imag)+exp(Complex(0,1)*(2pi*2.pow(pl2/12))).real);
+			v2=rotation2*v2*rotation2.conjugate;
+			az2 = Cartesian(v2.b,v2.c,v2.d).theta.round(0.000001);
+			el2 =Cartesian(v2.b,v2.c,v2.d).phi.round(0.000001);
 		pl2=(pl2+1).mod(12);
-				/*az2 = (az+((pi/2)*2.pow(pl2/12))).wrap(pi.neg,pi);
-			el2 = (el+(pi/4)*2.pow(pl2/12)).wrap((pi/2).neg,(pi/2));
-		pl2=(pl2+1).mod(25);*/
-		sph2=Spherical(1,az2,el2).phi.round(0.000001);
+			sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
 magnitudex=(12).collect{
-			az3 = (az+(2pi*2.pow(pl3/12))).wrap(pi.neg,pi);  // Increment azimuth
-			el3 = (el+(pi*2.pow(pl3/12))).wrap((pi/2).neg,(pi/2));
+
+			sph3=Spherical(1,pi,pi);
+			v3=Quaternion(0, sph3.x, sph3.y, sph3.z);
+			rotation3=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl3/12))).imag)+exp(Complex(0,1)*(2pi*2.pow(pl3/12))).real);
+			v3=rotation3*v3*rotation3.conjugate;
+			az3 = Cartesian(v3.b,v3.c,v3.d).theta.round(0.000001);
+			el3 =Cartesian(v3.b,v3.c,v3.d).phi.round(0.000001);
 		pl3=(pl3+1).mod(12);
-				/*	az3 = (az+((pi/2)*2.pow(pl3/12))).wrap(pi.neg,pi);
-			el3 = (el+(pi/4)*2.pow(pl3/12)).wrap((pi/2).neg,(pi/2));
-		pl3=(pl3+1).mod(25);*/
 			sph3=Spherical(1,az3,el3);
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 
@@ -107,13 +116,15 @@ magnitudex=(12).collect{
 		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 };
 magnitudey=(12).collect{
-			az4 =  (az+(2pi*2.pow(pl4/12))).wrap(pi.neg,pi);   // Increment azimuth
-			el4 =  (el+(pi*2.pow(pl4/12))).wrap((pi/2).neg,(pi/2));
+
+			sph4=Spherical(1,pi,pi);
+			v4=Quaternion(0, sph4.x, sph4.y, sph4.z);
+			rotation4=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl4/12))).imag)+exp(Complex(0,1)*(2pi*2.pow(pl4/12))).real);
+			v4=rotation4*v4*rotation4.conjugate;
+			az4 = Cartesian(v4.b,v4.c,v4.d).theta.round(0.000001);
+			el4 =Cartesian(v4.b,v4.c,v4.d).phi.round(0.000001);
 		pl4=(pl4+1).mod(12);
-			/*		az4 = (az+((pi/2)*2.pow(pl4/12))).wrap(pi.neg,pi);
-			el4 = (el+(pi/4)*2.pow(pl4/12)).wrap((pi/2).neg,(pi/2));
-		pl4=(pl4+1).mod(25);*/
-sph4=Spherical(1,az4,el4);
+			sph4=Spherical(1,az4,el4);
 
 	mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
 		sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
@@ -125,13 +136,14 @@ sph4=Spherical(1,az4,el4);
 };
 magnitudez=(12).collect{
 
-			az5 = (az+(2pi*2.pow(pl5/12))).wrap(pi.neg,pi);   // Increment azimuth
-			el5 =  (el+(pi*2.pow(pl5/12))).wrap((pi/2).neg,(pi/2));
+			sph5=Spherical(1,pi,pi);
+			v5=Quaternion(0, sph5.x, sph5.y, sph5.z);
+			rotation5=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl5/12))).imag)+exp(Complex(0,1)*(2pi*2.pow(pl5/12))).real);
+			v5=rotation5*v5*rotation5.conjugate;
+			az5 = Cartesian(v5.b,v5.c,v5.d).theta.round(0.000001);
+			el5 =Cartesian(v5.b,v5.c,v5.d).phi.round(0.000001);
 		pl5=(pl5+1).mod(12);
-				/*	az5 = (az+((pi/2)*2.pow(pl5/12))).wrap(pi.neg,pi);
-			el5 = (el+(pi/4)*2.pow(pl5/12)).wrap((pi/2).neg,(pi/2));
-		pl5=(pl5+1).mod(25);*/
-sph5=Spherical(1,az5,el5);
+			sph5=Spherical(1,az5,el5);
 
 if(
 m_z.even,

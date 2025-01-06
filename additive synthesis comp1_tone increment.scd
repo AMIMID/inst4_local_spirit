@@ -240,8 +240,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 
 (
-~t.play;
 ~angleRoutine1.play;
+~t.play;
 Synth(\ospace1);
 //s.record(numChannels:4)
 )
@@ -249,7 +249,7 @@ Synth(\ospace1);
 ///////////////////////////synth static values amp modulation on fixed freqs
 
 (
-~lag=0.01;
+~lag=0.5;
 SynthDef.new(\ospace1, {
 	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=1,mult=24;
 	var fundamental=110;
