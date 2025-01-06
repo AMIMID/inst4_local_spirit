@@ -194,7 +194,7 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 
  // Initialize angle
 var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
-~tempo=0.5;
+~tempo=2;
 ~angleRoutine = Routine({
     loop {
 
