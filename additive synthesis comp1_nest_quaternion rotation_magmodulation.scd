@@ -241,7 +241,7 @@ freq=(fundamental*octave);
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	sphere=Spherical(mag_o.rho.round(0.00001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
-	xyz=Spherical(mult*sphere.rho,sphere.theta,sphere.phi);
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
 	n1=(xyz.x).round(0.00001); n2=(xyz.y).round(0.00001); n3=(xyz.z).round(0.00001);
 

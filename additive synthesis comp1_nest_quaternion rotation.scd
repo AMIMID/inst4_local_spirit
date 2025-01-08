@@ -79,7 +79,7 @@ azimuth=(12).collect{
 			v1=rotation1*v1*rotation1.conjugate;
 			az1 = Cartesian(v1.b,v1.c,v1.d).theta.round(0.000001);
 			el1 =Cartesian(v1.b,v1.c,v1.d).phi.round(0.000001);
-		pl1=(pl1+1).mod(12);
+		pl1=(pl1+1).mod(13);
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
@@ -91,7 +91,7 @@ elevation=(12).collect{
 			v2=rotation2*v2*rotation2.conjugate;
 			az2 = Cartesian(v2.b,v2.c,v2.d).theta.round(0.000001);
 			el2 =Cartesian(v2.b,v2.c,v2.d).phi.round(0.000001);
-		pl2=(pl2+1).mod(12);
+		pl2=(pl2+1).mod(13);
 			sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
@@ -103,7 +103,7 @@ magnitudex=(12).collect{
 			v3=rotation3*v3*rotation3.conjugate;
 			az3 = Cartesian(v3.b,v3.c,v3.d).theta.round(0.000001);
 			el3 =Cartesian(v3.b,v3.c,v3.d).phi.round(0.000001);
-		pl3=(pl3+1).mod(12);
+		pl3=(pl3+1).mod(13);
 			sph3=Spherical(1,az3,el3);
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 
@@ -123,7 +123,7 @@ magnitudey=(12).collect{
 			v4=rotation4*v4*rotation4.conjugate;
 			az4 = Cartesian(v4.b,v4.c,v4.d).theta.round(0.000001);
 			el4 =Cartesian(v4.b,v4.c,v4.d).phi.round(0.000001);
-		pl4=(pl4+1).mod(12);
+		pl4=(pl4+1).mod(13);
 			sph4=Spherical(1,az4,el4);
 
 	mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
@@ -142,7 +142,7 @@ magnitudez=(12).collect{
 			v5=rotation5*v5*rotation5.conjugate;
 			az5 = Cartesian(v5.b,v5.c,v5.d).theta.round(0.000001);
 			el5 =Cartesian(v5.b,v5.c,v5.d).phi.round(0.000001);
-		pl5=(pl5+1).mod(12);
+		pl5=(pl5+1).mod(13);
 			sph5=Spherical(1,az5,el5);
 
 if(
@@ -156,9 +156,9 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	};
 }.value;
 (
-			~magx=(~magx).round(0.0000001)/(2.sqrt);
-			~magy=(~magy).round(0.0000001)/(2.sqrt);
-			~magz=(~magz).round(0.0000001)/(2.sqrt);
+			~magx=(~magx).round(0.000000001)/(2.sqrt);
+			~magy=(~magy).round(0.000000001)/(2.sqrt);
+			~magz=(~magz).round(0.000000001)/(2.sqrt);
  );
 
 ////////////////////////////////////////////////////////notes and durs
@@ -239,24 +239,24 @@ freq=(fundamental*octave);
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
-	sphere=Spherical(mag_o.rho.round(0.00001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
-	xyz=Spherical(mult*sphere.rho,sphere.theta,sphere.phi);
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
-	n1=(xyz.x).round(0.00001); n2=(xyz.y).round(0.00001); n3=(xyz.z).round(0.00001);
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
 
 ton1=n1.abs.linlin(0,1,1,2*mult);
 ton2=n2.abs.linlin(0,1,1,2*mult);
 ton3=n3.abs.linlin(0,1,1,2*mult);
 
 
-	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00001);
-		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00001);
-		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00001);
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 
-	pitch1=(freq*ton1).round(0.0001);
-	pitch2=(freq*ton2).round(0.0001);
-	pitch3=(freq*ton3).round(0.0001);
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
 
 				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
 
@@ -318,7 +318,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-			\mult,Prand([2,2,2],inf),
+			\mult,Prand([1,1,1],inf),
 			//\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
 			\gate,Pseq([1],inf),///l system
 ));
