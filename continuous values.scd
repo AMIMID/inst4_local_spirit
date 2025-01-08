@@ -122,7 +122,7 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 (
 
  // Initialize angle
-var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
+var angle = 0, value1, value2,tone1,tone2,mult=2,n=12.neg;
 ~tempo=0.5;
 ~angleRoutine = Routine({
     loop {
@@ -133,19 +133,17 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 
 		//angle = (angle + 9);  // Increment azimuth
        // if (angle > 360) { angle = angle - 360 };
-		angle =(0+(360*2.pow(n/12))).wrap(180.neg,180); // Increment azimuth
-		n=(n+1).mod(24);
+		angle =(0+(90*2.pow(n/12))).mod(360); // Increment azimuth
+		n=(n+1).wrap(12.neg,12);
 
 	value1=exp(Complex(0,1)*angle.degrad).imag.abs.linlin(0,1,1,2);
 		value2=exp(Complex(0,1)*angle.degrad).real.abs.linlin(0,1,1,2);
-	//	angle.postln;
-	//	"tone1".postln;
-	//	value1.postln;
-	//	"tone2".postln;
-	//   value2.postln;
-		//angle= (2.pow(n/12)).wrap(0,360);
-		//n=(n+1).postln;
-		//"angle".postln;
+//"tone1".postln;
+//		value1.postln;
+//		"tone2".postln;
+//	   value2.postln;
+		~controlBus1.set(value1);
+		~controlBus2.set(value2);
 		angle.postln;
 
 		~tempo.wait;
@@ -156,7 +154,7 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 \
 ////////////////////
 
-
+(90*2.pow(24/12))
 
 (
 
