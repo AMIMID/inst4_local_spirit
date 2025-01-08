@@ -75,7 +75,7 @@ azimuth=(12).collect{
 
 			sph1=Spherical(1,pi/2,0);
 			v1=Quaternion(0, sph1.x, sph1.y, sph1.z);
-			rotation1=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl1/12)).mod(2pi)).imag)+exp(Complex(0,1)*(2pi*2.pow(pl1/12)).mod(2pi)).real);
+			rotation1=((sph_axis*exp(Complex(0,1)*((pi/4)*2.pow(pl1/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/4)*2.pow(pl1/12)).mod(2pi)).real);
 			v1=rotation1*v1*rotation1.conjugate;
 			az1 = Cartesian(v1.b,v1.c,v1.d).theta.round(0.000001);
 			el1 =Cartesian(v1.b,v1.c,v1.d).phi.round(0.000001);
@@ -87,7 +87,7 @@ elevation=(12).collect{
 
 		sph2=Spherical(1,pi/2,0);
 			v2=Quaternion(0, sph2.x, sph2.y, sph2.z);
-			rotation2=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl2/12)).mod(2pi)).imag)+exp(Complex(0,1)*(2pi*2.pow(pl2/12)).mod(2pi)).real);
+			rotation2=((sph_axis*exp(Complex(0,1)*((pi/4)*2.pow(pl2/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/4)*2.pow(pl2/12)).mod(2pi)).real);
 			v2=rotation2*v2*rotation2.conjugate;
 			az2 = Cartesian(v2.b,v2.c,v2.d).theta.round(0.000001);
 			el2 =Cartesian(v2.b,v2.c,v2.d).phi.round(0.000001);
@@ -99,7 +99,7 @@ magnitudex=(12).collect{
 
 			sph3=Spherical(1,pi/2,0);
 			v3=Quaternion(0, sph3.x, sph3.y, sph3.z);
-			rotation3=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl3/12)).mod(2pi)).imag)+exp(Complex(0,1)*(2pi*2.pow(pl3/12)).mod(2pi)).real);
+			rotation3=((sph_axis*exp(Complex(0,1)*((pi/4)*2.pow(pl3/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/4)*2.pow(pl3/12)).mod(2pi)).real);
 			v3=rotation3*v3*rotation3.conjugate;
 			az3 = Cartesian(v3.b,v3.c,v3.d).theta.round(0.000001);
 			el3 =Cartesian(v3.b,v3.c,v3.d).phi.round(0.000001);
@@ -119,7 +119,7 @@ magnitudey=(12).collect{
 
 			sph4=Spherical(1,pi/2,0);
 			v4=Quaternion(0, sph4.x, sph4.y, sph4.z);
-			rotation4=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl4/12)).mod(2pi)).imag)+exp(Complex(0,1)*(2pi*2.pow(pl4/12)).mod(2pi)).real);
+			rotation4=((sph_axis*exp(Complex(0,1)*((pi/4)*2.pow(pl4/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/4)*2.pow(pl4/12)).mod(2pi)).real);
 			v4=rotation4*v4*rotation4.conjugate;
 			az4 = Cartesian(v4.b,v4.c,v4.d).theta.round(0.000001);
 			el4 =Cartesian(v4.b,v4.c,v4.d).phi.round(0.000001);
@@ -138,7 +138,7 @@ magnitudez=(12).collect{
 
 			sph5=Spherical(1,pi/2,0);
 			v5=Quaternion(0, sph5.x, sph5.y, sph5.z);
-			rotation5=((sph_axis*exp(Complex(0,1)*(2pi*2.pow(pl5/12)).mod(2pi)).imag)+exp(Complex(0,1)*(2pi*2.pow(pl5/12)).mod(2pi)).real);
+			rotation5=((sph_axis*exp(Complex(0,1)*((pi/4)*2.pow(pl5/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/4)*2.pow(pl5/12)).mod(2pi)).real);
 			v5=rotation5*v5*rotation5.conjugate;
 			az5 = Cartesian(v5.b,v5.c,v5.d).theta.round(0.000001);
 			el5 =Cartesian(v5.b,v5.c,v5.d).phi.round(0.000001);
@@ -313,13 +313,14 @@ sphere.theta.raddeg,sphere.phi.raddeg
 //////////pattern for mobius strib of sequential or parallel play of directions
 (
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur,inf),
-			\pl1,Prand(~list1,inf),
+			\dur,Pseq([1],inf),
+			\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-			\mult,Prand([1,2,4],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			\mult,Prand([2,2,2],inf),
+			//\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			\gate,Pseq([1],inf),///l system
 ));
 	);
 	TempoClock.default.tempo_(2/1);
