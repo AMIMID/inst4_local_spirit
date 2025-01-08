@@ -118,7 +118,7 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 .play
 )
 
-
+720.mod(360)
 (
 
  // Initialize angle
@@ -133,22 +133,21 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=12.neg;
 
 		//angle = (angle + 9);  // Increment azimuth
        // if (angle > 360) { angle = angle - 360 };
-		angle =(0+(90*2.pow(n/12))).mod(360); // Increment azimuth
-		n=(n+1).wrap(12.neg,12);
+		angle =((pi/4)*2.pow(n/16)); // Increment azimuth
+	n=(n+1).mod(17);
 
-	value1=exp(Complex(0,1)*angle.degrad).imag.abs.linlin(0,1,1,2);
-		value2=exp(Complex(0,1)*angle.degrad).real.abs.linlin(0,1,1,2);
-//"tone1".postln;
-//		value1.postln;
-//		"tone2".postln;
-//	   value2.postln;
+	value1=exp(Complex(0,1)*angle).imag.abs.linlin(0,1,1,2);
+		value2=exp(Complex(0,1)*angle).real.abs.linlin(0,1,1,2);
+"tone".postln;
+		(value1/value2).postln;
 		~controlBus1.set(value1);
 		~controlBus2.set(value2);
-		angle.postln;
+	//	angle.postln;
 
 		~tempo.wait;
     }
-});
+}
+);
 )
 ~angleRoutine.play;
 \

@@ -6,7 +6,7 @@
 
 (
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=2,m_z=2;
+var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=4,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0;
@@ -283,7 +283,7 @@ azimuth=(12).collect{
 			v1=rotation1*v1*rotation1.conjugate;
 			az1 = Cartesian(v1.b,v1.c,v1.d).theta.round(0.000001);
 			el1 =Cartesian(v1.b,v1.c,v1.d).phi.round(0.000001);
-		pl1=(pl1+1).mod(12);
+		pl1=(pl1+1).mod(13);
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
@@ -295,7 +295,7 @@ elevation=(12).collect{
 			v2=rotation2*v2*rotation2.conjugate;
 			az2 = Cartesian(v2.b,v2.c,v2.d).theta.round(0.000001);
 			el2 =Cartesian(v2.b,v2.c,v2.d).phi.round(0.000001);
-		pl2=(pl2+1).mod(12);
+		pl2=(pl2+1).mod(13);
 			sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
@@ -307,7 +307,7 @@ magnitudex=(12).collect{
 			v3=rotation3*v3*rotation3.conjugate;
 			az3 = Cartesian(v3.b,v3.c,v3.d).theta.round(0.000001);
 			el3 =Cartesian(v3.b,v3.c,v3.d).phi.round(0.000001);
-		pl3=(pl3+1).mod(12);
+		pl3=(pl3+1).mod(13);
 			sph3=Spherical(1,az3,el3);
 	 mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 
@@ -327,7 +327,7 @@ magnitudey=(12).collect{
 			v4=rotation4*v4*rotation4.conjugate;
 			az4 = Cartesian(v4.b,v4.c,v4.d).theta.round(0.000001);
 			el4 =Cartesian(v4.b,v4.c,v4.d).phi.round(0.000001);
-		pl4=(pl4+1).mod(12);
+		pl4=(pl4+1).mod(13);
 			sph4=Spherical(1,az4,el4);
 
 	mag_y=(Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
@@ -346,7 +346,7 @@ magnitudez=(12).collect{
 			v5=rotation5*v5*rotation5.conjugate;
 			az5 = Cartesian(v5.b,v5.c,v5.d).theta.round(0.000001);
 			el5 =Cartesian(v5.b,v5.c,v5.d).phi.round(0.000001);
-		pl5=(pl5+1).mod(12);
+		pl5=(pl5+1).mod(13);
 			sph5=Spherical(1,az5,el5);
 
 if(
