@@ -114,6 +114,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 );
 
 (
+
 var data;
 var az=0,el=0;
 var m=600,sph,mag;
@@ -124,7 +125,10 @@ var r;
 var ot=0.degrad;
 
 
-
+~angleRoutine1.play;
+~t.play;
+Synth(\ospace1);
+s.record(numChannels:4);
 generateData =[[0,0,0]];
 
  w = Window.new("3D Scatterplot", Rect(40,40, 1000, 800)).front;
@@ -157,7 +161,7 @@ Slider(w, Rect(920, 10, 10, 450)).action_{|me|
          el =  ~controlBus_el.getSynchronous;
 mag=Cartesian(~controlBus_magx.getSynchronous, ~controlBus_magy.getSynchronous,~controlBus_magz.getSynchronous).rho/(2.sqrt);
 
-	generateData =generateData++[ Spherical(mag*600,az,el).asCartesian.asArray];
+	generateData =generateData++[ Spherical(mag*400,az,el).asCartesian.asArray];
 	data = generateData.value; // Regenerate data
 	data.postln;
  	a.data = data;            // Update ScatterView3d
@@ -174,7 +178,7 @@ r.play;
 
 		ot=ot+1.degrad;
  };
- { while { run } {~v.refresh; (0.1).wait } }.fork(AppClock);
+ { while { run } {~v.refresh; (0.05).wait } }.fork(AppClock);
 
 )
 (
