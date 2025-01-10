@@ -29,7 +29,7 @@ Buffer.freeAll;
  // Initialize angle
 var rotation,angle=(360-(360/1.6180339887499))/2,axis=Quaternion(0,0,0,1),sph,az=0,el=0,v,sph_axis,xx,yy,zz;
 
-~tempo2=1;
+~tempo2=2;
 ~angleRoutine1 = Routine({
 
     loop {
@@ -41,8 +41,8 @@ var rotation,angle=(360-(360/1.6180339887499))/2,axis=Quaternion(0,0,0,1),sph,az
 		el=Cartesian(v.b,v.c,v.d).phi.round(0.000001);
 		sph_axis=Cartesian(v.b,v.c,v.d);
 		xx=sph_axis.x;
-		yy=sph_axis.x;
-		zz=sph_axis.x;
+		yy=sph_axis.y;
+		zz=sph_axis.z;
 			~controlBus_rotation_x.set(xx);
 		~controlBus_rotation_y.set(yy);
 		~controlBus_rotation_z.set(zz);
@@ -53,11 +53,11 @@ var rotation,angle=(360-(360/1.6180339887499))/2,axis=Quaternion(0,0,0,1),sph,az
 );
 
 (
-var  sph1,m_x=1,m_y=1,m_z=1,n=0;
+var  sph1,m_x=1,m_y=1,m_z=1,n=0,rotation1;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z,v1,sph_axis;
 var angle=0;
 
-~tempo=0.1;
+~tempo=2/12;
 
 
 ~t =  Routine({
@@ -95,6 +95,7 @@ mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	);
 		mag_z=mag_z/(2.sqrt);
 
+
 		~controlBus_az.set(sph1.theta.round(0.00001));
 		~controlBus_el.set(sph1.phi.round(0.00001));
 	~controlBus_magx.set(mag_x);
@@ -104,13 +105,17 @@ mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 }});
 
 );
+(
+~a = VBAPSpeakerArray.new(3, [[0, 45], [180, 45], [90, 45.neg], [90.neg, 45.neg]]);
+	 ~b = Buffer.loadCollection(s, ~a.getSetsAndMatrices);
+)
 
 (
-~lag=0.01;
+~lag=0.025;
 SynthDef.new(\ospace1, {
-	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=4,mult=24,xr=1,yr=1,zr=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=2,mult=24,xr=1,yr=1,zr=1;
 	var tonx1,tonx2,tonx3,tony1,tony2,tony3,tonz1,tonz2,tonz3;
-	var fundamental=110;
+	var fundamental=220;
 	var freq,m=1;
 	var ampx1,ampx2,ampx3,ampy1,ampy2,ampy3,ampz1,ampz2,ampz3;
 	var pitchx1,pitchx2,pitchx3,pitchy1,pitchy2,pitchy3,pitchz1,pitchz2,pitchz3;
@@ -146,33 +151,25 @@ freq=(fundamental*octave);
 	sphere3=Spherical(mag_o.z,In.kr(~controlBus_az).lag(~lag),In.kr(~controlBus_el).lag(~lag));
 	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),In.kr(~controlBus_az).lag(~lag),In.kr(~controlBus_el).lag(~lag));
 
-			sph1=Spherical(sphere1.rho*mult,sphere.theta,sphere.phi);
-			sph2=Spherical(sphere2.rho*mult,sphere.theta,sphere.phi);
-			sph3=Spherical(sphere3.rho*mult,sphere.theta,sphere.phi);
-			sph=Spherical(sphere.rho*mult,sphere.theta,sphere.phi);
+		xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2);
+ton2=n2.abs.linlin(0,1,1,2);
+ton3=n3.abs.linlin(0,1,1,2);
 
 
-			n1=(sph.x).round(0.00001); n2=(sph.y).round(0.00001); n3=(sph.z).round(0.00001);
-	nx1=(sph1.x).round(0.00001); nx2=(sph1.y).round(0.00001); nx3=(sph1.z).round(0.00001);
-	ny1=(sph2.x).round(0.00001); ny2=(sph2.y).round(0.00001); ny3=(sph2.z).round(0.00001);
-	nz1=(sph3.x).round(0.00001); nz2=(sph3.y).round(0.00001); nz3=(sph3.z).round(0.00001);
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 
-			ton1=2.pow(n1/(2*6));ton2=2.pow(n2/(2*6));ton3=2.pow(n3/(2*6));
-tonx1=2.pow(nx1/(2*6));tonx2=2.pow(nx2/(2*6));tonx3=2.pow(nx3/(2*6));
-tony1=2.pow(ny1/(2*6));tony2=2.pow(ny2/(2*6));tony3=2.pow(ny3/(2*6));
-tonz1=2.pow(nz1/(2*6));tonz2=2.pow(nz2/(2*6));tonz3=2.pow(nz3/(2*6));
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
 
- amp1=(ton1.reciprocal*octave.reciprocal).round(0.00001);amp2=(ton2.reciprocal*octave.reciprocal).round(0.00001);amp3=(ton3.reciprocal*octave.reciprocal).round(0.00001);
-   ampx1=(tonx1.reciprocal*octave.reciprocal).round(0.00001);ampx2=(tonx2.reciprocal*octave.reciprocal).round(0.00001);ampx3=(tonx3.reciprocal*octave.reciprocal).round(0.00001);
-   ampy1=(tony1.reciprocal*octave.reciprocal).round(0.00001);ampy2=(tony2.reciprocal*octave.reciprocal).round(0.00001);ampy3=(tony3.reciprocal*octave.reciprocal).round(0.00001);
-   ampz1=(tonz1.reciprocal*octave.reciprocal).round(0.00001);ampz2=(tonz2.reciprocal*octave.reciprocal).round(0.00001);ampz3=(tonz3.reciprocal*octave.reciprocal).round(0.00001);
 
-			pitch1=(freq*ton1).round(0.00001);pitch2=(freq*ton2).round(0.00001);pitch3=(freq*ton3).round(0.00001);
-	pitchx1=(freq*tonx1).round(0.00001);pitchx2=(freq*tonx2).round(0.00001);pitchx3=(freq*tonx3).round(0.00001);
-	pitchy1=(freq*tony1).round(0.00001);pitchy2=(freq*tony2).round(0.00001);pitchy3=(freq*tony3).round(0.00001);
-	pitchz1=(freq*tonz1).round(0.00001);pitchz2=(freq*tonz2).round(0.00001);pitchz3=(freq*tonz3).round(0.00001);
-
-				phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
 
 
 osc1=VBAP.ar(4,
