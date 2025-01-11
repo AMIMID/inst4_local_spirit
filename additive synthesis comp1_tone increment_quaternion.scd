@@ -29,7 +29,7 @@ Buffer.freeAll;
  // Initialize angle
 var rotation,angle=(360-(360/1.6180339887499))/2,axis=Quaternion(0,0,0,1),sph,az=0,el=0,v,sph_axis,xx,yy,zz;
 
-~tempo2=2;
+~tempo2=1;
 ~angleRoutine1 = Routine({
 
     loop {
@@ -57,7 +57,7 @@ var  sph1,m_x=1,m_y=1,m_z=1,n=0,rotation1;
 var az1=0,el1=0,mag,mag_x,mag_y,mag_z,v1,sph_axis;
 var angle=0;
 
-~tempo=2/12;
+~tempo=1/12;
 
 
 ~t =  Routine({
@@ -111,7 +111,7 @@ mag_z=Complex(sin((sph1.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 )
 
 (
-~lag=0.025;
+~lag=0.05;
 SynthDef.new(\ospace1, {
 	var phase,osc1,osc2,osc3,sphere,mag_o,pl=1,octave=2,mult=24,xr=1,yr=1,zr=1;
 	var tonx1,tonx2,tonx3,tony1,tony2,tony3,tonz1,tonz2,tonz3;
