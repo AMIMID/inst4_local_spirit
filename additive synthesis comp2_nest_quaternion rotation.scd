@@ -6,7 +6,7 @@ s.options.numWireBufs = 1024*4;
 s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(0.5);
-s.options.                                                                                                                                                                            = 8192*128*2;
+s.options.memSize = 8192*128*2;
 s.options.blockSize = 64*4;
 s.options.maxNodes = 1024 * 16;
 s.options.sampleRate= 44100;
@@ -59,7 +59,7 @@ var rotation,v,v1,v2,v3,v4,v5;
 var rotation1,rotation2,rotation3,rotation4,rotation5;
 
 
-~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
+		~az=[[0]];~el=[[0]];~magx=[[0]];~magy=[[0]];~magz=[[0]];
 
  360.do{
 		sph=Spherical(1,(az),(el));
@@ -152,7 +152,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
 };
-		~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez
+			~az=~az++[azimuth];~el=~el++[elevation];~magx=~magx++[magnitudex];~magy=~magy++[magnitudey];~magz=~magz++[magnitudez]
 	};
 }.value;
 (
@@ -208,7 +208,7 @@ signal.plot;
 SynthDef.new(\ospace1, {
 	arg mult=12,gate=1,pl1=1;
 	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=0.04444,pl2=0,envp,octave=1;
-	var ton1,ton2,ton3;
+	var ton1,ton2,ton3,m=1;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
 	var pitch;
@@ -233,13 +233,14 @@ SynthDef.new(\ospace1, {
 
 fundamental=(440);
 freq=(fundamental*octave);
+			12.do{
 
-		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+				mag_o=Cartesian(Select.kr(pl1,~magx.[m]), Select.kr(pl1,~magy.[m]),Select.kr(pl1,~magz.[m]));
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
-	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az.[m]),Select.kr(pl1,~el.[m]));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -297,6 +298,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
 					Out.ar(0,LeakDC.ar(osc1,mul:env));
+				m=m+1;
+			}
 
 }).add;
 );
@@ -323,7 +326,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\gate,Pseq([1],inf),///l system
 ));
 	);
-	TempoClock.default.tempo_(2/1);
+	TempoClock.default.tempo_(1/2);
 
 //s.record(numChannels:4);
 	/////////////////////scales
