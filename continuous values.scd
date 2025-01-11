@@ -236,7 +236,7 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 
  // Initialize angle
 var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,m=15;
-~tempo=2;
+~tempo=1/2;
 ~angleRoutine = Routine({
     loop {
         // Calculate the next angle
@@ -245,8 +245,9 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,m=15;
 		angle = (90*n).wrap(0, 360);
 		//angle=(angle+45);
 	//	angle=(angle+3).wrap(0,360);
-		m=(m+1).wrap(15,41);
-		//m.postln;
+		//m=(m+1).wrap(15,141);
+		m=(m+1).wrap(15,23);
+	//	m.postln;
 		//angle = (angle + 9);  // Increment azimuth
        // if (angle > 360) { angle = angle - 360 };
 	//	angle =((pi/2)*2.pow(n/12)); // Increment azimuth
@@ -255,15 +256,16 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,m=15;
 	value1=exp(Complex(0,1)*angle.degrad).imag.abs.linlin(0,1,1,2);
 		value2=exp(Complex(0,1)*angle.degrad).real.abs.linlin(0,1,1,2);
 "tone".postln;
-		//(value2/value1).postln;
-		value2.postln;
+		(value2/value1).postln;
+//	value1.postln;
+	//	value2.postln;
 		~controlBus1.set(value1);
 		~controlBus2.set(value2);
-		angle.postln;
+	//	angle.postln;
 
 		~tempo.wait;
     }
 }
 );
 )
-40/32
+
