@@ -171,7 +171,7 @@ chainyy = chainx.pvcollect(frames, {|magnitude, phase, bin|
 )
 
 //////////////////////////////////
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/Nisi Dominus - Cum Dederit de Antonio Vivaldi. Andreas Scholl.wav",channels:0 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/piece of my heart Intermission.wav",channels:0 );
 
 
 
@@ -193,6 +193,7 @@ chainyy = chainx.pvcollect(frames, {|magnitude, phase, bin|
 (
 		SynthDef.new(\obin_++i, {
 
+			arg duration=4;
     var b=1.neg;
     var in1,chainx,chainy;
 	var chainxx,chainyy;
@@ -201,7 +202,7 @@ chainyy = chainx.pvcollect(frames, {|magnitude, phase, bin|
 	var env;
 
 			in1 = InFeedback.ar(2);
-
+			env=EnvGen.ar(Env([0,1,1,0],[0,duration,0]));
 
 	chainx = FFT(LocalBuf(frames), in1);
 	chainy = FFT(LocalBuf(frames), in1);
@@ -218,8 +219,8 @@ chainyy = chainx.pvcollect(frames, {|magnitude, phase, bin|
 
 }, frombin: b, tobin: b, zeroothers: 1);
 
-		Out.ar(0,IFFT(chainxx)*1);
-		Out.ar(1,IFFT(chainyy)*1);
+		Out.ar(0,IFFT(chainxx)*env);
+		Out.ar(1,IFFT(chainyy)*env);
 			chainx.clear;
 			chainy.clear;
 
@@ -229,7 +230,7 @@ chainyy = chainx.pvcollect(frames, {|magnitude, phase, bin|
 )
 
 ~m=Pxrand(~k,512,1).asStream;
-Synth(\obin_++(~m.next))
+Synth(\obin_++(~m.next),[\duration,8])
 
 ///////////////////////////////////////////////////////////////////////////////////////inst4
 (
@@ -384,10 +385,10 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	var az,el,amp,sig;
 
 			in1 = InFeedback.ar(2);
-		az=~az.[i];
-		el=~el.[i];
+		az=~az.[i+1];
+		el=~el.[i+1];
 
-amp=Cartesian(~magx[i],~magy.[i],~magz.[i]);
+amp=Cartesian(~magx[i+1],~magy.[i+1],~magz.[i+1]);
 
 	chainx = FFT(LocalBuf(frames), in1);
 	chainy = FFT(LocalBuf(frames), in1);

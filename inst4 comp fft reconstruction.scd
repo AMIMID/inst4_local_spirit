@@ -13,7 +13,7 @@ s.waitForBoot;
 
 ~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/Nisi Dominus - Cum Dederit de Antonio Vivaldi. Andreas Scholl.wav",channels:0 );
 
-
+~dur=((~c1.numFrames/512)/44100)
 
 {Out.ar(2,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
 
@@ -40,7 +40,7 @@ s.waitForBoot;
 	var samplerate=44100;
 	var env;
 
-
+env=EnvGen.ar(Env([0,1,1,0],[0,duration,0]));
 			in1 = InFeedback.ar(4);
 			in2 = InFeedback.ar(5);
 			in3 = InFeedback.ar(6);
@@ -74,10 +74,10 @@ sig4 = chain4.pvcollect(frames, {|magnitude, phase, bin|
 
 }, frombin: b, tobin: b, zeroothers: 1);
 
-		Out.ar(0,IFFT(sig1)*1);
-		Out.ar(1,IFFT(sig2)*1);
-		Out.ar(2,IFFT(sig3)*1);
-		Out.ar(3,IFFT(sig4)*1);
+		Out.ar(0,IFFT(sig1)*env);
+		Out.ar(1,IFFT(sig2)*env);
+		Out.ar(2,IFFT(sig3)*env);
+		Out.ar(3,IFFT(sig4)*env);
 			chain1.clear;
 			chain2.clear;
 			chain3.clear;
