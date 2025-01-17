@@ -1,7 +1,7 @@
 (
 s.options.numBuffers=1024*2;
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=2;
+s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=2;
 s.options.memSize = 8192*128*2;
 s.options.blockSize = 64;
@@ -169,3 +169,64 @@ chainyy = chainx.pvcollect(frames, {|magnitude, phase, bin|
 }).add;
 
 )
+
+//////////////////////////////////
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/Nisi Dominus - Cum Dederit de Antonio Vivaldi. Andreas Scholl.wav",channels:0 );
+
+
+
+{Out.ar(2,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+
+({
+		var n=1.neg;
+	~k=(512).collect{
+		n=n+1;
+		}
+		}.value
+	)
+
+
+(
+~b=Pxrand(~k,512).asStream;
+512.do{
+	|i|
+(
+		SynthDef.new(\obin_++i, {
+
+    var b=1.neg;
+    var in1,chainx,chainy;
+	var chainxx,chainyy;
+	var bank,frames=1024;
+	var samplerate=44100;
+	var env;
+
+			in1 = InFeedback.ar(2);
+
+
+	chainx = FFT(LocalBuf(frames), in1);
+	chainy = FFT(LocalBuf(frames), in1);
+			b=~b.next.postln;
+
+chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
+		[magnitude,phase]
+
+}, frombin: b, tobin: b, zeroothers: 1);
+
+chainyy = chainx.pvcollect(frames, {|magnitude, phase, bin|
+
+		[magnitude,phase+90.degrad]
+
+}, frombin: b, tobin: b, zeroothers: 1);
+
+		Out.ar(0,IFFT(chainxx)*1);
+		Out.ar(1,IFFT(chainyy)*1);
+			chainx.clear;
+			chainy.clear;
+
+}).add;
+);
+}
+)
+
+
+Synth(\obin_++(511.rand))
