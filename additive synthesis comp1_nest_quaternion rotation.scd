@@ -5,7 +5,7 @@ Server.default = s = Server.local;
 s.options.numWireBufs = 1024*4;
 s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=0;
-TempoClock.default.tempo_(0.5);
+TempoClock.default.tempo_(1);
 s.options.memSize = 8192*128*2;
 s.options.blockSize = 64*4;
 s.options.maxNodes = 1024 * 16;
@@ -203,10 +203,11 @@ signal.plot;
 
 
 /////synths////
+	(
 (
 SynthDef.new(\ospace1, {
-	arg mult=12,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=0.04444,pl2=0,envp,octave=1;
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -214,6 +215,10 @@ SynthDef.new(\ospace1, {
 	var n1,n2,n3;
 	var sphere1,sphere2,sphere3;
 	var xyz;
+				var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -228,9 +233,9 @@ SynthDef.new(\ospace1, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.1,0.5,0.5,4),gate:gate,doneAction:2,levelScale:0.5);
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
 
-fundamental=(440);
+fundamental=(55);
 freq=(fundamental*octave);
 
 		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
@@ -265,7 +270,7 @@ ton3=n3.abs.linlin(0,1,1,2*mult);
 
 
 osc1=VBAP.ar(4,
-				SinOsc.ar(pitch1,mul:amp1,phase:0),
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -273,7 +278,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2,phase:0),
+						SinOsc.ar(pitch2*envfreq,mul:amp2.reciprocal,phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -281,7 +286,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						SinOsc.ar(pitch3,mul:amp3,phase:0),
+						SinOsc.ar(pitch3*envfreq,mul:amp3.reciprocal,phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -299,6 +304,699 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 }).add;
 );
+	(
+SynthDef.new(\ospace2, {
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=2;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3;
+	var sphere1,sphere2,sphere3;
+	var xyz;
+				var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
+
+fundamental=(55);
+freq=(fundamental*octave);
+
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+
+	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2*mult);
+ton2=n2.abs.linlin(0,1,1,2*mult);
+ton3=n3.abs.linlin(0,1,1,2*mult);
+
+
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+
+					///%2==0 simulates .even
+
+					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate:gate);
+
+
+osc1=VBAP.ar(4,
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+						SinOsc.ar(pitch2*envfreq,mul:amp2*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						SinOsc.ar(pitch3*envfreq,mul:amp3*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+	(
+SynthDef.new(\ospace3, {
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3;
+	var sphere1,sphere2,sphere3;
+	var xyz;
+				var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
+
+fundamental=(55);
+freq=(fundamental*octave);
+
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+
+	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2*mult);
+ton2=n2.abs.linlin(0,1,1,2*mult);
+ton3=n3.abs.linlin(0,1,1,2*mult);
+
+
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+
+					///%2==0 simulates .even
+
+					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate:gate);
+
+
+osc1=VBAP.ar(4,
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+						SinOsc.ar(pitch2*envfreq,mul:amp2*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						SinOsc.ar(pitch3*envfreq,mul:amp3*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+	(
+SynthDef.new(\ospace4, {
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=8;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3;
+	var sphere1,sphere2,sphere3;
+	var xyz;
+				var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
+
+fundamental=(55);
+freq=(fundamental*octave);
+
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+
+	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2*mult);
+ton2=n2.abs.linlin(0,1,1,2*mult);
+ton3=n3.abs.linlin(0,1,1,2*mult);
+
+
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+
+					///%2==0 simulates .even
+
+					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate:gate);
+
+
+osc1=VBAP.ar(4,
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+						SinOsc.ar(pitch2*envfreq,mul:amp2*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						SinOsc.ar(pitch3*envfreq,mul:amp3*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+(
+SynthDef.new(\ospace5, {
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=16;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3;
+	var sphere1,sphere2,sphere3;
+	var xyz;
+				var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
+
+fundamental=(55);
+freq=(fundamental*octave);
+
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+
+	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2*mult);
+ton2=n2.abs.linlin(0,1,1,2*mult);
+ton3=n3.abs.linlin(0,1,1,2*mult);
+
+
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+
+					///%2==0 simulates .even
+
+					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate:gate);
+
+
+osc1=VBAP.ar(4,
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+						SinOsc.ar(pitch2*envfreq,mul:amp2*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						SinOsc.ar(pitch3*envfreq,mul:amp3*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+	(
+SynthDef.new(\ospace6, {
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=32;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3;
+	var sphere1,sphere2,sphere3;
+	var xyz;
+				var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
+
+fundamental=(55);
+freq=(fundamental*octave);
+
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+
+	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2*mult);
+ton2=n2.abs.linlin(0,1,1,2*mult);
+ton3=n3.abs.linlin(0,1,1,2*mult);
+
+
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+
+					///%2==0 simulates .even
+
+					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate:gate);
+
+
+osc1=VBAP.ar(4,
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+						SinOsc.ar(pitch2*envfreq,mul:amp2*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						SinOsc.ar(pitch3*envfreq,mul:amp3*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+	(
+SynthDef.new(\ospace7, {
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=64;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3;
+	var sphere1,sphere2,sphere3;
+	var xyz;
+var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
+
+fundamental=(55);
+freq=(fundamental*octave);
+
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+
+	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2*mult);
+ton2=n2.abs.linlin(0,1,1,2*mult);
+ton3=n3.abs.linlin(0,1,1,2*mult);
+
+
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+
+					///%2==0 simulates .even
+
+					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate:gate);
+
+
+osc1=VBAP.ar(4,
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+						SinOsc.ar(pitch2*envfreq,mul:amp2*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						SinOsc.ar(pitch3*envfreq,mul:amp3*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+	(
+SynthDef.new(\ospace8, {
+	arg mult=1,gate=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=128;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3;
+	var sphere1,sphere2,sphere3;
+	var xyz;
+				var envfreq;
+
+				envfreq=EnvGen.ar(Env([1,0.125],[5],[8]));
+
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate:gate,doneAction:2,levelScale:0.2);
+
+fundamental=(55);
+freq=(fundamental*octave);
+
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+
+	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
+	sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
+
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+
+ton1=n1.abs.linlin(0,1,1,2*mult);
+ton2=n2.abs.linlin(0,1,1,2*mult);
+ton3=n3.abs.linlin(0,1,1,2*mult);
+
+
+	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+		amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+		amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
+
+					///%2==0 simulates .even
+
+					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate:gate);
+
+
+osc1=VBAP.ar(4,
+				SinOsc.ar(pitch1*envfreq,mul:amp1*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+						SinOsc.ar(pitch2*envfreq,mul:amp2*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						SinOsc.ar(pitch3*envfreq,mul:amp3*envfreq.reciprocal,phase:0),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+);
 
 ////////////list
 	({
@@ -312,18 +1010,103 @@ sphere.theta.raddeg,sphere.phi.raddeg
 //////////pattern for mobius strib of sequential or parallel play of directions
 (
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur,1),
+			//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-			\mult,Prand([1,2,4],inf),
-			//\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
-			\gate,Pseq([1],inf),///l system
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
+));
+	 ~bb=Pdef(\2, Pbind(\instrument, \ospace2,
+				//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
+			//\pl1,Prand(~list1,inf),
+			\pl1,Pbrown(1,4320,12,inf),
+		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
+		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
+));
+		~cc=Pdef(\3, Pbind(\instrument, \ospace3,
+			//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
+			//\pl1,Prand(~list1,inf),
+			\pl1,Pbrown(1,4320,12,inf),
+		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
+		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
+));
+		~dd=Pdef(\4, Pbind(\instrument, \ospace4,
+				//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
+			//\pl1,Prand(~list1,inf),
+			\pl1,Pbrown(1,4320,12,inf),
+		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
+		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
+));
+		~ee=Pdef(\5, Pbind(\instrument, \ospace5,
+			//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
+			//\pl1,Prand(~list1,inf),
+			\pl1,Pbrown(1,4320,12,inf),
+		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
+		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
+));
+	 ~ff=Pdef(\6, Pbind(\instrument, \ospace6,
+			//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
+			//\pl1,Prand(~list1,inf),
+			\pl1,Pbrown(1,4320,12,inf),
+		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
+		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
+));
+		~gg=Pdef(\7, Pbind(\instrument, \ospace7,
+				//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
+			//\pl1,Prand(~list1,inf),
+			\pl1,Pbrown(1,4320,12,inf),
+		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
+		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
+));
+		~hh=Pdef(\8, Pbind(\instrument, \ospace8,
+				//\dur,Pseq(~dur,inf),
+			\dur,Pxrand(~dur,inf),
+			//\pl1,Prand(~list1,inf),
+			\pl1,Pbrown(1,4320,12,inf),
+		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
+		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
+			\mult,Prand([1,1],inf),
+			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf),///l system
+			//\gate,Pseq([1],inf),///l system
 ));
 	);
-	TempoClock.default.tempo_(2/1);
+	TempoClock.default.tempo_(1/1);
 
 
 
@@ -331,6 +1114,14 @@ sphere.theta.raddeg,sphere.phi.raddeg
 )
 
 
-
+(
 ~aa.play;
+~bb.play;
+~cc.play;
+~dd.play;
+~ee.play;
+~ff.play;
+~gg.play;
+~hh.play;
+)
 s.record(numChannels:4);
