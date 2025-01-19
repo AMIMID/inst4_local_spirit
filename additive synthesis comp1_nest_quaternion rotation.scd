@@ -291,8 +291,8 @@ signal.plot;
 	(
 (
 SynthDef.new(\ospace1, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=1;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -314,7 +314,8 @@ SynthDef.new(\ospace1, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -387,8 +388,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 	(
 SynthDef.new(\ospace2, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=2;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=2;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -410,7 +411,8 @@ SynthDef.new(\ospace2, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -483,8 +485,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 	(
 SynthDef.new(\ospace3, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=4;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -506,7 +508,8 @@ SynthDef.new(\ospace3, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -579,8 +582,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 	(
 SynthDef.new(\ospace4, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=8;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=8;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -602,7 +605,8 @@ SynthDef.new(\ospace4, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -675,8 +679,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 (
 SynthDef.new(\ospace5, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=16;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=16;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -698,7 +702,8 @@ SynthDef.new(\ospace5, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -771,8 +776,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 	(
 SynthDef.new(\ospace6, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=32;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=32;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -793,7 +798,8 @@ SynthDef.new(\ospace6, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -866,8 +872,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 	(
 SynthDef.new(\ospace7, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=64;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=64;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -888,7 +894,8 @@ SynthDef.new(\ospace7, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -961,8 +968,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 );
 	(
 SynthDef.new(\ospace8, {
-	arg mult=1,gate=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=128;
+	arg mult=1,amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=128;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -984,7 +991,8 @@ SynthDef.new(\ospace8, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-				env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -1080,8 +1088,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~bb=Pdef(\2, Pbind(\instrument, \ospace2,
 				\dur,Pseq(~duration_x2,inf),
@@ -1092,11 +1099,10 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~cc=Pdef(\3, Pbind(\instrument, \ospace3,
-				\dur,Pseq([1],inf),
+				\dur,Pseq(~duration_x3,inf),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1104,11 +1110,9 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			///\gate,Pseq([1],inf),///l system
+		\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 
-			~cc.play
 		~dd=Pdef(\4, Pbind(\instrument, \ospace4,
 				\dur,Pseq(~duration_x4,inf),
 			//\dur,Pxrand(~dur,inf),
@@ -1118,8 +1122,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ee=Pdef(\5, Pbind(\instrument, \ospace5,
 			\dur,Pseq(~duration_x5,inf),
@@ -1130,8 +1133,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~ff=Pdef(\6, Pbind(\instrument, \ospace6,
 			\dur,Pseq(~duration_x6,inf),
@@ -1142,8 +1144,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~gg=Pdef(\7, Pbind(\instrument, \ospace7,
 				\dur,Pseq(~duration_x7,inf),
@@ -1154,8 +1155,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~hh=Pdef(\8, Pbind(\instrument, \ospace8,
 				\dur,Pseq(~duration_x8,inf),
@@ -1166,8 +1166,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	);
 		(
@@ -1180,8 +1179,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~bbb=Pdef(\10, Pbind(\instrument, \ospace2,
 				\dur,Pseq(~duration_y2,inf),
@@ -1192,8 +1190,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ccc=Pdef(\11, Pbind(\instrument, \ospace3,
 			\dur,Pseq(~duration_y3,inf),
@@ -1204,8 +1201,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ddd=Pdef(\12, Pbind(\instrument, \ospace4,
 				\dur,Pseq(~duration_y4,inf),
@@ -1216,8 +1212,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~eee=Pdef(\13, Pbind(\instrument, \ospace5,
 			\dur,Pseq(~duration_y5,inf),
@@ -1228,8 +1223,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~fff=Pdef(\14, Pbind(\instrument, \ospace6,
 			\dur,Pseq(~duration_y6,inf),
@@ -1240,8 +1234,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ggg=Pdef(\15, Pbind(\instrument, \ospace7,
 				\dur,Pseq(~duration_y7,inf),
@@ -1252,8 +1245,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~hhh=Pdef(\16, Pbind(\instrument, \ospace8,
 				\dur,Pseq(~duration_y8,inf),
@@ -1264,8 +1256,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	);
 		(
@@ -1278,8 +1269,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~bbbb=Pdef(\18, Pbind(\instrument, \ospace2,
 				\dur,Pseq(~duration_z2,inf),
@@ -1290,8 +1280,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~cccc=Pdef(\19, Pbind(\instrument, \ospace3,
 			\dur,Pseq(~duration_z3,inf),
@@ -1302,8 +1291,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~dddd=Pdef(\20, Pbind(\instrument, \ospace4,
 				\dur,Pseq(~duration_z4,inf),
@@ -1314,8 +1302,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~eeee=Pdef(\21, Pbind(\instrument, \ospace5,
 			\dur,Pseq(~duration_z5,inf),
@@ -1326,8 +1313,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~ffff=Pdef(\22, Pbind(\instrument, \ospace6,
 			\dur,Pseq(~duration_z6,inf),
@@ -1338,8 +1324,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~gggg=Pdef(\23, Pbind(\instrument, \ospace7,
 				\dur,Pseq(~duration_z7,inf),
@@ -1350,8 +1335,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~hhhh=Pdef(\24, Pbind(\instrument, \ospace8,
 				\dur,Pseq(~duration_z8,inf),
@@ -1362,12 +1346,11 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult,Prand([1,1],inf),
-			\gate,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
-			\gate,Pseq([1],inf);///l system
+			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	);
 	);
-	TempoClock.default.tempo_(1/4);
+	TempoClock.default.tempo_(1/2);
 
 
 
