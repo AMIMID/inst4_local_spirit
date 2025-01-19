@@ -162,52 +162,55 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 //////////////////////////////////////////////////////// durs
 {
-var dur=2,ph1,pl1=2;
+var dur=2,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
 ~dur1 = (360).collect{
-			ph1=Cartesian(~magx.[pl1],0,0).rho;
+			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
+			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).x.abs;
 	//index1=rythm.wrapAt(pl7);
 	//pl7=pl7+1;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(ph1*dur).round(1/256);
+	ph1=(sph*dur).round(1/256);
 
 	};
 
 }.value;
 	{
-var dur=2,ph1,pl1=2;
+var dur=2,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
 ~dur2 = (360).collect{
-			ph1=Cartesian(0,~magy.[pl1],0).rho;
+			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
+			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).y.abs;
 	//index1=rythm.wrapAt(pl7);
 	//pl7=pl7+1;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(ph1*dur).round(1/256);
+	ph1=(sph*dur).round(1/256);
 
 	};
 
 }.value;
 	{
-var dur=2,ph1,pl1=2;
+var dur=2,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
 ~dur3 = (360).collect{
-			ph1=Cartesian(0,0,~magz.[pl1]).rho;
+			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
+			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).z.abs;
 	//index1=rythm.wrapAt(pl7);
 	//pl7=pl7+1;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(ph1*dur).round(1/256);
+	ph1=(sph*dur).round(1/256);
 
 	};
 
@@ -1313,7 +1316,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			//\gate,Pseq([1],inf),///l system
 ));
 	);
-	)
+	);
 	TempoClock.default.tempo_(1/2);
 
 
