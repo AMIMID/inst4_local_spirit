@@ -268,11 +268,10 @@ Buffer.freeAll
 amp=Cartesian(~magx[i+1],~magy.[i+1],~magz.[i+1]);
 
 	chainx = FFT(LocalBuf(frames), in1);
-	chainy = FFT(LocalBuf(frames), in1);
-			b=~d.[i;
+			b=~d.[i];
 
 chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
-		[magnitude*amp.rho/(2.sqrt),phase]
+				[magnitude*(amp.rho/(2.sqrt)),phase]
 
 }, frombin: b, tobin: b, zeroothers: 1);
 
