@@ -19,7 +19,7 @@ s.waitForBoot;
 )
 Buffer.freeAll
 
-~dur=((~c1.numFrames/512)/44100)
+~dur=(~c1.numFrames/44100)
 
 (
 SynthDef.new(\nest,{
@@ -31,7 +31,9 @@ Out.ar(6,PlayBuf.ar(1, ~c3.bufnum, BufRateScale.kr(~c3.bufnum),startPos:0, loop:
 Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
 }).add;
 )
+
 ~nest=Synth.new(\nest);
+
 
 
 ({
@@ -239,9 +241,19 @@ Buffer.freeAll
 
 ~c1 = Buffer.readChannel(s,,channels:0 );
 
-~dur=((~c1.numFrames/512)/44100)
+~dur=(~c1.numFrames/44100)
 
-{Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+(
+SynthDef.new(\buffer,{
+	var amp=MouseX.kr(0,1);
+
+Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+
+}).add;
+)
+
+~nest=Synth.new(\buffer);
+
 
 ({
 		var n=1.neg;
