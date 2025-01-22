@@ -162,7 +162,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 //////////////////////////////////////////////////////// durs
 {
-var dur=2,ph1,pl1=2,sph;
+var dur=4,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
@@ -174,13 +174,13 @@ var dur=2,ph1,pl1=2,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph*dur).round(1/256);
+	ph1=(sph*dur).round(1/8);
 
 	};
 
 }.value;
 	{
-var dur=2,ph1,pl1=2,sph;
+var dur=4,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
@@ -192,13 +192,13 @@ var dur=2,ph1,pl1=2,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph*dur).round(1/256);
+	ph1=(sph*dur).round(1/8);
 
 	};
 
 }.value;
 	{
-var dur=2,ph1,pl1=2,sph;
+var dur=4,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
@@ -210,7 +210,7 @@ var dur=2,ph1,pl1=2,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph*dur).round(1/256);
+	ph1=(sph*dur).round(1/8);
 
 	};
 
@@ -292,7 +292,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -389,7 +389,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 SynthDef.new(\ospace2, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=2;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=2;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -486,7 +486,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 SynthDef.new(\ospace3, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -583,7 +583,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 SynthDef.new(\ospace4, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=8;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=8;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -680,7 +680,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 (
 SynthDef.new(\ospace5, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=16;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=16;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -777,7 +777,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 SynthDef.new(\ospace6, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=32;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=32;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -873,7 +873,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 SynthDef.new(\ospace7, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=64;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=64;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -969,7 +969,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 SynthDef.new(\ospace8, {
 	arg mult=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=128;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=128;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -1080,7 +1080,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 (
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~duration_x1,inf),
+			\dur,Pseq(~duration_x1,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1091,7 +1091,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~bb=Pdef(\2, Pbind(\instrument, \ospace2,
-				\dur,Pseq(~duration_x2,inf),
+				\dur,Pseq(~duration_x2,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1102,7 +1102,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~cc=Pdef(\3, Pbind(\instrument, \ospace3,
-				\dur,Pseq(~duration_x3,inf),
+				\dur,Pseq(~duration_x3,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1114,7 +1114,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ));
 
 		~dd=Pdef(\4, Pbind(\instrument, \ospace4,
-				\dur,Pseq(~duration_x4,inf),
+				\dur,Pseq(~duration_x4,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1125,7 +1125,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ee=Pdef(\5, Pbind(\instrument, \ospace5,
-			\dur,Pseq(~duration_x5,inf),
+			\dur,Pseq(~duration_x5,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1136,7 +1136,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~ff=Pdef(\6, Pbind(\instrument, \ospace6,
-			\dur,Pseq(~duration_x6,inf),
+			\dur,Pseq(~duration_x6,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1147,7 +1147,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~gg=Pdef(\7, Pbind(\instrument, \ospace7,
-				\dur,Pseq(~duration_x7,inf),
+				\dur,Pseq(~duration_x7,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1158,7 +1158,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~hh=Pdef(\8, Pbind(\instrument, \ospace8,
-				\dur,Pseq(~duration_x8,inf),
+				\dur,Pseq(~duration_x8,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1171,7 +1171,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	);
 		(
 ~aaa=Pdef(\9, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~duration_y1,inf),
+			\dur,Pseq(~duration_y1,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1182,7 +1182,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~bbb=Pdef(\10, Pbind(\instrument, \ospace2,
-				\dur,Pseq(~duration_y2,inf),
+				\dur,Pseq(~duration_y2,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1193,7 +1193,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ccc=Pdef(\11, Pbind(\instrument, \ospace3,
-			\dur,Pseq(~duration_y3,inf),
+			\dur,Pseq(~duration_y3,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1204,7 +1204,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ddd=Pdef(\12, Pbind(\instrument, \ospace4,
-				\dur,Pseq(~duration_y4,inf),
+				\dur,Pseq(~duration_y4,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1215,7 +1215,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~eee=Pdef(\13, Pbind(\instrument, \ospace5,
-			\dur,Pseq(~duration_y5,inf),
+			\dur,Pseq(~duration_y5,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1226,7 +1226,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~fff=Pdef(\14, Pbind(\instrument, \ospace6,
-			\dur,Pseq(~duration_y6,inf),
+			\dur,Pseq(~duration_y6,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1237,7 +1237,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~ggg=Pdef(\15, Pbind(\instrument, \ospace7,
-				\dur,Pseq(~duration_y7,inf),
+				\dur,Pseq(~duration_y7,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1248,7 +1248,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~hhh=Pdef(\16, Pbind(\instrument, \ospace8,
-				\dur,Pseq(~duration_y8,inf),
+				\dur,Pseq(~duration_y8,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1261,7 +1261,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	);
 		(
 ~aaaa=Pdef(\17, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~duration_z1,inf),
+			\dur,Pseq(~duration_z1,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1272,7 +1272,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~bbbb=Pdef(\18, Pbind(\instrument, \ospace2,
-				\dur,Pseq(~duration_z2,inf),
+				\dur,Pseq(~duration_z2,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1283,7 +1283,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~cccc=Pdef(\19, Pbind(\instrument, \ospace3,
-			\dur,Pseq(~duration_z3,inf),
+			\dur,Pseq(~duration_z3,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1294,7 +1294,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~dddd=Pdef(\20, Pbind(\instrument, \ospace4,
-				\dur,Pseq(~duration_z4,inf),
+				\dur,Pseq(~duration_z4,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1305,7 +1305,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~eeee=Pdef(\21, Pbind(\instrument, \ospace5,
-			\dur,Pseq(~duration_z5,inf),
+			\dur,Pseq(~duration_z5,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1316,7 +1316,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 	 ~ffff=Pdef(\22, Pbind(\instrument, \ospace6,
-			\dur,Pseq(~duration_z6,inf),
+			\dur,Pseq(~duration_z6,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1327,7 +1327,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~gggg=Pdef(\23, Pbind(\instrument, \ospace7,
-				\dur,Pseq(~duration_z7,inf),
+				\dur,Pseq(~duration_z7,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1338,7 +1338,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq([1,0,1,1,0,1,0,1,1,0,1,1,1,0],inf);///l system
 ));
 		~hhhh=Pdef(\24, Pbind(\instrument, \ospace8,
-				\dur,Pseq(~duration_z8,inf),
+				\dur,Pseq(~duration_z8,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
 			\pl1,Pbrown(1,4320,12,inf),
@@ -1350,7 +1350,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ));
 	);
 	);
-	TempoClock.default.tempo_(1/2);
+	TempoClock.default.tempo_(1/1);
 
 
 
