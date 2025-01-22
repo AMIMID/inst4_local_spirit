@@ -278,6 +278,9 @@ Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop:
 	var samplerate=44100;
 	var env;
 	var az,el,amp,sig;
+	var env;
+
+env=EnvGen.ar(Env([0,1,1,0],[0,~dur,0]));
 
 			in1 = InFeedback.ar(4);
 		az=~az.[i+1];
@@ -295,7 +298,7 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 
 			sig=IFFT(chainxx);
 
-	Out.ar(0,VBAP.ar(4,sig,~b.bufnum,az.raddeg,el.raddeg));
+	Out.ar(0,VBAP.ar(4,sig,~b.bufnum,az.raddeg,el.raddeg)*env);
 			chainx.clear;
 
 }).add;
