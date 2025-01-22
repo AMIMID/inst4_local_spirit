@@ -12,21 +12,27 @@ s.waitForBoot;
 )
 ////////////////////////////////////////////////////////////inst4 nest rec1
 (
-~c1 = Buffer.readChannel(s,,channels:0 );
-~c2 = Buffer.readChannel(s,,channels:1 );
-~c3 = Buffer.readChannel(s,,channels:2 );
-~c4 = Buffer.readChannel(s,,channels:3 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:0 );
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:1 );
+~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:2 );
+~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:3 );
 )
 Buffer.freeAll
 
 ~dur=((~c1.numFrames/512)/44100)
 
 (
-{Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
-{Out.ar(5,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
-{Out.ar(6,PlayBuf.ar(1, ~c3.bufnum, BufRateScale.kr(~c3.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
-{Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+SynthDef.new(\nest,{
+	var amp=MouseX.kr(0,1);
+
+Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(5,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(6,PlayBuf.ar(1, ~c3.bufnum, BufRateScale.kr(~c3.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+}).add;
 )
+~nest=Synth.new(\nest);
+
 
 ({
 		var n=1.neg;
@@ -140,7 +146,7 @@ var rotation1,rotation2,rotation3,rotation4,rotation5;
 
 azimuth=(12).collect{
 
-			sph1=Cartesian(0,1,0);
+			sph1=Cartesian(0,0,1);
 			v1=Quaternion(0, sph1.x, sph1.y, sph1.z);
 			rotation1=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl1/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl1/12)).mod(2pi)).real);
 			v1=rotation1*v1*rotation1.conjugate;
@@ -152,7 +158,7 @@ azimuth=(12).collect{
 
 elevation=(12).collect{
 
-		sph2=Cartesian(0,1,0);
+		sph2=Cartesian(0,0,1);
 			v2=Quaternion(0, sph2.x, sph2.y, sph2.z);
 			rotation2=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl2/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl2/12)).mod(2pi)).real);
 			v2=rotation2*v2*rotation2.conjugate;
@@ -164,7 +170,7 @@ elevation=(12).collect{
 
 magnitudex=(12).collect{
 
-			sph3=Cartesian(0,1,0);
+			sph3=Cartesian(0,0,1);
 			v3=Quaternion(0, sph3.x, sph3.y, sph3.z);
 			rotation3=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl3/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl3/12)).mod(2pi)).real);
 			v3=rotation3*v3*rotation3.conjugate;
@@ -184,7 +190,7 @@ magnitudex=(12).collect{
 };
 magnitudey=(12).collect{
 
-			sph4=Cartesian(0,1,0);
+			sph4=Cartesian(0,0,1);
 			v4=Quaternion(0, sph4.x, sph4.y, sph4.z);
 			rotation4=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl4/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl4/12)).mod(2pi)).real);
 			v4=rotation4*v4*rotation4.conjugate;
@@ -203,7 +209,7 @@ magnitudey=(12).collect{
 };
 magnitudez=(12).collect{
 
-			sph5=Cartesian(0,1,0);
+			sph5=Cartesian(0,0,1);
 			v5=Quaternion(0, sph5.x, sph5.y, sph5.z);
 			rotation5=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl5/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl5/12)).mod(2pi)).real);
 			v5=rotation5*v5*rotation5.conjugate;
