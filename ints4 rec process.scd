@@ -38,16 +38,17 @@ Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop:
 
 ({
 		var n=1.neg;
-	~k=(512).collect{
+	~k=(256).collect{
 		n=n+1;
 		}
 		}.value
 	)
 
-
+~seed = 12345.rand;
 (
-//~b=Pxrand(~k,512).asStream;
-512.do{
+//~d=Pxrand(~k,512).asStream;
+thisThread.randSeed = ~seed;~d=~k.scramble;
+256.do{
 	|i|
 (
 		SynthDef.new(\obin_++i, {
@@ -56,7 +57,7 @@ Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop:
     var chain1,chain2,chain3,chain4;
 	var sig1,sig2,sig3,sig4;
 	var in1, in2,in3,in4;
-	var bank,frames=1024;
+	var bank,frames=1024/2;
 	var samplerate=44100;
 	var env;
 
@@ -72,7 +73,7 @@ env=EnvGen.ar(Env([0,1,1,0],[0,~dur,0]));
 	chain3 = FFT(LocalBuf(frames), in3);
 	chain4 = FFT(LocalBuf(frames), in4);
 
-			b=i.postln;
+			b=~d.[i].postln;
 
 sig1 = chain1.pvcollect(frames, {|magnitude, phase, bin|
 		[magnitude,phase]
@@ -111,7 +112,7 @@ sig4 = chain4.pvcollect(frames, {|magnitude, phase, bin|
 }
 )
 
-~m=Pxrand(~k,512).asStream;
+~m=Pseq(~k,256).asStream;
 Synth(\obin_++(~m.next))
 
 //////////////////////////////////////////////buffer rec2
@@ -264,8 +265,10 @@ Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop:
 	)
 
 
+~seed = 12345.rand;
 (
-~d=~k.scramble;
+//~d=Pxrand(~k,512).asStream;
+thisThread.randSeed = ~seed;~d=~k.scramble;
 512.do{
 	|i|
 (
@@ -276,7 +279,6 @@ Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop:
 	var chainxx;
 	var bank,frames=1024;
 	var samplerate=44100;
-	var env;
 	var az,el,amp,sig;
 	var env;
 
@@ -306,7 +308,7 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 }
 )
 
-~m=Pxrand(~k,512).asStream;
+~m=Pseq(~k,512).asStream;
 Synth(\obin_++(~m.next))
 
 ///////////////////////////////final mix (storyline)
