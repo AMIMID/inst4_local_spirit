@@ -6,14 +6,14 @@
 
 (
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=4,m_z=3;
+var  sph1,sph2,sph3,sph4,sph5,m_x=1,m_y=1,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 
 
-~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
+~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
 		360.do{
 azimuth=(13).collect{
@@ -167,9 +167,9 @@ data=(360*12).collect{
 	az=~az.[pl].round(0.000001);
 	el=~el.[pl].round(0.000001);
 	//mag=~magz.[pl];
-	mag=Cartesian(~magx.[pl].round(0.000001),~magy.[pl].round(0.000001),~magz.[pl].round(0.000001)).rho/(2.sqrt);
+	mag=(~magz.[pl].round(0.000001))/(2.sqrt);
 	pl=pl+1;
-		sph=Spherical(mag*600,az,el).asCartesian.asArray;
+		sph=Spherical(mag*400,az,el).asCartesian.asArray;
 	};
 
 data.postln;
@@ -252,7 +252,7 @@ Pen.translate(400,400);
 
 (
 {
-var m_x=1,m_y=4,m_z=1,az=0,el=0,sph_axis;
+var m_x=1,m_y=1,m_z=3 ,az=0,el=0,sph_axis;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
@@ -265,14 +265,18 @@ var rotation1,rotation2,rotation3,rotation4,rotation5;
 ~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
  360.do{
-		sph=Spherical(1,(az),(el));
+		/*sph=Spherical(1,(az),(el));
 		v=Quaternion(0, sph.x.round(0.000001), sph.y.round(0.000001), sph.z.round(0.000001));
 		rotation=((axis*exp(Complex(0,1)*angle.degrad).imag)+exp(Complex(0,1)*angle.degrad).real);
 		v=rotation*v*rotation.conjugate;
 		az=Cartesian(v.b,v.c,v.d).theta.round(0.000001);
 		el=Cartesian(v.b,v.c,v.d).phi.round(0.000001);
 		sph_axis=Quaternion(0,v.b,v.c,v.d);
-		angle=(360-(360/1.6180339887499))/2;
+		angle=(360-(360/1.6180339887499))/2;*/
+		az=(az+(1)).wrap(180.neg,180);
+	el=(el+(360-(360/1.6180339887499))).wrap(90.neg,90);
+sph=Spherical(1,az.degrad,el.degrad);
+	sph_axis=Quaternion(0,sph.x,sph.y,sph.z);
 
 azimuth=(13).collect{
 
@@ -378,9 +382,9 @@ data=(360*13).collect{
 	az=~az.[pl].round(0.000001);
 	el=~el.[pl].round(0.000001);
 	//mag=~magz.[pl];
-	mag=Cartesian(~magx.[pl].round(0.000001),~magy.[pl].round(0.000001),~magz.[pl].round(0.000001)).rho/(2.sqrt);
+	mag=(~magz.[pl].round(0.000001))/(2.sqrt);
 	pl=pl+1;
-		sph=Spherical(mag*600,az,el).asCartesian.asArray;
+		sph=Spherical(mag*1000,az,el).asCartesian.asArray;
 	};
 
 data.postln;
