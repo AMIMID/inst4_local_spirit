@@ -93,7 +93,7 @@ var sph1,sph2,sph3,sph4,sph5,sph;
 var rotation,v,v1,v2,v3,v4,v5;
 var rotation1,rotation2,rotation3,rotation4,rotation5;
 
-~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
+~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
  360.do{
 		sph=Spherical(1,(az),(el));
@@ -197,11 +197,11 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 //////////////////////////////////////////////////////// durs
 {
-var dur=4,ph1,pl1=2,sph;
+var dur=4,ph1,pl1=0,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
-~dur1 = (360).collect{
+~dur1 = (360*12).collect{
 			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
 			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).x.abs;
 	//index1=rythm.wrapAt(pl7);
@@ -219,7 +219,7 @@ var dur=4,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
-~dur2 = (360).collect{
+~dur2 = (360*12).collect{
 			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
 			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).y.abs;
 	//index1=rythm.wrapAt(pl7);
@@ -237,7 +237,7 @@ var dur=4,ph1,pl1=2,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
-~dur3 = (360).collect{
+~dur3 = (360*12).collect{
 			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
 			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).z.abs;
 	//index1=rythm.wrapAt(pl7);
@@ -1118,7 +1118,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_x1,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1129,7 +1129,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_x2,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1140,7 +1140,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_x3,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1152,7 +1152,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_x4,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1163,7 +1163,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_x5,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1174,7 +1174,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_x6,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1185,7 +1185,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_x7,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1196,7 +1196,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_x8,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1209,7 +1209,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_y1,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1220,7 +1220,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_y2,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1231,7 +1231,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_y3,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1242,7 +1242,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_y4,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1253,7 +1253,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_y5,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1264,7 +1264,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_y6,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1275,7 +1275,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_y7,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1286,7 +1286,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_y8,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1299,7 +1299,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_z1,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1310,7 +1310,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_z2,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1321,7 +1321,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_z3,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1332,7 +1332,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_z4,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1343,7 +1343,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_z5,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1354,7 +1354,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~duration_z6,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1365,7 +1365,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_z7,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -1376,7 +1376,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				\dur,Pseq(~duration_z8,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(0,4320,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
