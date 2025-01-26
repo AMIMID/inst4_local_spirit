@@ -105,7 +105,7 @@ var rotation1,rotation2,rotation3,rotation4,rotation5;
 		sph_axis=Quaternion(0,v.b,v.c,v.d);
 		angle=(360-(360/1.6180339887499))/2;
 
-azimuth=(12).collect{
+azimuth=(13).collect{
 
 			sph1=Cartesian(0,0,1);
 			v1=Quaternion(0, sph1.x, sph1.y, sph1.z);
@@ -117,7 +117,7 @@ azimuth=(12).collect{
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
-elevation=(12).collect{
+elevation=(13).collect{
 
 		sph2=Cartesian(0,0,1);
 			v2=Quaternion(0, sph2.x, sph2.y, sph2.z);
@@ -129,7 +129,7 @@ elevation=(12).collect{
 			sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
-magnitudex=(12).collect{
+magnitudex=(13).collect{
 
 			sph3=Cartesian(0,0,1);
 			v3=Quaternion(0, sph3.x, sph3.y, sph3.z);
@@ -149,7 +149,7 @@ magnitudex=(12).collect{
 		 	2).neg,(pi/2)))).rho*
 		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 };
-magnitudey=(12).collect{
+magnitudey=(13).collect{
 
 			sph4=Cartesian(0,0,1);
 			v4=Quaternion(0, sph4.x, sph4.y, sph4.z);
@@ -168,7 +168,7 @@ magnitudey=(12).collect{
 //Complex(sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2))),sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2)))).rho*
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 };
-magnitudez=(12).collect{
+magnitudez=(13).collect{
 
 			sph5=Cartesian(0,0,1);
 			v5=Quaternion(0, sph5.x, sph5.y, sph5.z);
