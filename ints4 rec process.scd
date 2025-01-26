@@ -12,10 +12,10 @@ s.waitForBoot;
 )
 ////////////////////////////////////////////////////////////inst4 nest rec1
 (
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:0 );
-~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:1 );
-~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:2 );
-~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/SC_250122_172029.wav",channels:3 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest1.wav",channels:0 );
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest1.wav",channels:1 );
+~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest1.wav",channels:2 );
+~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest1.wav",channels:3 );
 )
 Buffer.freeAll
 
@@ -25,16 +25,18 @@ Buffer.freeAll
 SynthDef.new(\nest,{
 	var amp=1;
 
-Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 1, doneAction:2)*amp);
-Out.ar(5,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 1, doneAction:2)*amp);
-Out.ar(6,PlayBuf.ar(1, ~c3.bufnum, BufRateScale.kr(~c3.bufnum),startPos:0, loop: 1, doneAction:2)*amp);
-Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop: 1, doneAction:2)*amp);
+Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(5,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(6,PlayBuf.ar(1, ~c3.bufnum, BufRateScale.kr(~c3.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
 }).add;
 )
 
 ~nest=Synth.new(\nest);
 
 
+~m=Pseq(~k,256).asStream;
+Synth(\obin_++(~m.next))
 
 ({
 		var n=1.neg;
@@ -112,8 +114,6 @@ sig4 = chain4.pvcollect(frames, {|magnitude, phase, bin|
 }
 )
 
-~m=Pseq(~k,256).asStream;
-Synth(\obin_++(~m.next))
 
 //////////////////////////////////////////////buffer rec2
 
@@ -248,13 +248,15 @@ Buffer.freeAll
 SynthDef.new(\buffer,{
 	var amp=1;
 
-Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 1, doneAction:2)*amp);
+Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
 
 }).add;
 )
 
 ~nest=Synth.new(\buffer);
 
+~m=Pseq(~k,512).asStream;
+Synth(\obin_++(~m.next))
 
 ({
 		var n=1.neg;
@@ -308,8 +310,7 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 }
 )
 
-~m=Pseq(~k,512).asStream;
-Synth(\obin_++(~m.next))
+
 
 ///////////////////////////////final mix (storyline)
 
