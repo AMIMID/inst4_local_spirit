@@ -16,7 +16,7 @@ var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 ~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
 
 		360.do{
-azimuth=(12).collect{
+azimuth=(13).collect{
 
 		/*az1 = (az1 + 3);  // Increment azimuth
         if (az1 > 180) { az1 = az1 - 360 };  // Wrap to [-180, 180)
@@ -39,7 +39,7 @@ azimuth=(12).collect{
 
 	};
 
-elevation=(12).collect{
+elevation=(13).collect{
 
 		/*	az2 = (az2 + 3);  // Increment azimuth
         if (az2 > 180) { az2 = az2 - 360 };  // Wrap to [-180, 180)
@@ -61,7 +61,7 @@ elevation=(12).collect{
 
 	};
 
-magnitudex=(12).collect{
+magnitudex=(13).collect{
 		/*az3 = (az3 + 3);  // Increment azimuth
         if (az3 > 180) { az3 = az3 - 360 };  // Wrap to [-180, 180)
         if (az3 <= -180) { az3 = az3 + 360 };  // Wrap to [-180, 180)
@@ -91,7 +91,7 @@ magnitudex=(12).collect{
 
 };
 
-magnitudey=(12).collect{
+magnitudey=(13).collect{
 		/*az4 = (az4 + 3);  // Increment azimuth
         if (az4 > 180) { az4 = az4 - 360 };  // Wrap to [-180, 180)
         if (az4 <= -180) { az4 = az4 + 360 };  // Wrap to [-180, 180)
@@ -120,7 +120,7 @@ magnitudey=(12).collect{
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 };
 
-magnitudez=(12).collect{
+magnitudez=(13).collect{
 		/*az5 = (az5 + 3);  // Increment azimuth
         if (az5 > 180) { az5 = az5 - 360 };  // Wrap to [-180, 180)
         if (az5 <= -180) { az5 = az5 + 360 };  // Wrap to [-180, 180)
@@ -252,7 +252,7 @@ Pen.translate(400,400);
 
 (
 {
-var m_x=1,m_y=1,m_z=1,az=0,el=0,sph_axis;
+var m_x=1,m_y=4,m_z=1,az=0,el=0,sph_axis;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
@@ -262,11 +262,11 @@ var sph1,sph2,sph3,sph4,sph5,sph;
 var rotation,v,v1,v2,v3,v4,v5;
 var rotation1,rotation2,rotation3,rotation4,rotation5;
 
-~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
+~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
  360.do{
 		sph=Spherical(1,(az),(el));
-		v=Quaternion(0, sph.x, sph.y, sph.z);
+		v=Quaternion(0, sph.x.round(0.000001), sph.y.round(0.000001), sph.z.round(0.000001));
 		rotation=((axis*exp(Complex(0,1)*angle.degrad).imag)+exp(Complex(0,1)*angle.degrad).real);
 		v=rotation*v*rotation.conjugate;
 		az=Cartesian(v.b,v.c,v.d).theta.round(0.000001);
@@ -274,9 +274,9 @@ var rotation1,rotation2,rotation3,rotation4,rotation5;
 		sph_axis=Quaternion(0,v.b,v.c,v.d);
 		angle=(360-(360/1.6180339887499))/2;
 
-azimuth=(12).collect{
+azimuth=(13).collect{
 
-			sph1=Spherical(1,pi/2,0);
+			sph1=Cartesian(0,0,1);
 			v1=Quaternion(0, sph1.x, sph1.y, sph1.z);
 			rotation1=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl1/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl1/12)).mod(2pi)).real);
 			v1=rotation1*v1*rotation1.conjugate;
@@ -286,9 +286,9 @@ azimuth=(12).collect{
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
-elevation=(12).collect{
+elevation=(13).collect{
 
-		sph2=Spherical(1,pi/2,0);
+		sph2=Cartesian(0,0,1);
 			v2=Quaternion(0, sph2.x, sph2.y, sph2.z);
 			rotation2=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl2/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl2/12)).mod(2pi)).real);
 			v2=rotation2*v2*rotation2.conjugate;
@@ -298,9 +298,9 @@ elevation=(12).collect{
 			sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
-magnitudex=(12).collect{
+magnitudex=(13).collect{
 
-			sph3=Spherical(1,pi/2,0);
+			sph3=Cartesian(0,0,1);
 			v3=Quaternion(0, sph3.x, sph3.y, sph3.z);
 			rotation3=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl3/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl3/12)).mod(2pi)).real);
 			v3=rotation3*v3*rotation3.conjugate;
@@ -318,9 +318,9 @@ magnitudex=(12).collect{
 		 	2).neg,(pi/2)))).rho*
 		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 };
-magnitudey=(12).collect{
+magnitudey=(13).collect{
 
-			sph4=Spherical(1,pi/2,0);
+			sph4=Cartesian(0,0,1);
 			v4=Quaternion(0, sph4.x, sph4.y, sph4.z);
 			rotation4=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl4/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl4/12)).mod(2pi)).real);
 			v4=rotation4*v4*rotation4.conjugate;
@@ -337,9 +337,9 @@ magnitudey=(12).collect{
 //Complex(sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2))),sin((sph4.phi.round(0.00001)*(m_y-1)).wrap((pi/2).neg,(pi/2)))).rho*
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 };
-magnitudez=(12).collect{
+magnitudez=(13).collect{
 
-			sph5=Spherical(1,pi/2,0);
+			sph5=Cartesian(0,0,1);
 			v5=Quaternion(0, sph5.x, sph5.y, sph5.z);
 			rotation5=((sph_axis*exp(Complex(0,1)*((pi/2)*2.pow(pl5/12)).mod(2pi)).imag)+exp(Complex(0,1)*((pi/2)*2.pow(pl5/12)).mod(2pi)).real);
 			v5=rotation5*v5*rotation5.conjugate;
@@ -373,7 +373,7 @@ var m=600,sph,az1,el1,pl=0,daz,del,harm,mag,r=1.neg;
 var r1,harm1,r2,harm2,rad,call;
 
 
-data=(360*12).collect{
+data=(360*13).collect{
 
 	az=~az.[pl].round(0.000001);
 	el=~el.[pl].round(0.000001);
