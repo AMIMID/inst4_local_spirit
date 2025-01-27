@@ -2,12 +2,12 @@
 s.options.numBuffers=1024*2;
 s.options.numWireBufs = 1024*4;
 s.options.numOutputBusChannels=8;
-s.options.numInputBusChannels=2;
+s.options.numInputBusChannels=0;
 s.options.memSize = 8192*128*2;
 s.options.blockSize = 64;
 s.options.maxNodes = 1024 * 16;
 s.options.sampleRate= 44100;
-s.options.maxSynthDefs=1024*8;
+s.options.maxSynthDefs=1024*16;
 s.waitForBoot;
 )
 ////////////////////////////////////////////////////////////inst4 nest rec1
@@ -53,7 +53,7 @@ s.record(numChannels:4);
 Synth(\obin_++(~m.next));
 (
 ({
-		var n=0;
+		var n=1.neg;
 	~k=(256).collect{
 		n=n+1;
 		}
@@ -278,7 +278,7 @@ Synth(\obin_++(~m.next));
 
 (
 ({
-		var n=0;
+		var n=1.neg;
 	~k=(512).collect{
 		n=n+1;
 		}
