@@ -382,9 +382,9 @@ data=(360*13).collect{
 	az=~az.[pl].round(0.000001);
 	el=~el.[pl].round(0.000001);
 	//mag=~magz.[pl];
-	mag=(~magz.[pl].round(0.000001))/(2.sqrt);
+	mag=Cartesian(~magx.[pl],~magy.[pl],~magz.[pl]).rho/(2.sqrt);
 	pl=pl+1;
-		sph=Spherical(mag*1000,az,el).asCartesian.asArray;
+		sph=Spherical(mag*300,az,el).asCartesian.asArray;
 	};
 
 data.postln;
