@@ -83,7 +83,7 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 
 //////////////////////////////////////////////////basis
 {
-var m_x=1,m_y=3,m_z=3,az=0,el=0,sph_axis;
+var m_x=1,m_y=2,m_z=3,az=0,el=0,sph_axis;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var azimuth,elevation,magnitudex,magnitudey,magnitudez;
@@ -206,8 +206,8 @@ var dur=4,ph1,pl1=0,sph;
 //rythm=[1,1/1,1,1,1/1];
 
 ~dur1 = (360*12).collect{
-			//ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
-			ph1=~magz.[pl1];
+			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
+			//ph1=~magz.[pl1];
 			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).x.abs;
 	//index1=rythm.wrapAt(pl7);
 	//pl7=pl7+1;
@@ -225,8 +225,8 @@ var dur=4,ph1,pl1=2,sph;
 //rythm=[1,1/1,1,1,1/1];
 
 ~dur2 = (360*12).collect{
-			//ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
-			ph1=~magz.[pl1];
+			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
+			//ph1=~magz.[pl1];
 			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).y.abs;
 	//index1=rythm.wrapAt(pl7);
 	//pl7=pl7+1;
@@ -244,8 +244,8 @@ var dur=4,ph1,pl1=2,sph;
 //rythm=[1,1/1,1,1,1/1];
 
 ~dur3 = (360*12).collect{
-			//ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
-			ph1=~magz.[pl1];
+			ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
+			//ph1=~magz.[pl1];
 			sph=Spherical(ph1,~az.[pl1],~el.[pl1]).z.abs;
 	//index1=rythm.wrapAt(pl7);
 	//pl7=pl7+1;
@@ -362,15 +362,15 @@ SynthDef.new(\ospace1, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-		//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -462,15 +462,15 @@ SynthDef.new(\ospace2, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-	//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+	mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -562,15 +562,15 @@ SynthDef.new(\ospace3, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-		//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -662,15 +662,15 @@ SynthDef.new(\ospace4, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-		//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -762,15 +762,15 @@ SynthDef.new(\ospace5, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-		//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -861,15 +861,15 @@ SynthDef.new(\ospace6, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-			//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+			mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -960,15 +960,15 @@ SynthDef.new(\ospace7, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-		//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+		mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
@@ -1060,15 +1060,15 @@ SynthDef.new(\ospace8, {
 fundamental=(55);
 freq=(fundamental*octave);
 
-			//mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-		mag_o=Select.kr(pl1,~magz);
+			mag_o=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+		///mag_o=Select.kr(pl1,~magz);
 
 
 	//sphere1=Spherical(mag_o.x,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere2=Spherical(mag_o.y,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere3=Spherical(mag_o.z,Select.kr(pl1,~az),Select.kr(pl1,~el));
 	//sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
-				sphere=Spherical(mag_o.round(0.00000001),Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sphere=Spherical(mag_o.rho.round(0.00000001)/(2.sqrt),Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
