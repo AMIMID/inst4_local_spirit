@@ -44,15 +44,16 @@ Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop:
 }).add;
 )
 
+(
 ~nest=Synth.new(\nest);
 
-
 ~m=Pseq(~k,1).asStream;
-Synth(\obin_++(~m.next))
-
+s.record(numChannels:4);
+)
+Synth(\obin_++(~m.next));
 (
 ({
-		var n=1.neg;
+		var n=0;
 	~k=(256).collect{
 		n=n+1;
 		}
@@ -267,14 +268,17 @@ Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop:
 }).add;
 )
 
+(
 ~nest=Synth.new(\buffer);
 
 ~m=Pseq(~k,1).asStream;
-Synth(\obin_++(~m.next))
+s.record(numChannels:4);
+)
+Synth(\obin_++(~m.next));
 
 (
 ({
-		var n=1.neg;
+		var n=0;
 	~k=(512).collect{
 		n=n+1;
 		}
