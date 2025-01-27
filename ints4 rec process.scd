@@ -48,9 +48,22 @@ Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop:
 ~nest=Synth.new(\nest);
 
 ~m=Pseq(~k,1).asStream;
+~f=Pseq(~k,1).asStream;
 s.record(numChannels:4);
 )
-Synth(\obin_++(~m.next));
+
+(
+~synths = [];
+x = {
+    var newSynth;
+    newSynth =Synth(\obin_++(~m.next)); // Create a new Synth
+    ~synths = ~synths.add(newSynth); // Add it to the array
+    newSynth.postln; // Print the Synth to confirm
+};
+)
+x.value; // Call x to create a new Synth
+~synths.[~f.next].free
+
 (
 ({
 		var n=1.neg;
@@ -153,14 +166,18 @@ var rotation1,rotation2,rotation3,rotation4,rotation5;
 ~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
 
  360.do{
-		sph=Spherical(1,(az),(el));
-			v=Quaternion(0, sph.x.round(0.000001), sph.y.round(0.000001), sph.z.round(0.000001));
+					/*sph=Spherical(1,(az),(el));
+		v=Quaternion(0, sph.x.round(0.000001), sph.y.round(0.000001), sph.z.round(0.000001));
 		rotation=((axis*exp(Complex(0,1)*angle.degrad).imag)+exp(Complex(0,1)*angle.degrad).real);
 		v=rotation*v*rotation.conjugate;
 		az=Cartesian(v.b,v.c,v.d).theta.round(0.000001);
 		el=Cartesian(v.b,v.c,v.d).phi.round(0.000001);
 		sph_axis=Quaternion(0,v.b,v.c,v.d);
-		angle=(360-(360/1.6180339887499))/2;
+		angle=(360-(360/1.6180339887499))/2;*/
+		az=(az+(1)).wrap(180.neg,180);
+	el=(el+(360-(360/1.6180339887499))).wrap(90.neg,90);
+sph=Spherical(1,az.degrad,el.degrad);
+	sph_axis=Quaternion(0,sph.x,sph.y,sph.z);
 
 azimuth=(12).collect{
 
@@ -256,6 +273,9 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 Buffer.freeAll
 
 ~c1 = Buffer.readChannel(s,,channels:0 );
+~c1 = Buffer.readChannel(s,,channels:0 );
+~c1 = Buffer.readChannel(s,,channels:0 );
+~c1 = Buffer.readChannel(s,,channels:0 );
 
 ~dur=(~c1.numFrames/44100)
 
@@ -269,12 +289,24 @@ Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop:
 )
 
 (
-~nest=Synth.new(\buffer);
+~nest=Synth.new(\nest);
 
 ~m=Pseq(~k,1).asStream;
+~f=Pseq(~k,1).asStream;
 s.record(numChannels:4);
 )
-Synth(\obin_++(~m.next));
+
+(
+~synths = [];
+x = {
+    var newSynth;
+    newSynth =Synth(\obin_++(~m.next)); // Create a new Synth
+    ~synths = ~synths.add(newSynth); // Add it to the array
+    newSynth.postln; // Print the Synth to confirm
+};
+)
+x.value; // Call x to create a new Synth
+~synths.[~f.next].free
 
 (
 ({
@@ -331,10 +363,10 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 )
 /////////////////////nest mix
 (
-~c1 = Buffer.readChannel(s,,channels:0 );
-~c2 = Buffer.readChannel(s,,channels:1 );
-~c3 = Buffer.readChannel(s,,channels:2 );
-~c4 = Buffer.readChannel(s,,channels:3 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nesta.wav",channels:0 );
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nesta.wav",channels:1 );
+~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nesta.wav",channels:2 );
+~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nesta.wav",channels:3 );
 )
 (
 {Out.ar(0,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
@@ -343,10 +375,10 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 {Out.ar(3,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
 )
 (
-~c5 = Buffer.readChannel(s,,channels:0 );
-~c6 = Buffer.readChannel(s,,channels:1 );
-~c7 = Buffer.readChannel(s,,channels:2 );
-~c8 = Buffer.readChannel(s,,channels:3 );
+~c5 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestb.wav",channels:0 );
+~c6 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestb.wav",channels:1 );
+~c7 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestb.wav",channels:2 );
+~c8 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestb.wav",channels:3 );
 )
 (
 {Out.ar(0,PlayBuf.ar(1, ~c5.bufnum, BufRateScale.kr(~c5.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
@@ -355,10 +387,10 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 {Out.ar(3,PlayBuf.ar(1, ~c8.bufnum, BufRateScale.kr(~c8.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
 )
 (
-~c9 = Buffer.readChannel(s,,channels:0 );
-~c10 = Buffer.readChannel(s,,channels:1 );
-~c11 = Buffer.readChannel(s,,channels:2 );
-~c12 = Buffer.readChannel(s,,channels:3 );
+~c9 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestc.wav",channels:0 );
+~c10 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestc.wav",channels:1 );
+~c11 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestc.wav",channels:2 );
+~c12 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nestc.wav",channels:3 );
 )
 (
 {Out.ar(0,PlayBuf.ar(1, ~c9.bufnum, BufRateScale.kr(~c9.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
@@ -374,10 +406,10 @@ s.record(numChannels:4);
 
 ///nest
 (
-~c1 = Buffer.readChannel(s,,channels:0 );
-~c2 = Buffer.readChannel(s,,channels:1 );
-~c3 = Buffer.readChannel(s,,channels:2 );
-~c4 = Buffer.readChannel(s,,channels:3 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Music/SuperCollider Recordings/nest/nest.wav",channels:0 );
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Music/SuperCollider Recordings/nest/nest.wav",channels:1 );
+~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Music/SuperCollider Recordings/nest/nest.wav",channels:2 );
+~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Music/SuperCollider Recordings/nest/nest.wav",channels:3 );
 )
 (
 {Out.ar(0,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
