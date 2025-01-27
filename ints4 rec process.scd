@@ -17,13 +17,25 @@ s.waitForBoot;
 ~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest1.wav",channels:2 );
 ~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest1.wav",channels:3 );
 )
+(
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest2.wav",channels:0 );
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest2.wav",channels:1 );
+~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest2.wav",channels:2 );
+~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest2.wav",channels:3 );
+)
+(
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest3.wav",channels:0 );
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest3.wav",channels:1 );
+~c3 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest3.wav",channels:2 );
+~c4 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest3.wav",channels:3 );
+)
 Buffer.freeAll
 
 ~dur=(~c1.numFrames/44100)
 
 (
 SynthDef.new(\nest,{
-	var amp=1;
+	var amp=MouseX.kr(0,1);
 
 Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
 Out.ar(5,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
@@ -35,16 +47,17 @@ Out.ar(7,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop:
 ~nest=Synth.new(\nest);
 
 
-~m=Pseq(~k,256).asStream;
+~m=Pseq(~k,1).asStream;
 Synth(\obin_++(~m.next))
 
+(
 ({
 		var n=1.neg;
 	~k=(256).collect{
 		n=n+1;
 		}
 		}.value
-	)
+	);
 
 ~seed = 12345.rand;
 (
@@ -112,6 +125,7 @@ sig4 = chain4.pvcollect(frames, {|magnitude, phase, bin|
 }).add;
 );
 }
+)
 )
 
 
@@ -246,7 +260,7 @@ Buffer.freeAll
 
 (
 SynthDef.new(\buffer,{
-	var amp=1;
+	var amp=MouseX.kr(0,1);
 
 Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
 
@@ -255,16 +269,17 @@ Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop:
 
 ~nest=Synth.new(\buffer);
 
-~m=Pseq(~k,512).asStream;
+~m=Pseq(~k,1).asStream;
 Synth(\obin_++(~m.next))
 
+(
 ({
 		var n=1.neg;
 	~k=(512).collect{
 		n=n+1;
 		}
 		}.value
-	)
+	);
 
 
 ~seed = 12345.rand;
@@ -309,9 +324,46 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 );
 }
 )
+)
+/////////////////////nest mix
+(
+~c1 = Buffer.readChannel(s,,channels:0 );
+~c2 = Buffer.readChannel(s,,channels:1 );
+~c3 = Buffer.readChannel(s,,channels:2 );
+~c4 = Buffer.readChannel(s,,channels:3 );
+)
+(
+{Out.ar(0,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(1,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(2,PlayBuf.ar(1, ~c3.bufnum, BufRateScale.kr(~c3.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(3,PlayBuf.ar(1, ~c4.bufnum, BufRateScale.kr(~c4.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+)
+(
+~c5 = Buffer.readChannel(s,,channels:0 );
+~c6 = Buffer.readChannel(s,,channels:1 );
+~c7 = Buffer.readChannel(s,,channels:2 );
+~c8 = Buffer.readChannel(s,,channels:3 );
+)
+(
+{Out.ar(0,PlayBuf.ar(1, ~c5.bufnum, BufRateScale.kr(~c5.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(1,PlayBuf.ar(1, ~c6.bufnum, BufRateScale.kr(~c6.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(2,PlayBuf.ar(1, ~c7.bufnum, BufRateScale.kr(~c7.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(3,PlayBuf.ar(1, ~c8.bufnum, BufRateScale.kr(~c8.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+)
+(
+~c9 = Buffer.readChannel(s,,channels:0 );
+~c10 = Buffer.readChannel(s,,channels:1 );
+~c11 = Buffer.readChannel(s,,channels:2 );
+~c12 = Buffer.readChannel(s,,channels:3 );
+)
+(
+{Out.ar(0,PlayBuf.ar(1, ~c9.bufnum, BufRateScale.kr(~c9.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(1,PlayBuf.ar(1, ~c10.bufnum, BufRateScale.kr(~c10.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(2,PlayBuf.ar(1, ~c11.bufnum, BufRateScale.kr(~c11.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+{Out.ar(3,PlayBuf.ar(1, ~c12.bufnum, BufRateScale.kr(~c12.bufnum),startPos:0, loop: 0, doneAction:2))}.play;
+)
 
-
-
+Buffer.freeAll
 ///////////////////////////////final mix (storyline)
 
 s.record(numChannels:4);
@@ -384,5 +436,5 @@ s.record(numChannels:4);
 
 
 
-Buffer.freeAll
+
 
