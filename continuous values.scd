@@ -123,7 +123,7 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 
  // Initialize angle
 var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
-~tempo=2;
+~tempo=1;
 ~angleRoutine = Routine({
     loop {
         // Calculate the next angle
@@ -133,16 +133,67 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0;
 
 		//angle = (angle + 9);  // Increment azimuth
        // if (angle > 360) { angle = angle - 360 };
-		angle =((pi/2)*2.pow(n/12)); // Increment azimuth
+		angle =((2pi)*2.pow(n/12)); // Increment azimuth
 	n=(n+1).mod(13);
 
 	value1=exp(Complex(0,1)*angle).imag.abs.linlin(0,1,1,2);
 		value2=exp(Complex(0,1)*angle).real.abs.linlin(0,1,1,2);
 "tone".postln;
 		//(value1/value2).postln;
-		value2.postln;
-		~controlBus1.set(value1);
-		~controlBus2.set(value2);
+		(value2).postln;
+		//~controlBus1.set(value1);
+		//~controlBus2.set(value2);
+		//angle.postln;
+
+		~tempo.wait;
+    }
+}
+);
+)
+~angleRoutine.play;
+////////////////quaternion
+
+(
+
+ // Initialize angle
+var angle = 0, value1, value2,value3,tone1,tone2,mult=2,n=0,sph5,v5,rotation5,az5,el5,sph_axis,sph;
+~tempo=1;
+~angleRoutine = Routine({
+    loop {
+        // Calculate the next angle
+		//angle = (angle + (45*(2.pow(1/12)-1))).wrap(0, 360);
+		//angle=(angle+45);
+	//	angle=(angle+3).wrap(0,360);
+		sph=Cartesian(1,0,0);
+	//sph_axis=Quaternion(0, 0.57735026918963, 0.57735026918963, 0.57735026918963);
+		sph_axis=Quaternion(0, 1, 0, 0);
+sph5=Cartesian(0,0,1);
+			v5=Quaternion(0, sph5.x, sph5.y, sph5.z);
+				rotation5=((sph_axis*exp(Complex(0,1)*((pi/4)*2.pow(n/12))).imag)+exp(Complex(0,1)*((pi/4)*2.pow(n/12))).real);
+			//rotation5=(cos(((pi/2)*2.pow(n/12)))+(sin(((pi/2)*2.pow(n/12)))*sph_axis));
+
+
+			//q3=(cos(angle.degrad)+(sin(angle.degrad)*(i3+j3+k3)));
+			v5=rotation5*v5*rotation5.conjugate;
+			az5 = Cartesian(v5.b,v5.c,v5.d).theta.round(0.000001);
+			el5 =Cartesian(v5.b,v5.c,v5.d).phi.round(0.000001);
+			sph5=Spherical(1,az5,el5);
+		//angle = (angle + 9);  // Increment azimuth
+       // if (angle > 360) { angle = angle - 360 };
+		angle =((pi/2)*2.pow(n/12)); // Increment azimuth
+	n=(n+1).mod(13);
+
+		value1=sph5.y.round(0.000001).abs.linlin(0,1,1,2);
+		value2=sph5.phi.round(0.000001).abs.linlin(0,1,1,2);
+	value3=sph5.z.round(0.000001).abs.linlin(0,1,1,2);
+"tone".postln;
+		//(value1/value2).postln;
+	//	(value2/value1).postln;
+	(value1).postln;
+		(value2).postln;
+		(value3).postln;
+		//~controlBus1.set(value1);
+		//~controlBus2.set(value2);
 		//angle.postln;
 
 		~tempo.wait;
