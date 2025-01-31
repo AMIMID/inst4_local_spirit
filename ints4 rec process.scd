@@ -163,7 +163,7 @@ var sph1,sph2,sph3,sph4,sph5,sph;
 var rotation,v,v1,v2,v3,v4,v5;
 var rotation1,rotation2,rotation3,rotation4,rotation5;
 
-~az=[0];~el=[0];~magx=[0];~magy=[0];~magz=[0];
+~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
  360.do{
 					/*sph=Spherical(1,(az),(el));
@@ -179,7 +179,7 @@ var rotation1,rotation2,rotation3,rotation4,rotation5;
 sph=Spherical(1,az.degrad,el.degrad);
 	sph_axis=Quaternion(0,sph.x,sph.y,sph.z);
 
-azimuth=(12).collect{
+azimuth=(13).collect{
 
 			sph1=Cartesian(0,0,1);
 			v1=Quaternion(0, sph1.x, sph1.y, sph1.z);
@@ -191,7 +191,7 @@ azimuth=(12).collect{
 			sph1=Spherical(1,az1,el1).theta.round(0.000001);
 	};
 
-elevation=(12).collect{
+elevation=(13).collect{
 
 		sph2=Cartesian(0,0,1);
 			v2=Quaternion(0, sph2.x, sph2.y, sph2.z);
@@ -203,7 +203,7 @@ elevation=(12).collect{
 			sph2=Spherical(1,az2,el2).phi.round(0.000001);
 	};
 
-magnitudex=(12).collect{
+magnitudex=(13).collect{
 
 			sph3=Cartesian(0,0,1);
 			v3=Quaternion(0, sph3.x, sph3.y, sph3.z);
@@ -223,7 +223,7 @@ magnitudex=(12).collect{
 		 	2).neg,(pi/2)))).rho*
 		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 };
-magnitudey=(12).collect{
+magnitudey=(13).collect{
 
 			sph4=Cartesian(0,0,1);
 			v4=Quaternion(0, sph4.x, sph4.y, sph4.z);
@@ -272,10 +272,10 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 Buffer.freeAll
 
-~c1 = Buffer.readChannel(s,,channels:0 );
-~c1 = Buffer.readChannel(s,,channels:0 );
-~c1 = Buffer.readChannel(s,,channels:0 );
-~c1 = Buffer.readChannel(s,,channels:0 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/recordings/zoom/buffer/earth1(arxh monopatiou imitos).WAV",channels:0 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/recordings/zoom/buffer/earth2(imitos pisw apo to spiti).WAV",channels:0 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/recordings/zoom/buffer/ fire1.WAV",channels:0 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/recordings/zoom/buffer/fire2(dawn).WAV",channels:0 );
 
 ~dur=(~c1.numFrames/44100)
 
@@ -283,13 +283,13 @@ Buffer.freeAll
 SynthDef.new(\buffer,{
 	var amp=MouseX.kr(0,1);
 
-Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2));
 
 }).add;
 )
 
 (
-~nest=Synth.new(\nest);
+~nest=Synth.new(\buffer);
 
 ~m=Pseq(~k,1).asStream;
 ~f=Pseq(~k,1).asStream;
@@ -335,7 +335,7 @@ thisThread.randSeed = ~seed;~d=~k.scramble;
 	var az,el,amp,sig;
 	var env;
 
-env=EnvGen.ar(Env([0,1,1,0],[0,~dur,0]));
+//env=EnvGen.ar(Env([0,1,1,0],[0,~dur,0]));
 
 			in1 = InFeedback.ar(4);
 		az=~az.[i+1];
@@ -353,7 +353,7 @@ chainxx = chainx.pvcollect(frames, {|magnitude, phase, bin|
 
 			sig=IFFT(chainxx);
 
-	Out.ar(0,VBAP.ar(4,sig,~b.bufnum,az.raddeg,el.raddeg)*env);
+	Out.ar(0,VBAP.ar(4,sig,~b.bufnum,az.raddeg,el.raddeg));
 			chainx.clear;
 
 }).add;
