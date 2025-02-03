@@ -550,7 +550,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2.reciprocal,phase:0),
+						SinOsc.ar(pitch2,mul:amp2,phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -558,7 +558,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						SinOsc.ar(pitch3,mul:amp3.reciprocal,phase:0),
+						SinOsc.ar(pitch3,mul:amp3,phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
