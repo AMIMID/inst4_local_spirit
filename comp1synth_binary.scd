@@ -361,11 +361,11 @@ var angle1=0, angle2=0,value1,value2,n1=0,n2=0,re,im,angle=0;
   re=13.collect{
 		angle1 = angle + (pi/2)*2.pow(n1/12);
 		n1=(n1+1).mod(13);
-		value1=exp(Complex(0,1)*angle1).real.abs.linlin(0,1,1,2);};
+					value1=exp(Complex(0,1)*angle1).real.abs.round(0.00001);};
   im=13.collect{
 		angle2 = angle + (pi/2)*2.pow(n2/12);
 		n2=(n2+1).mod(13);
-		value1=exp(Complex(0,1)*angle2).real.abs.linlin(0,1,1,2);};
+		value1=exp(Complex(0,1)*angle2).imag.abs.round(0.00001);};
 
 				~real=~real++re; ~imag=~imag++im;
 				angle = (angle + (360 - (360 / 1.6180339887499))).wrap(0, 360);
@@ -375,7 +375,7 @@ var angle1=0, angle2=0,value1,value2,n1=0,n2=0,re,im,angle=0;
 
 	(
 {
-var dur=2,ph1,pl1=0,sph;
+var dur=1,ph1,pl1=0,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
@@ -389,13 +389,13 @@ var dur=2,ph1,pl1=0,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph*dur).round(1/32);
+	ph1=(sph+dur).round(1/32);
 
 	};
 
 }.value;
 	{
-var dur=2,ph1,pl1=0,sph;
+var dur=1,ph1,pl1=0,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
@@ -409,7 +409,7 @@ var dur=2,ph1,pl1=0,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph*dur).round(1/32);
+	ph1=(sph+dur).round(1/32);
 
 	};
 
@@ -451,7 +451,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=7,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -592,7 +592,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq(~r,inf);///l system
 ));
 	);
-	TempoClock.default.tempo_(2/1);
+	TempoClock.default.tempo_(8/1);
 
 
 
