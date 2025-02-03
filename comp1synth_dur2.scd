@@ -358,22 +358,22 @@ var az1,el1,az2,el2,az3,el3,value1,value2,value3,n1=0,n2=0,n3=0,xx,yy,zz,im,angl
 			~x=[];~y=[];~z=[];
 
 			(360).do {
-  xx=12.collect{
+  xx=4.collect{
 					n1=(n1+1);
-					    az1 = (angle+(360*n1)).wrap(180.neg,180);  // Increment azimuth
-						el1 = (angle+(180*n1)).wrap(90.neg,90);
+					    az1 = (angle+((360/12)*n1)).wrap(180.neg,180);  // Increment azimuth
+						el1 = (angle+((180/12)*n1)).wrap(90.neg,90);
 		value1=Spherical(1,(az1.degrad),(el1.degrad)).x.abs.round(0.00001);};
 
-  yy=12.collect{
+  yy=4.collect{
 					n2=(n2+1);
-					  az2 = (angle+(360*n2)).wrap(180.neg,180);  // Increment azimuth
-						el2 = (angle+(180*n2)).wrap(90.neg,90);
+					  az2 = (angle+((360/12)*n2)).wrap(180.neg,180);  // Increment azimuth
+						el2 = (angle+((180/12)*n2)).wrap(90.neg,90);
 		value2=Spherical(1,(az2.degrad),(el2.degrad)).y.abs.round(0.00001);};
 
-  zz=12.collect{
+  zz=4.collect{
 					n3=(n3+1);
-					  az3 = (angle+(360*n3)).wrap(180.neg,180);  // Increment azimuth
-						el3 = (angle+(180*n3)).wrap(90.neg,90);
+					  az3 = (angle+((360/12)*n3)).wrap(180.neg,180);  // Increment azimuth
+						el3 = (angle+((180/12)*n3)).wrap(90.neg,90);
 		value3=Spherical(1,(az3.degrad),(el3.degrad)).z.abs.round(0.00001);};
 
 				~x=~x++xx; ~y=~y++yy; ~z=~z++zz; n1=0;n2=0;n3=0;
@@ -634,7 +634,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			//\amp,Pseq(~r,inf);///l system
 ));
 	);
-	TempoClock.default.tempo_(2/1);
+	TempoClock.default.tempo_(1/1);
 
 
 

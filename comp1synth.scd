@@ -425,34 +425,7 @@ thisThread.randSeed = seed;
 thisThread.randSeed = seed; ~duration_x1 = ~dur1.scramble;
 thisThread.randSeed = seed; ~duration_y1 = ~dur2.scramble;
 thisThread.randSeed = seed; ~duration_z1 = ~dur3.scramble;	}.value;
-{	var seed = 1000.rand;
-thisThread.randSeed = seed; ~duration_x2 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y2 = ~dur2.scramble;
-thisThread.randSeed = seed; ~duration_z2 = ~dur3.scramble;	}.value;
-{	var seed = 1000.rand;
-thisThread.randSeed = seed; ~duration_x3 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y3 = ~dur2.scramble;
-thisThread.randSeed = seed; ~duration_z3 = ~dur3.scramble;	}.value;
-{	var seed = 1000.rand;
-thisThread.randSeed = seed; ~duration_x4 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y4 = ~dur2.scramble;
-thisThread.randSeed = seed; ~duration_z4 = ~dur3.scramble;	}.value;
-{	var seed =1000.rand;
-thisThread.randSeed = seed; ~duration_x5 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y5 = ~dur2.scramble;
-thisThread.randSeed = seed; ~duration_z5 = ~dur3.scramble;	}.value;
-{	var seed = 1000.rand;
-thisThread.randSeed = seed; ~duration_x6 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y6 = ~dur2.scramble;
-thisThread.randSeed = seed; ~duration_z6 = ~dur3.scramble;	}.value;
-{	var seed = 1000.rand;
-thisThread.randSeed = seed; ~duration_x7 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y7 = ~dur2.scramble;
-thisThread.randSeed = seed; ~duration_z7 = ~dur3.scramble;	}.value;
-{	var seed = 1000.rand;
-thisThread.randSeed = seed; ~duration_x8 = ~dur1.scramble;
-thisThread.randSeed = seed; ~duration_y8 = ~dur2.scramble;
-thisThread.randSeed = seed; ~duration_z8 = ~dur3.scramble;	}.value;
+
 
 		//////////////////////wavetable
 		{
@@ -483,7 +456,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=2;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -506,7 +479,7 @@ SynthDef.new(\ospace1, {
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.05);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.01);
 
 fundamental=(55);
 freq=(fundamental*octave);

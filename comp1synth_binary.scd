@@ -82,9 +82,9 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 
 
 //////////////////////////////////////////////////basis
-	/*(
+	(
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=1,m_y=1,m_z=1;
+var  sph1,sph2,sph3,sph4,sph5,m_x=1,m_y=2,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0;
@@ -108,7 +108,6 @@ azimuth=(13).collect{
 			az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
 			el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
 		pl1=(pl1+1).mod(13);
-
 		/*	az1 = (0+(90*2.pow(pl1/12))).wrap(180.neg,180);
 		el1 = (45*2.pow(pl1/12)).wrap(90.neg,90);
 		pl1=(pl1+1).mod(25);*/
@@ -226,11 +225,12 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 };angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez};
 }.value;
 (
-~magx=~magx/(2.sqrt);
-~magy=~magy/(2.sqrt);
-~magz=~magz/(2.sqrt);
+~magx=(~magx).round(0.000000001)/(2.sqrt);
+			~magy=(~magy).round(0.000000001)/(2.sqrt);
+			~magz=(~magz).round(0.000000001)/(2.sqrt);
  );
-)*/
+);
+/*	(
 {
 var m_x=1,m_y=2,m_z=3,az=0,el=0,sph_axis;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
@@ -347,6 +347,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 			~magy=(~magy).round(0.000000001)/(2.sqrt);
 			~magz=(~magz).round(0.000000001)/(2.sqrt);
  );
+	);*/
 
 //////////////////////////////////////////////////////// durs
 
@@ -367,7 +368,6 @@ var angle1=0, angle2=0,value1,value2,n1=0,n2=0,re,im,angle=0;
   im=12.collect{
 					n2=(n2+1);
 					angle2 = (angle + (n2*(pi/12))).wrap(0,2pi);
-					n2.postln;
 					//angle2 = (angle + (pi/2)*2.pow(n2/12)).wrap(0,2pi);
 		//n2=(n2+1).mod(13);
 		value1=exp(Complex(0,1)*angle2).imag.abs.round(0.00001);};
@@ -394,7 +394,7 @@ var dur=1,ph1,pl1=0,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph+dur).round(1/32);
+	ph1=(sph+dur).round(1/16);
 
 	};
 
@@ -414,7 +414,7 @@ var dur=1,ph1,pl1=0,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph+dur).round(1/32);
+	ph1=(sph+dur).round(1/16);
 
 	};
 
