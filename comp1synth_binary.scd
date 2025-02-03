@@ -354,24 +354,25 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 	(
 {
-var angle1=0, angle2=0,value1,value2,n1=1,n2=1,re,im,angle=0;
+var angle1=0, angle2=0,value1,value2,n1=0,n2=0,re,im,angle=0;
 			~real=[];~imag=[];
 
 			(360).do {
   re=12.collect{
-					angle1 = (angle + (n1*(pi/4))).wrap(0,2pi);
-					n1=n1+1;
+					n1=(n1+1);
+					angle1 = (angle + (n1*(pi/12))).wrap(0,2pi);
 					//angle1 = (angle + (pi/2)*2.pow(n1/12)).wrap(0,2pi);
 		//n1=(n1+1).mod(13);
 					value1=exp(Complex(0,1)*angle1).real.abs.round(0.00001);};
   im=12.collect{
-					angle2 = (angle + (n2*(pi/4))).wrap(0,2pi);
-					n2=n2+1;
+					n2=(n2+1);
+					angle2 = (angle + (n2*(pi/12))).wrap(0,2pi);
+					n2.postln;
 					//angle2 = (angle + (pi/2)*2.pow(n2/12)).wrap(0,2pi);
 		//n2=(n2+1).mod(13);
 		value1=exp(Complex(0,1)*angle2).imag.abs.round(0.00001);};
 
-				~real=~real++re; ~imag=~imag++im;
+				~real=~real++re; ~imag=~imag++im; n1=0;n2=0;
 				angle = (angle + (360-(360/1.6180339887499))).wrap(0, 360);
 			};
 }.value
@@ -383,7 +384,7 @@ var dur=1,ph1,pl1=0,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
-~dur1 = (360*4).collect{
+~dur1 = (360*12).collect{
 			//ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
 			//ph1=~magz.[pl1];
 			//sph=Spherical(ph1,~az.[pl1],~el.[pl1]).x.abs;
@@ -403,7 +404,7 @@ var dur=1,ph1,pl1=0,sph;
 ///////////////////////L-system algae variable a,b rules:a=ab b=a , n3 for n0=a
 //rythm=[1,1/1,1,1,1/1];
 
-~dur2 = (360*4).collect{
+~dur2 = (360*12).collect{
 			//ph1=Cartesian(~magx.[pl1],~magy.[pl1],~magz.[pl1]).rho/(2.sqrt);
 			//ph1=~magz.[pl1];
 			//sph=Spherical(ph1,~az.[pl1],~el.[pl1]).x.abs;
@@ -478,7 +479,7 @@ SynthDef.new(\ospace1, {
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.05);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -495,11 +496,11 @@ freq=(fundamental*octave);
 
 	xyz=Spherical(sphere.rho,sphere.theta,sphere.phi);
 
-	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000001);
+	n1=(xyz.x).round(0.00000001); n2=(xyz.y).round(0.00000001); n3=(xyz.z).round(0.00000005);
 
-ton1=n1.abs.linlin(0,1,1*mult1,2*mult1);
-ton2=n2.abs.linlin(0,1,1*mult2,2*mult2);
-ton3=n3.abs.linlin(0,1,1*mult3,2*mult3);
+ton1=n1.abs.linlin(0,1,1,2*mult1);
+ton2=n2.abs.linlin(0,1,1,2*mult2);
+ton3=n3.abs.linlin(0,1,1,2*mult3);
 
 
 	    amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
@@ -572,28 +573,28 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~dur1,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,1,inf),
+			\pl1,Pbrown(0,4680,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult1,Prand([1,2,4,8],inf),
 				\mult2,Prand([1,2,4,8],inf),
 				\mult3,Prand([1,2,4,8],inf),
-			\amp,Pseq(~r,inf);///l system
+			//\amp,Pseq(~r,inf);///l system
 ));
 
 ~aaa=Pdef(\9, Pbind(\instrument, \ospace1,
 			\dur,Pseq(~dur2,1),
 			//\dur,Pxrand(~dur,inf),
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,1,inf),
+			\pl1,Pbrown(0,4680,12,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 				\mult1,Prand([1,2,4,8],inf),
 				\mult2,Prand([1,2,4,8],inf),
 				\mult3,Prand([1,2,4,8],inf),
-			\amp,Pseq(~r,inf);///l system
+			//\amp,Pseq(~r,inf);///l system
 ));
 	);
 	TempoClock.default.tempo_(2/1);
