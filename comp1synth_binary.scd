@@ -84,7 +84,7 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 //////////////////////////////////////////////////basis
 	(
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=1,m_y=2,m_z=3;
+var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=3,m_z=4;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0;
@@ -370,7 +370,7 @@ var angle1=0, angle2=0,value1,value2,n1=0,n2=0,re,im,angle=0;
 					angle2 = (angle + (n2*(pi/12))).wrap(0,2pi);
 					//angle2 = (angle + (pi/2)*2.pow(n2/12)).wrap(0,2pi);
 		//n2=(n2+1).mod(13);
-		value1=exp(Complex(0,1)*angle2).imag.abs.round(0.00001);};
+		value2=exp(Complex(0,1)*angle2).imag.abs.round(0.00001);};
 
 				~real=~real++re; ~imag=~imag++im; n1=0;n2=0;
 				angle = (angle + (360-(360/1.6180339887499))).wrap(0, 360);
@@ -394,7 +394,7 @@ var dur=1,ph1,pl1=0,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph+dur).round(1/16);
+	ph1=(sph+dur).round(1/32);
 
 	};
 
@@ -414,7 +414,7 @@ var dur=1,ph1,pl1=0,sph;
 	pl1=pl1+1;
 	//ph1=(ph1*dur).round(1/256);
 	//t1=ph1*index1;
-	ph1=(sph+dur).round(1/16);
+	ph1=(sph+dur).round(1/32);
 
 	};
 
@@ -456,7 +456,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=7,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,mag_o,amp1,amp2,amp3,decay=7,pl2=0,envp,octave=2;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -479,7 +479,7 @@ SynthDef.new(\ospace1, {
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.05);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -527,7 +527,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2.reciprocal,phase:0),
+						SinOsc.ar(pitch2,mul:amp2,phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -535,7 +535,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						SinOsc.ar(pitch3,mul:amp3.reciprocal,phase:0),
+						SinOsc.ar(pitch3,mul:amp3,phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -570,34 +570,34 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur1,1),
-			//\dur,Pxrand(~dur,inf),
+			//\dur,Pseq(~dur1,1),
+			\dur,1,
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,12,inf),
+			\pl1,Pbrown(0,4680,6,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 			\mult1,Prand([1,2,4,8],inf),
 				\mult2,Prand([1,2,4,8],inf),
 				\mult3,Prand([1,2,4,8],inf),
-			//\amp,Pseq(~r,inf);///l system
+			\amp,Pseq(~r,inf);///l system
 ));
 
 ~aaa=Pdef(\9, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur2,1),
-			//\dur,Pxrand(~dur,inf),
+			//\dur,Pseq(~dur2,1),
+			\dur,1,
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,12,inf),
+			\pl1,Pbrown(0,4680,6,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 				\mult1,Prand([1,2,4,8],inf),
 				\mult2,Prand([1,2,4,8],inf),
 				\mult3,Prand([1,2,4,8],inf),
-			//\amp,Pseq(~r,inf);///l system
+			\amp,Pseq(~r,inf);///l system
 ));
 	);
-	TempoClock.default.tempo_(2/1);
+	TempoClock.default.tempo_(1/8);
 
 
 
@@ -607,8 +607,6 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 (
 ~aa.play;
-
-
 ~aaa.play;
 
 );
