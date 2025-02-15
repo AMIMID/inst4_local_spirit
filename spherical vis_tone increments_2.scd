@@ -27,7 +27,7 @@ thisThread.randSeed = seed1;
 		//	az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
 		//	el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
 	//	pl1=(pl1+1).mod(13);
-			spha=Cartesian(2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12));
+			spha=Cartesian(2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2);
 			az1=(angle.degrad+spha.theta).wrap(pi.neg,pi);
 			el1=(angle.degrad+spha.phi).wrap((pi/2).neg,(pi/2));
 		/*	az1 = (0+(90*2.pow(pl1/12))).wrap(180.neg,180);
@@ -53,7 +53,7 @@ thisThread.randSeed = seed2;
 			//	az2 = (angle+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
 		//	el2 = (angle+(180*2.pow(pl2/12))).wrap(90.neg,90);
 	//	pl2=(pl2+1).mod(13);
-			sphb=Cartesian(2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12));
+			sphb=Cartesian(2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2);
 
 		/*	az2 = (0+(90*2.pow(pl2/12))).wrap(180.neg,180);
 		el2 = (45*2.pow(pl2/12)).wrap(90.neg,90);
@@ -167,7 +167,7 @@ var m=600,sph,az1,el1,pl=0,daz,del,harm,mag,r=1.neg;
 var r1,harm1,r2,harm2,rad,call;
 
 
-data=(1*13).collect{
+data=(360*13).collect{
 
 	az=~az.[pl].round(0.000001);
 	el=~el.[pl].round(0.000001);

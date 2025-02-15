@@ -333,17 +333,17 @@ var pl1=0,az1,el1,sph1,spha;
 
 pl1.postln;
 
-		az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
-			el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
-		pl1=(pl1+1).mod(13);
+	//	az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
+	//		el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
+	//	pl1=(pl1+1).mod(13);
 
 
-	//	spha=Cartesian(2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12));
-		//	az1=(angle.degrad+spha.theta).wrap(pi.neg,pi);
-		//	el1=(angle.degrad+spha.phi).wrap((pi/2).neg,(pi/2));
+		spha=Cartesian(2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2);
+			az1=(angle.degrad+spha.theta).wrap(pi.neg,pi);
+			el1=(angle.degrad+spha.phi).wrap((pi/2).neg,(pi/2));
 
-	//	sph1=Spherical(1,(az1),(el1));
-		sph1=Spherical(1,(az1.degrad),(el1.degrad));
+		sph1=Spherical(1,(az1),(el1));
+		//sph1=Spherical(1,(az1.degrad),(el1.degrad));
 
 
 		value1=sph1.x.abs.linlin(0,1,1,2);
