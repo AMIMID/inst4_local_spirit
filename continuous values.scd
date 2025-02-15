@@ -321,24 +321,29 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,m=15;
 )
 ///////////////////////////3d
 ~angleRoutine.play;
-
+2.pow(6/12)
+[1,1,1].normalizeSum.sqrt
 (
 
  // Initialize angle
 var angle = 0, value1, value2,value3,tone1,tone2,mult=2,n=0;
-var pl1=0,az1,el1,sph1,spha;
+var pl1=0,az1,el1,sph1,spha,mag,xyz,seed=1234;
 ~tempo=2;
 ~angleRoutine = Routine({
+	thisThread.randSeed = seed;
+			seed=seed+2;
     loop {
 
-pl1.postln;
 
+		xyz=[2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12)].normalizeSum.sqrt.postln;
 	//	az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
 	//		el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
 	//	pl1=(pl1+1).mod(13);
 
 
-		spha=Cartesian(2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2,2.pow(12.rand2/12)*1.rand2);
+		spha=Cartesian(xyz.[0]*([1.neg,1].choose),xyz.[1]*([1.neg,1].choose),xyz.[2]*([1.neg,1].choose));
+		//spha=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose));
+		mag=spha.rho;
 			az1=(angle.degrad+spha.theta).wrap(pi.neg,pi);
 			el1=(angle.degrad+spha.phi).wrap((pi/2).neg,(pi/2));
 
@@ -349,6 +354,9 @@ pl1.postln;
 		value1=sph1.x.abs.linlin(0,1,1,2);
 		value2=sph1.y.abs.linlin(0,1,1,2);
 		value3=sph1.z.abs.linlin(0,1,1,2);
+	//value1=sph1.x.abs;
+		//value2=sph1.y.abs;
+	//	value3=sph1.z.abs;
 
 		"tone".postln;
 		value1.postln;
