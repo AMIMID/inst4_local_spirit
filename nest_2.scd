@@ -90,29 +90,9 @@ var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 
 
 
-			~az=[];~el=[];~magx=[];~magy=[];~magz=[];~xx=[];~yy=[];~zz=[];
+			~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
 		360.do{
-				xx=(13).collect{
-thisThread.randSeed = seeda;
-			seeda=seeda+1;
-
-			sphx=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose)).x;
-
-	};
-				yy=(13).collect{
-thisThread.randSeed = seedb;
-			seedb=seedb+1;
-
-			sphy=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose)).y;
-	};
-				zz=(13).collect{
-thisThread.randSeed = seedc;
-			seedc=seedc+1;
-
-			sphz=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose)).z;
-
-	};
 
 azimuth=(13).collect{
 thisThread.randSeed = seed1;
@@ -191,7 +171,7 @@ mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sp
 mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
-};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;~xx=~xx++xx;~yy=~yy++yy;~zz=~zz++zz;};
+};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;};
 }.value;
 (
 ~magx=~magx/(2.sqrt);
@@ -307,7 +287,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=5,pl2=0,envp,octave=2;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=5,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -338,7 +318,11 @@ freq=(fundamental*octave);
 
 sphere=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
-n1=(Select.kr(pl1,~xx)).round(0.00000001); n2=(Select.kr(pl1,~yy)).round(0.00000001); n3=(Select.kr(pl1,~zz)).round(0.00000005);
+n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
+
+ton1=n1.abs.linlin(0,1,1,2)*mult1;
+ton2=n2.abs.linlin(0,1,1,2)*mult2;
+ton3=n3.abs.linlin(0,1,1,2)*mult3;
 
 ton1=n1.abs*mult1;ton2=n2.abs*mult2;ton3=n3.abs*mult3;
 
@@ -431,7 +415,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 	);
-	TempoClock.default.tempo_(1/1);
+	TempoClock.default.tempo_(2/1);
 
 
 
