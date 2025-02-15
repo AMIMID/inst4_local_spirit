@@ -320,9 +320,47 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,m=15;
 );
 )
 ///////////////////////////3d
-~angleRoutine.play;
-2.pow(6/12)
+
+2.pow(10/12)
+
+([2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12)].normalizeSum.sqrt*2).postln;
 [1,1,1].normalizeSum.sqrt
+
+Cartesian(12/9,12/8, 12/6).rho
+
+Cartesian(2.pow(4/12),2.pow(5/12), 2.pow(11/12)).rho
+
+~angleRoutine.play;
+
+[2.pow(4/12),2.pow(6/12),2.pow(8/12) ].normalizeSum.sqrt
+
+(
+var xyz;
+
+xyz=(([2.pow(12.rand/12),2.pow(12.rand/12),2.pow(12.rand/12)].normalizeSum*2.8331469310467*2).sqrt).postln;
+Cartesian(xyz.[0],xyz.[1], xyz.[2]).rho.postln;
+)
+2.pow(66/12)
+2.pow(78/12)
+
+(
+
+ // Initialize angle
+var angle,n=0;
+~tempo=1;
+~angleRoutine = Routine({
+    loop {
+       angle=(2.pow(n/12)).postln;
+		n=n+1;
+(sin(angle.degrad).abs.linlin(0,1,1,2)/cos(angle.degrad).abs.linlin(0,1,1,2)).postln;
+
+		~tempo.wait;
+    }
+}
+);
+)
+
+~angleRoutine.play;
 (
 
  // Initialize angle
