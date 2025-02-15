@@ -91,7 +91,7 @@ var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 ~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
 		360.do{
-azimuth=(13).collect{
+azimuth=((12*8)+1).collect{
 
 			az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
 			el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
@@ -101,7 +101,7 @@ azimuth=(13).collect{
 
 	};
 
-elevation=(13).collect{
+elevation=((12*8)+1).collect{
 
 				az2 = (angle+(360*2.pow(pl2/12))).wrap(180.neg,180);  // Increment azimuth
 			el2 = (angle+(180*2.pow(pl2/12))).wrap(90.neg,90);
@@ -111,7 +111,7 @@ elevation=(13).collect{
 
 	};
 
-magnitudex=(13).collect{
+magnitudex=((12*8)+1).collect{
 
 			az3 = (angle+(360*2.pow(pl3/12))).wrap(180.neg,180);  // Increment azimuth
 			el3 = (angle+ (180*2.pow(pl3/12))).wrap(90.neg,90);
@@ -130,7 +130,7 @@ magnitudex=(13).collect{
 
 };
 
-magnitudey=(13).collect{
+magnitudey=((12*8)+1).collect{
 
 			az4 = (angle+(360*2.pow(pl4/12))).wrap(180.neg,180);  // Increment azimuth
 			el4 = (angle+(180*2.pow(pl4/12))).wrap(90.neg,90);
@@ -147,7 +147,7 @@ magnitudey=(13).collect{
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 };
 
-magnitudez=(13).collect{
+magnitudez=((12*8)+1).collect{
 
 			az5 = (angle+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
 			el5 = (angle+(180*2.pow(pl5/12))).wrap(90.neg,90);
@@ -277,7 +277,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=5,pl2=0,envp,octave=4;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=5,pl2=0,envp,octave=2;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -298,10 +298,10 @@ SynthDef.new(\ospace1, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-//mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-				mag=Cartesian(0, Select.kr(pl1,~magy),0);
+mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+				//mag=Cartesian(0, Select.kr(pl1,~magx),0);
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1);
+				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/2);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -327,31 +327,29 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 
 					///%2==0 simulates .even
 
-					//envp=EnvGen.ar(Env.adsr(0.1,0.5,1/2,8,1),gate);
-
 
 osc1=VBAP.ar(4,
 					SinOsc.ar(pitch1,mul:amp1*mag.rho.round(0.00000001),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,envp,phase:sphere1.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,envp,phase:sphere1.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 osc2=VBAP.ar(4,
 						SinOsc.ar(pitch2,mul:amp2*mag.rho.round(0.00000001),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,envp,phase:sphere2.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,envp,phase:sphere2.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 osc3=VBAP.ar(4,
 					SinOsc.ar(pitch3,mul:amp3*mag.rho.round(0.00000001),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,envp,phase:sphere3.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,envp,phase:sphere3.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
@@ -370,7 +368,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ////////////list
 	({
 		var n=1.neg;
-		~list1=(360*13).collect{
+		~list1=(360*((12*4)+1)).collect{
 		n=n+1;
 		}
 		}.value
@@ -383,12 +381,12 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~dur1,1),
 			//\dur,1,
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,13,inf),
-			//\pl1,Pseq(~list1,inf),
+			//\pl1,Pbrown(0,17640,48,inf),
+			\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-			\mult1,Prand([1,2,4,8],inf),
+		\mult1,Prand([1,2,4,8],inf),
 				\mult2,Prand([1,2,4,8],inf),
 				\mult3,Prand([1,2,4,8],inf),
 			//\amp,Pseq(~r,inf);///l system
@@ -399,7 +397,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\dur,Pseq(~dur2,1),
 			//\dur,1,
 			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,13,inf),
+			//\pl1,Pbrown(0,17640,48,inf),
+			\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
