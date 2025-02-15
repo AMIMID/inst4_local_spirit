@@ -84,21 +84,23 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=1,m_z=3;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0,spha,sphb,sphc,sphd,sphe;
-var angle=0x,xx,yy,zz,sphx,sphy,sphz;
-var  seed1 = 123,seed2=123,seed3=123,seed4=123,seed5=123,seeda=123,seedb=123,seedc=123;
-var azimuth,elevation,magnitudex,magnitudey,magnitudez;
+var angle=0,sph;
+var  seed1 = 123,seed2=123,seed3=123,seed4=123,seed5=123,seed=123;
+var azimuth,elevation,magnitudex,magnitudey,magnitudez,magg;
+	var xyz1,xyz2,xyz3,xyz4,xyz5;
 
 
 
-			~az=[];~el=[];~magx=[];~magy=[];~magz=[];
-
-		360.do{
+	~az=[];~el=[];~magx=[];~magy=[];~magz=[];~mag=[];
+360.do{
 
 azimuth=(13).collect{
 thisThread.randSeed = seed1;
 			seed1=seed1+1;
 
-			spha=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose));
+		xyz1=[2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12)].normalizeSum.sqrt;
+
+		spha=Cartesian(xyz1.[0]*([1.neg,1].choose),xyz1.[1]*([1.neg,1].choose),xyz1.[2]*([1.neg,1].choose));
 			az1=(angle.degrad+spha.theta).wrap(pi.neg,pi);
 			el1=(angle.degrad+spha.phi).wrap((pi/2).neg,(pi/2));
 		sph1=Spherical(1,(az1),(el1)).theta.round(0.00001);
@@ -109,7 +111,9 @@ thisThread.randSeed = seed2;
 
 			seed2=seed2+1;
 
-			sphb=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose));
+			xyz2=[2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12)].normalizeSum.sqrt;
+
+		sphb=Cartesian(xyz2.[0]*([1.neg,1].choose),xyz2.[1]*([1.neg,1].choose),xyz2.[2]*([1.neg,1].choose));
 az2=(angle.degrad+sphb.theta).wrap(pi.neg,pi);
 			el2=(angle.degrad+sphb.phi).wrap((pi/2).neg,(pi/2));
 		sph2=Spherical(1,(az2),(el2)).phi.round(0.00001);
@@ -121,7 +125,9 @@ thisThread.randSeed = seed3;
 
 			seed3=seed3+1;
 
-			sphc=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose));
+			xyz3=[2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12)].normalizeSum.sqrt;
+
+		sphc=Cartesian(xyz3.[0]*([1.neg,1].choose),xyz3.[1]*([1.neg,1].choose),xyz3.[2]*([1.neg,1].choose));
 			az3=(angle.degrad+sphc.theta).wrap(pi.neg,pi);
 			el3=(angle.degrad+sphc.phi).wrap((pi/2).neg,(pi/2));
 		sph3=Spherical(1,(az3),(el3));
@@ -142,7 +148,9 @@ magnitudey=(13).collect{
 
 			seed4=seed4+1;
 
-				sphd=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose));
+			xyz4=[2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12)].normalizeSum.sqrt;
+
+		sphd=Cartesian(xyz4.[0]*([1.neg,1].choose),xyz4.[1]*([1.neg,1].choose),xyz4.[2]*([1.neg,1].choose));
 			az4=(angle.degrad+sphd.theta).wrap(pi.neg,pi);
 			el4=(angle.degrad+sphd.phi).wrap((pi/2).neg,(pi/2));
 	sph4=Spherical(1,(az4),(el4));
@@ -161,7 +169,9 @@ magnitudez=(13).collect{
 
 			seed5=seed5+1;
 
-			sphe=Cartesian(2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose),2.pow(12.rand2/12)*([1.neg,1].choose));
+			xyz5=[2.pow(12.rand2/12),2.pow(12.rand2/12),2.pow(12.rand2/12)].normalizeSum.sqrt;
+
+		sphe=Cartesian(xyz5.[0]*([1.neg,1].choose),xyz5.[1]*([1.neg,1].choose),xyz5.[2]*([1.neg,1].choose));
 			az5=(angle.degrad+sphe.theta).wrap(pi.neg,pi);
 			el5=(angle.degrad+sphe.phi).wrap((pi/2).neg,(pi/2));
 	sph5=Spherical(1,(az5),(el5));
@@ -171,7 +181,7 @@ mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sp
 mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
-};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;};
+};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;~mag=~mag++mag};
 }.value;
 (
 ~magx=~magx/(2.sqrt);
@@ -311,7 +321,7 @@ SynthDef.new(\ospace1, {
 mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
 				//mag=Cartesian(0, Select.kr(pl1,~magx),0);
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/2);
+				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/4);
 
 fundamental=(55);
 freq=(fundamental*octave);
