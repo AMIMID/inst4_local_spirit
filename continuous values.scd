@@ -319,4 +319,38 @@ var angle = 0, value1, value2,tone1,tone2,mult=2,n=0,m=15;
 }
 );
 )
+///////////////////////////3d
+~angleRoutine.play;
 
+(
+
+ // Initialize angle
+var angle = 0, value1, value2,value3,tone1,tone2,mult=2,n=0;
+var pl1=0,az1,el1,sph1;
+~tempo=2;
+~angleRoutine = Routine({
+    loop {
+
+pl1.postln;
+
+			az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
+			el1 = (angle+(180*2.pow(pl1/12))).wrap(90.neg,90);
+		pl1=(pl1+1).mod(13);
+
+		sph1=Spherical(1,(az1.degrad),(el1.degrad));
+
+
+		value1=sph1.x.abs.linlin(0,1,1,2);
+		value2=sph1.y.abs.linlin(0,1,1,2);
+		value3=sph1.z.abs.linlin(0,1,1,2);
+
+		"tone".postln;
+		value1.postln;
+	   value2.postln;
+		value3.postln;
+
+
+		~tempo.wait;
+    }
+});
+)
