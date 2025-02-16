@@ -89,7 +89,7 @@ var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 
 ~az=[];~el=[];~magx=[];~magy=[];~magz=[];
 
-		45.do{
+		8.do{
 		8.do{
 azimuth=(13).collect{
 
@@ -285,7 +285,7 @@ SynthDef.new(\ospace1, {
 	var freq,pitch1,pitch2,pitch3,env;
 	var pitch;
 	var n1,n2,n3;
-	var mag;
+	var mag,magx,magy,magz;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -300,10 +300,13 @@ SynthDef.new(\ospace1, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
-mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-				//mag=Cartesian(0, Select.kr(pl1,~magx),0);
+//mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+				magx=Cartesian(Select.kr(pl1,~magx), 0,0);
+				magy=Cartesian(0, Select.kr(pl1,~magy),0);
+				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
+
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/2);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -331,7 +334,7 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 
 
 osc1=VBAP.ar(4,
-					SinOsc.ar(pitch1,mul:amp1*mag.rho.round(0.00000001),phase:0),
+					SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -339,7 +342,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2*mag.rho.round(0.00000001),phase:0),
+						SinOsc.ar(pitch2,mul:amp2*magy.rho.round(0.00000001),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -347,7 +350,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-					SinOsc.ar(pitch3,mul:amp3*mag.rho.round(0.00000001),phase:0),
+					SinOsc.ar(pitch3,mul:amp3*magz.rho.round(0.00000001),phase:0),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -369,21 +372,55 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 ////////////list
 	({
-		var n=1.neg;
-		~list1=(45*8*13).collect{
+		var n=272;
+		~list1=(1*1*13).collect{
 		n=n+1;
 		}
 		}.value
 	);
 
+
 //////////pattern for mobius strib of sequential or parallel play of directions
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur1,1),
-			//\dur,1,
-			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,13,inf),
+			//\dur,Pseq(~dur1,1),
+			\dur,1,
+			//\pl1,Pbrown(0,4680,13,inf),
+	\pl1,Pseq([
+				Prand(
+				[Pbrown(0,12,6,1),Pbrown(13,25,6,1),Pbrown(26,38,6,1),Pbrown(39,51,6,1),
+				Pbrown(52,64,6,1),Pbrown(65,77,6,1),Pbrown(78,90,6,1),Pbrown(91,103,6,1)]
+				,1),
+				Prand(
+				[Pbrown(104,116,6,1),Pbrown(117,129,6,1),Pbrown(130,142,6,1),Pbrown(143,155,6,1),
+				Pbrown(156,168,6,1),Pbrown(169,181,6,1),Pbrown(182,194,6,1),Pbrown(195,207,6,1)]
+				,1),
+				Prand(
+				[Pbrown(208,220,6,1),Pbrown(221,233,6,1),Pbrown(234,246,6,1),Pbrown(247,259,6,1),
+				Pbrown(260,272,6,1),Pbrown(273,285,6,1),Pbrown(286,298,6,1),Pbrown(299,311,6,1)]
+				,1),
+				Prand(
+				[Pbrown(312,324,6,1),Pbrown(325,337,6,1),Pbrown(338,350,6,1),Pbrown(351,363,6,1),
+				Pbrown(364,376,6,1),Pbrown(377,389,6,1),Pbrown(390,402,6,1),Pbrown(403,415,6,1)]
+				,1),
+				Prand(
+				[Pbrown(416,428,6,1),Pbrown(429,441,6,1),Pbrown(442,454,6,1),Pbrown(455,467,6,1),
+				Pbrown(468,480,6,1),Pbrown(481,493,6,1),Pbrown(494,506,6,1),Pbrown(507,519,6,1)]
+				,1),
+				Prand(
+				[Pbrown(520,532,6,1),Pbrown(533,545,6,1),Pbrown(546,558,6,1),Pbrown(559,571,6,1),
+				Pbrown(572,584,6,1),Pbrown(585,597,6,1),Pbrown(598,610,6,1),Pbrown(611,623,6,1)]
+				,1),
+				Prand(
+				[Pbrown(624,636,6,1),Pbrown(637,649,6,1),Pbrown(650,662,6,1),Pbrown(663,675,6,1),
+				Pbrown(676,688,6,1),Pbrown(689,701,6,1),Pbrown(702,714,6,1),Pbrown(715,727,6,1)]
+				,1),
+				Prand(
+				[Pbrown(728,740,6,1),Pbrown(741,753,6,1),Pbrown(754,766,6,1),Pbrown(767,770,6,1),
+				Pbrown(780,792,6,1),Pbrown(793,805,6,1),Pbrown(806,818,6,1),Pbrown(819,831,6,1)]
+				,1)
+			],inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -395,11 +432,44 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 
-~aaa=Pdef(\9, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur2,1),
-			//\dur,1,
-			//\pl1,Prand(~list1,inf),
-			\pl1,Pbrown(0,4680,13,inf),
+~aaa=Pdef(\2, Pbind(\instrument, \ospace1,
+			//\dur,Pseq(~dur2,1),
+			\dur,1,
+			\pl1,Pseq([
+				Prand(
+				[Pbrown(0,12,6,1),Pbrown(13,25,6,1),Pbrown(26,38,6,1),Pbrown(39,51,6,1),
+				Pbrown(52,64,6,1),Pbrown(65,77,6,1),Pbrown(78,90,6,1),Pbrown(91,103,6,1)]
+				,1),
+				Prand(
+				[Pbrown(104,116,6,1),Pbrown(117,129,6,1),Pbrown(130,142,6,1),Pbrown(143,155,6,1),
+				Pbrown(156,168,6,1),Pbrown(169,181,6,1),Pbrown(182,194,6,1),Pbrown(195,207,6,1)]
+				,1),
+				Prand(
+				[Pbrown(208,220,6,1),Pbrown(221,233,6,1),Pbrown(234,246,6,1),Pbrown(247,259,6,1),
+				Pbrown(260,272,6,1),Pbrown(273,285,6,1),Pbrown(286,298,6,1),Pbrown(299,311,6,1)]
+				,1),
+				Prand(
+				[Pbrown(312,324,6,1),Pbrown(325,337,6,1),Pbrown(338,350,6,1),Pbrown(351,363,6,1),
+				Pbrown(364,376,6,1),Pbrown(377,389,6,1),Pbrown(390,402,6,1),Pbrown(403,415,6,1)]
+				,1),
+				Prand(
+				[Pbrown(416,428,6,1),Pbrown(429,441,6,1),Pbrown(442,454,6,1),Pbrown(455,467,6,1),
+				Pbrown(468,480,6,1),Pbrown(481,493,6,1),Pbrown(494,506,6,1),Pbrown(507,519,6,1)]
+				,1),
+				Prand(
+				[Pbrown(520,532,6,1),Pbrown(533,545,6,1),Pbrown(546,558,6,1),Pbrown(559,571,6,1),
+				Pbrown(572,584,6,1),Pbrown(585,597,6,1),Pbrown(598,610,6,1),Pbrown(611,623,6,1)]
+				,1),
+				Prand(
+				[Pbrown(624,636,6,1),Pbrown(637,649,6,1),Pbrown(650,662,6,1),Pbrown(663,675,6,1),
+				Pbrown(676,688,6,1),Pbrown(689,701,6,1),Pbrown(702,714,6,1),Pbrown(715,727,6,1)]
+				,1),
+				Prand(
+				[Pbrown(728,740,6,1),Pbrown(741,753,6,1),Pbrown(754,766,6,1),Pbrown(767,770,6,1),
+				Pbrown(780,792,6,1),Pbrown(793,805,6,1),Pbrown(806,818,6,1),Pbrown(819,831,6,1)]
+				,1)
+			],inf),
+			//\pl1,Pbrown(0,4680,13,inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -410,8 +480,10 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			//\amp,Pseq(~r,inf);///l system
 			\amp,1;
 ));
+
+
 	);
-	TempoClock.default.tempo_(2/1);
+	TempoClock.default.tempo_(1/1);
 
 
 
