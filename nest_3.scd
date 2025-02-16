@@ -81,7 +81,7 @@ word.do({|i| ~r = ~r ++ dictnotes[i.asSymbol];});
 //////////////////////////////////////////////////basis
 	(
 {
-var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=1,m_z=3;
+var  sph1,sph2,sph3,sph4,sph5,m_x=2,m_y=2,m_z=2;
 var az1=0,el1=0,az2=0,el2=0,az3=0,el3=0,mag,mag_x,mag_y,mag_z;
 var az4=0,el4=0,az5=0,el5=0,pl1=0,pl2=0,pl3=0,pl4=0,pl5=0;
 var angle=0,ang=0;
@@ -306,7 +306,8 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
+				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1);
+				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
 
 fundamental=(55);
 freq=(fundamental*octave);
@@ -384,41 +385,41 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			//\dur,Pseq(~dur1,1),
-			\dur,1,
+			\dur,Pseq(~dur1,1),
+			//\dur,1,
 			//\pl1,Pbrown(0,4680,13,inf),
 	\pl1,Pseq([
-				Prand(
-				[Pbrown(0,12,6,1),Pbrown(13,25,6,1),Pbrown(26,38,6,1),Pbrown(39,51,6,1),
-				Pbrown(52,64,6,1),Pbrown(65,77,6,1),Pbrown(78,90,6,1),Pbrown(91,103,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,0,1),1),Pseq(Array.series(13,13,1),1),Pseq(Array.series(13,26,1),1),Pseq(Array.series(13,39,1),1),
+				Pseq(Array.series(13,52,1),1),Pseq(Array.series(13,65,1),1),Pseq(Array.series(13,78,1),1),Pseq(Array.series(13,91,1),1)]
 				,1),
-				Prand(
-				[Pbrown(104,116,6,1),Pbrown(117,129,6,1),Pbrown(130,142,6,1),Pbrown(143,155,6,1),
-				Pbrown(156,168,6,1),Pbrown(169,181,6,1),Pbrown(182,194,6,1),Pbrown(195,207,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
 				,1),
-				Prand(
-				[Pbrown(208,220,6,1),Pbrown(221,233,6,1),Pbrown(234,246,6,1),Pbrown(247,259,6,1),
-				Pbrown(260,272,6,1),Pbrown(273,285,6,1),Pbrown(286,298,6,1),Pbrown(299,311,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
+				Pseq(Array.series(13,260,1),1),Pseq(Array.series(13,273,1),1),Pseq(Array.series(13,286,1),1),Pseq(Array.series(13,299,1),1)]
 				,1),
-				Prand(
-				[Pbrown(312,324,6,1),Pbrown(325,337,6,1),Pbrown(338,350,6,1),Pbrown(351,363,6,1),
-				Pbrown(364,376,6,1),Pbrown(377,389,6,1),Pbrown(390,402,6,1),Pbrown(403,415,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,312,1),1),Pseq(Array.series(13,325,1),1),Pseq(Array.series(13,338,1),1),Pseq(Array.series(13,351,1),1),
+				Pseq(Array.series(13,364,1),1),Pseq(Array.series(13,377,1),1),Pseq(Array.series(13,390,1),1),Pseq(Array.series(13,403,1),1)]
 				,1),
-				Prand(
-				[Pbrown(416,428,6,1),Pbrown(429,441,6,1),Pbrown(442,454,6,1),Pbrown(455,467,6,1),
-				Pbrown(468,480,6,1),Pbrown(481,493,6,1),Pbrown(494,506,6,1),Pbrown(507,519,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,416,1),1),Pseq(Array.series(13,429,1),1),Pseq(Array.series(13,442,1),1),Pseq(Array.series(13,455,1),1),
+				Pseq(Array.series(13,468,1),1),Pseq(Array.series(13,481,1),1),Pseq(Array.series(13,494,1),1),Pseq(Array.series(13,507,1),1)]
 				,1),
-				Prand(
-				[Pbrown(520,532,6,1),Pbrown(533,545,6,1),Pbrown(546,558,6,1),Pbrown(559,571,6,1),
-				Pbrown(572,584,6,1),Pbrown(585,597,6,1),Pbrown(598,610,6,1),Pbrown(611,623,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,520,1),1),Pseq(Array.series(13,533,1),1),Pseq(Array.series(13,546,1),1),Pseq(Array.series(13,559,1),1),
+				Pseq(Array.series(13,572,1),1),Pseq(Array.series(13,585,1),1),Pseq(Array.series(13,598,1),1),Pseq(Array.series(13,611,1),1)]
 				,1),
-				Prand(
-				[Pbrown(624,636,6,1),Pbrown(637,649,6,1),Pbrown(650,662,6,1),Pbrown(663,675,6,1),
-				Pbrown(676,688,6,1),Pbrown(689,701,6,1),Pbrown(702,714,6,1),Pbrown(715,727,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,624,1),1),Pseq(Array.series(13,637,1),1),Pseq(Array.series(13,650,1),1),Pseq(Array.series(13,663,1),1),
+				Pseq(Array.series(13,676,1),1),Pseq(Array.series(13,689,1),1),Pseq(Array.series(13,702,1),1),Pseq(Array.series(13,715,1),1)]
 				,1),
-				Prand(
-				[Pbrown(728,740,6,1),Pbrown(741,753,6,1),Pbrown(754,766,6,1),Pbrown(767,770,6,1),
-				Pbrown(780,792,6,1),Pbrown(793,805,6,1),Pbrown(806,818,6,1),Pbrown(819,831,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,728,1),1),Pseq(Array.series(13,741,1),6,1),Pseq(Array.series(13,754,1),1),Pseq(Array.series(13,767,1),1),
+				Pseq(Array.series(13,780,1),1),Pseq(Array.series(13,793,1),1),Pseq(Array.series(13,806,1),1),Pseq(Array.series(13,819,1),1)]
 				,1)
 			],inf),
 			//\pl1,Pseq(~list1,inf),
@@ -432,41 +433,42 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 
+
 ~aaa=Pdef(\2, Pbind(\instrument, \ospace1,
-			//\dur,Pseq(~dur2,1),
-			\dur,1,
+			\dur,Pseq(~dur2,1),
+			//\dur,1,
 			\pl1,Pseq([
-				Prand(
-				[Pbrown(0,12,6,1),Pbrown(13,25,6,1),Pbrown(26,38,6,1),Pbrown(39,51,6,1),
-				Pbrown(52,64,6,1),Pbrown(65,77,6,1),Pbrown(78,90,6,1),Pbrown(91,103,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,0,1),1),Pseq(Array.series(13,13,1),1),Pseq(Array.series(13,26,1),1),Pseq(Array.series(13,39,1),1),
+				Pseq(Array.series(13,52,1),1),Pseq(Array.series(13,65,1),1),Pseq(Array.series(13,78,1),1),Pseq(Array.series(13,91,1),1)]
 				,1),
-				Prand(
-				[Pbrown(104,116,6,1),Pbrown(117,129,6,1),Pbrown(130,142,6,1),Pbrown(143,155,6,1),
-				Pbrown(156,168,6,1),Pbrown(169,181,6,1),Pbrown(182,194,6,1),Pbrown(195,207,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
 				,1),
-				Prand(
-				[Pbrown(208,220,6,1),Pbrown(221,233,6,1),Pbrown(234,246,6,1),Pbrown(247,259,6,1),
-				Pbrown(260,272,6,1),Pbrown(273,285,6,1),Pbrown(286,298,6,1),Pbrown(299,311,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
+				Pseq(Array.series(13,260,1),1),Pseq(Array.series(13,273,1),1),Pseq(Array.series(13,286,1),1),Pseq(Array.series(13,299,1),1)]
 				,1),
-				Prand(
-				[Pbrown(312,324,6,1),Pbrown(325,337,6,1),Pbrown(338,350,6,1),Pbrown(351,363,6,1),
-				Pbrown(364,376,6,1),Pbrown(377,389,6,1),Pbrown(390,402,6,1),Pbrown(403,415,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,312,1),1),Pseq(Array.series(13,325,1),1),Pseq(Array.series(13,338,1),1),Pseq(Array.series(13,351,1),1),
+				Pseq(Array.series(13,364,1),1),Pseq(Array.series(13,377,1),1),Pseq(Array.series(13,390,1),1),Pseq(Array.series(13,403,1),1)]
 				,1),
-				Prand(
-				[Pbrown(416,428,6,1),Pbrown(429,441,6,1),Pbrown(442,454,6,1),Pbrown(455,467,6,1),
-				Pbrown(468,480,6,1),Pbrown(481,493,6,1),Pbrown(494,506,6,1),Pbrown(507,519,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,416,1),1),Pseq(Array.series(13,429,1),1),Pseq(Array.series(13,442,1),1),Pseq(Array.series(13,455,1),1),
+				Pseq(Array.series(13,468,1),1),Pseq(Array.series(13,481,1),1),Pseq(Array.series(13,494,1),1),Pseq(Array.series(13,507,1),1)]
 				,1),
-				Prand(
-				[Pbrown(520,532,6,1),Pbrown(533,545,6,1),Pbrown(546,558,6,1),Pbrown(559,571,6,1),
-				Pbrown(572,584,6,1),Pbrown(585,597,6,1),Pbrown(598,610,6,1),Pbrown(611,623,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,520,1),1),Pseq(Array.series(13,533,1),1),Pseq(Array.series(13,546,1),1),Pseq(Array.series(13,559,1),1),
+				Pseq(Array.series(13,572,1),1),Pseq(Array.series(13,585,1),1),Pseq(Array.series(13,598,1),1),Pseq(Array.series(13,611,1),1)]
 				,1),
-				Prand(
-				[Pbrown(624,636,6,1),Pbrown(637,649,6,1),Pbrown(650,662,6,1),Pbrown(663,675,6,1),
-				Pbrown(676,688,6,1),Pbrown(689,701,6,1),Pbrown(702,714,6,1),Pbrown(715,727,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,624,1),1),Pseq(Array.series(13,637,1),1),Pseq(Array.series(13,650,1),1),Pseq(Array.series(13,663,1),1),
+				Pseq(Array.series(13,676,1),1),Pseq(Array.series(13,689,1),1),Pseq(Array.series(13,702,1),1),Pseq(Array.series(13,715,1),1)]
 				,1),
-				Prand(
-				[Pbrown(728,740,6,1),Pbrown(741,753,6,1),Pbrown(754,766,6,1),Pbrown(767,770,6,1),
-				Pbrown(780,792,6,1),Pbrown(793,805,6,1),Pbrown(806,818,6,1),Pbrown(819,831,6,1)]
+				Pseq(
+				[Pseq(Array.series(13,728,1),1),Pseq(Array.series(13,741,1),6,1),Pseq(Array.series(13,754,1),1),Pseq(Array.series(13,767,1),1),
+				Pseq(Array.series(13,780,1),1),Pseq(Array.series(13,793,1),1),Pseq(Array.series(13,806,1),1),Pseq(Array.series(13,819,1),1)]
 				,1)
 			],inf),
 			//\pl1,Pbrown(0,4680,13,inf),
