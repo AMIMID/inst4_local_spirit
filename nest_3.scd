@@ -395,7 +395,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
-				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(Array.series(13,195,1),1)]
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
@@ -444,7 +444,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,104,1),1),Pseq(Array.series(13,117,1),1),Pseq(Array.series(13,130,1),1),Pseq(Array.series(13,143,1),1),
-				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(195,207,6Array.series(13,195,1),1)]
+				Pseq(Array.series(13,156,1),1),Pseq(Array.series(13,169,1),1),Pseq(Array.series(13,182,1),1),Pseq(Array.series(13,195,1),1)]
 				,1),
 				Pseq(
 				[Pseq(Array.series(13,208,1),1),Pseq(Array.series(13,221,1),1),Pseq(Array.series(13,234,1),1),Pseq(Array.series(13,247,1),1),
