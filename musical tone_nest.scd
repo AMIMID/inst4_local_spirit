@@ -88,6 +88,7 @@ var azimuth,elevation,magnitudex,magnitudey,magnitudez;
 var durx,dury,durz;
 var sphx,sphy,sphz,azx,elx,azy,ely,azz,elz,plx=0,ply=0,plz=0;
 var num=1.neg;
+var az=[],el=[],magx=[],magy=[],magz=[];
 
 			~az=[];~el=[];~magx=[];~magy=[];~magz=[];~dur=[];
 
@@ -190,9 +191,9 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
 
-			};ang=(ang+45).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
+			};ang=(ang+45).wrap(0,360);az=az++azimuth;el=el++elevation;magx=magx++magnitudex;magy=magy++magnitudey;magz=magz++magnitudez;
 
-};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
+};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++az;~el=~el++el;~magx=~magx++magx;~magy=~magy++magy;~magz=~magz++magz;
 
 				13.do{ num=num+1; ~dur=~dur++durx.[num]++dury.[num]++durz.[num];};num=1.neg;
 			};
@@ -389,10 +390,10 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),
 				PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian),PdegreeToKey(Pseq(Array.rand(3,0,7),1),Scale.phrygian)]
 				,1)
-			],inf).poll,
+			],inf),
 	\pl1,Pseq([
 				Prand(
-				[Pseq(Array.rand(3,00,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
+				[Pseq(Array.rand(3,0,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
 				Pseq(Array.rand(3,52,64),1),Pseq(Array.rand(3,65,77),1),Pseq(Array.rand(3,78,90),1),Pseq(Array.rand(3,91,103),1)]
 				,1),
 				Prand(
@@ -428,15 +429,15 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
 		//	\out3,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
-		\mult1,Prand([1,2,4,8],inf),
-				\mult2,Prand([1,2,4,8],inf),
-				\mult3,Prand([1,2,4,8],inf),
+		\mult1,Prand([1,2,4],inf),
+				\mult2,Prand([1,2,4],inf),
+				\mult3,Prand([1,2,4],inf),
 			//\amp,Pseq(~r,inf);///l system
 			\amp,1;
 ));
 
 	);
-	TempoClock.default.tempo_(1/1);
+	TempoClock.default.tempo_(1/4);
 
 
 
@@ -446,6 +447,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 (
 ~aa.play;
+~aaa.play;
+~aaaa.play;
 );
 
 s.record(numChannels:4);
