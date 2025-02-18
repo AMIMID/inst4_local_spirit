@@ -414,13 +414,10 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 	pitch2=(freq*ton2).round(0.0000001);
 	pitch3=(freq*ton3).round(0.0000001);
 
-				//phase=Complex(exp(Complex(0,1)*(sphere.theta)).real.round(0.000001),exp(Complex(0,1)*(sphere.phi)).imag.round(0.000001)).theta;
-
-					///2%2==0 simulates .even
-
+		phase=sphere.theta+sphere.phi;
 
 osc1=VBAP.ar(4,
-					SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:0),
+					SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -428,7 +425,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2*magy.rho.round(0.00000001),phase:0),
+						SinOsc.ar(pitch2,mul:amp2*magy.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -436,7 +433,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-					SinOsc.ar(pitch3,mul:amp3*magz.rho.round(0.00000001),phase:0),
+					SinOsc.ar(pitch3,mul:amp3*magz.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -568,7 +565,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 	);
-	TempoClock.default.tempo_(1/8);
+	TempoClock.default.tempo_(1/1);
 
 
 
