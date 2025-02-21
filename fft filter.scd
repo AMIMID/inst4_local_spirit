@@ -1,7 +1,7 @@
 (
 s.options.numBuffers=1024*2;
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=4;
+s.options.numOutputBusChannels=6;
 s.options.numInputBusChannels=2;
 s.options.memSize = 8192*128*2;
 s.options.blockSize = 64;
@@ -29,13 +29,11 @@ Buffer.freeAll
 SynthDef.new(\nest,{
 	var amp=1;
 
-Out.ar(2,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
-Out.ar(3,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(4,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(5,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
 }).add;
 )
 
-(
-~nest=Synth.new(\nest);
 
 
 (
@@ -64,11 +62,11 @@ thisThread.randSeed = ~seed;~d=~k.scramble;
 	var samplerate=44100;
 	var env;
 
-			in1 = PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum), loop: 0, doneAction:2);
-			in2 = PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum), loop: 0, doneAction:2);
+		//	in1 = PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum), loop: 0, doneAction:2);
+		//	in2 = PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum), loop: 0, doneAction:2);
 
-			//	in1 = InFeedback.ar(2);
-			//in2 = InFeedback.ar(3);
+				in1 = InFeedback.ar(4);
+			in2 = InFeedback.ar(5);
 
 	chainx = FFT(LocalBuf(frames), in1);
 	chainy = FFT(LocalBuf(frames), in2);
@@ -93,28 +91,8 @@ chainyy = chainy.pvcollect(frames, {|magnitude, phase, bin|
 );
 }
 );
-(
 
-~synths = [];
-x = {
-    var newSynth,num=0;
-	newSynth =Synth(\obin_++~k.[num]); // Create a new Synth
-    ~synths = ~synths.add(newSynth); // Add it to the array
-    newSynth.postln; // Print the Synth to confirm
-	num=num+1;
-};
-);
 )
-
-~f=Pseq(~k,1).asStream;
-
-
-//{SinOsc.ar(220)!2}.play
-
-x.value;
-
-
-~synths.[~f.next].free
 
 
 (
@@ -128,7 +106,7 @@ w=Window.new("gui",Rect.new(750,100,1200,200)).front.alwaysOnTop_(true);
 ~filter1.action_({
 	arg obj;
 	var pass;
-	pass=obj.value.linlin(0,1,0,256);
+	pass=obj.value.linlin(0,1,0,255);
 	["pass"].postln;
 	pass=pass.round(1);
 	pass.value.postln;
@@ -139,8 +117,55 @@ w=Window.new("gui",Rect.new(750,100,1200,200)).front.alwaysOnTop_(true);
 
 )
 
-////////////////////////////z
-~c1 = Buffer.read(s,"/Users/petrostatsiopoulos/Desktop/nest_stereo.wav");
+~nest=Synth.new(\nest);
+(
+	~synths = [];
+x = {
+    var newSynth;
+	newSynth =Synth(\obin_++~pass); // Create a new Synth
+    ~synths = ~synths.add(newSynth); // Add it to the array
+    newSynth.postln; // Print the Synth to confirm
+};
+	(
+
+//w.close;
+w=Window.new("gui",Rect.new(750,100,1200,200)).front.alwaysOnTop_(true);
 
 
-{Out.ar(0,BPF.ar(PlayBuf.ar(2, ~c1.bufnum, BufRateScale.kr(~c1.bufnum), loop: 0, doneAction:2),12*36,MouseX.kr(0.00001,1)))}.play
+~filter1 = Slider.new(w.view,Rect.new(20,20,250,50));
+~filter2 = Slider.new(w.view,Rect.new(20,80,250,50));
+
+(
+~filter1.action_({
+	arg obj;
+	var pass,cutt;
+	~pass=obj.value.linlin(0,1,0.0,256);
+	//cutt=obj.value.linlin(0,1,512,0);
+	//["pass"].postln;
+	~pass=~pass.round(1);
+	//cutt=cutt.round(1);
+	~pass.value.postln;
+	//cutt.value.postln;
+x.value;
+	//~synths.[cutt].free;
+});
+~filter2.action_({
+	arg obj;
+	var pass,cutt,synth;
+	//pass=obj.value.linlin(0,1,0,512);
+	~cuttt=obj.value.linlin(0,1,0.0,256);
+	//["pass"].postln;
+	//pass=pass.round(1);
+	~cuttt=~cuttt.round(1);
+	//pass.value.postln;
+	~cuttt.value.postln;
+
+
+	~synths.[~cuttt].free;
+	~synths.remove(~synths.[~cuttt])
+});
+
+);
+);
+
+)
