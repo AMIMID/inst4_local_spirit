@@ -1,7 +1,7 @@
 (
 s.options.numBuffers=1024*2;
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=2;
+s.options.numOutputBusChannels=4;
 s.options.numInputBusChannels=2;
 s.options.memSize = 8192*128*2;
 s.options.blockSize = 64;
@@ -17,7 +17,27 @@ Buffer.freeAll
 )
 
 ~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/PAST PROJECTS FILES/AUDIO FILES/vh/vh.wav",channels:0 );
+
+(
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest_stereo.wav",channels:0);
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/nest_stereo.wav",channels:1);
+)
 ///////////////////
+
+
+(
+SynthDef.new(\nest,{
+	var amp=1;
+
+Out.ar(2,PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+Out.ar(3,PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2)*amp);
+}).add;
+)
+
+(
+~nest=Synth.new(\nest);
+
+
 (
 (
 ({
@@ -46,6 +66,9 @@ thisThread.randSeed = ~seed;~d=~k.scramble;
 
 			in1 = PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum), loop: 0, doneAction:2);
 			in2 = PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum), loop: 0, doneAction:2);
+
+			//	in1 = InFeedback.ar(2);
+			//in2 = InFeedback.ar(3);
 
 	chainx = FFT(LocalBuf(frames), in1);
 	chainy = FFT(LocalBuf(frames), in2);
