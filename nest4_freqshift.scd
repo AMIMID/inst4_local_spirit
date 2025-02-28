@@ -531,11 +531,11 @@ SynthDef.new(\ospace1, {
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
 				//env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:0.01);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 
 //fundamental=(12*6);
 
-fundamental=(6);
+fundamental=(1);
 freq=(fundamental*octave);
 
 sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
@@ -543,7 +543,7 @@ sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
 
-ton1=n1.poll;
+ton1=n1;
 ton2=n2;
 ton3=n3;
 //ton1=2.pow(n1/9);
@@ -558,7 +558,7 @@ amp3=(2.pow(n3/12).reciprocal*octave.reciprocal).round(0.00000001);*/
 				amp2 = Select.kr(n2 > 0, [(n2.abs).round(0.00000001), (n2.reciprocal).round(0.00000001)]);
 				amp3 = Select.kr(n3 > 0, [(n3.abs).round(0.00000001), (n3.reciprocal).round(0.00000001)]);
 
-				amp1.poll;
+
 	pitch1=(freq*ton1).round(0.0000001);
 	pitch2=(freq*ton2).round(0.0000001);
 	pitch3=(freq*ton3).round(0.0000001);
@@ -576,7 +576,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						FreqShift.ar(in:sig,freq:pitch2,mul:amp2*magy.rho.round(0.00000001),phase:phase),
+						FreqShift.ar(in:sig,freq:pitch2,mul:amp2*magx.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -584,7 +584,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-					FreqShift.ar(in:sig,freq:pitch3,mul:amp3*magz.rho.round(0.00000001),phase:phase),
+					FreqShift.ar(in:sig,freq:pitch3,mul:amp3*magx.rho.round(0.00000001),phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -617,8 +617,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-		//	\dur,Pseq(~dur,1),
-\dur,10,
+			\dur,Pseq(~dur,1),
+//\dur,10,
 			\pl1,Pbrown(1,4680,12,inf),
 	/*\pl1,Pseq([
 				Prand(
@@ -716,7 +716,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 	);
-	TempoClock.default.tempo_(1);
+	TempoClock.default.tempo_(2);
 
 
 
