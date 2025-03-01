@@ -19,7 +19,7 @@ Buffer.freeAll;
 ~t= Buffer.alloc(s,2048);
 
 	////sample
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/NEST_stereo/samples/01 Vinum Sabbathi.wav",channels:0 );
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/NEST_stereo/samples/01 Blood And Thunder.wav",channels:0 );
 ////////////////////////////////////speaker setup///other
 /*(
 // 3D///cube
@@ -502,7 +502,7 @@ signal.plot;
 (
 SynthDef.new(\ospace1, {
 	arg mult1=1,mult2=1,mult3=1,amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=2,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -530,18 +530,17 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				//env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:0.01);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.01);
+				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.001);
 
 //fundamental=(12*6);
 
-fundamental=(1);
+fundamental=(4000);
 freq=(fundamental*octave);
 
-sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
-
 
 ton1=n1;
 ton2=n2;
@@ -554,9 +553,9 @@ ton3=n3;
 amp2=(2.pow(n2/12).reciprocal*octave.reciprocal).round(0.00000001);
 amp3=(2.pow(n3/12).reciprocal*octave.reciprocal).round(0.00000001);*/
 
-				amp1 = Select.kr(n1 > 0, [(n1.abs).round(0.00000001), (n1.reciprocal).round(0.00000001)]);
-				amp2 = Select.kr(n2 > 0, [(n2.abs).round(0.00000001), (n2.reciprocal).round(0.00000001)]);
-				amp3 = Select.kr(n3 > 0, [(n3.abs).round(0.00000001), (n3.reciprocal).round(0.00000001)]);
+				amp1 = Select.kr(n1 > 0, [(n1.abs.linlin(0,1,1,2)).round(0.00000001), (n1.abs.linlin(0,1,1,0)).round(0.00000001)]);
+				amp2 = Select.kr(n2 > 0, [(n2.abs.linlin(0,1,1,2)).round(0.00000001), (n2.abs.linlin(0,1,1,0)).round(0.00000001)]);
+				amp3 = Select.kr(n3 > 0, [(n3.abs.linlin(0,1,1,2)).round(0.00000001), (n3.abs.linlin(0,1,1,0)).round(0.00000001)]);
 
 
 	pitch1=(freq*ton1).round(0.0000001);
@@ -716,7 +715,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 	);
-	TempoClock.default.tempo_(2);
+	TempoClock.default.tempo_(1/4);
 
 
 
