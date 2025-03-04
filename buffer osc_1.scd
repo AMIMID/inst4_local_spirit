@@ -500,13 +500,13 @@ signal.plot;
 	(
 (
 SynthDef.new(\ospace1, {
-	arg amp=1,pl1=1,rq1=1,rq2=1,rq3=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=6,pl2=0,envp,octave=1;
+	arg amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
 	var pitch;
-	var n1,n2,n3;
+	var n1,n2,n3,rq1,rq2,rq3;
 	var mag,magx,magy,magz;
 				var sig;
 
@@ -529,8 +529,8 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				//env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:0.01);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
+				//env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/2);
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/2);
 
 //fundamental=(12*6);
 
@@ -557,7 +557,11 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 	pitch3=(freq*ton3).round(0.0000001);
 
 				sig= InFeedback.ar(4,1);
-
+				//rq=MouseX.kr(0.000001,1);
+				rq1=0.00001;
+				rq2=0.00001;
+				rq3=0.00001;
+//(1/rq2.sqrt)
 
 osc1=VBAP.ar(4,
 					BPF.ar(sig,pitch1,rq1,mul:amp1*magx.rho.round(0.00000001)*(1/rq1.sqrt)),
@@ -646,9 +650,6 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
 			],inf),
-			\rq1,Pbrown(0.00001,1,0.0001,inf),
-			\rq2,Pbrown(0.00001,1,0.0001,inf),
-			\rq3,Pbrown(0.00001,1,0.0001,inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -694,9 +695,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
 			],inf),
-				\rq1,Pbrown(0.00001,1,0.0001,inf),
-			\rq2,Pbrown(0.00001,1,0.0001,inf),
-			\rq3,Pbrown(0.00001,1,0.0001,inf),
+
 			//\pl1,Pbrown(1,4680,13,inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
@@ -718,7 +717,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 Buffer.freeAll;
 
 (
-~c1 = Buffer.readChannel(s,,channels:0);~c2 = Buffer.readChannel(s,,channels:0);
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Blazon Stone/Return To Port Royal - Definitive Edition/01 Black Chest In (Intro).wav",channels:0);~c2 = Buffer.readChannel(s,,channels:0);
 ~c3 = Buffer.readChannel(s,,channels:0);~c4 = Buffer.readChannel(s,,channels:0);
 ~c5 = Buffer.readChannel(s,,channels:0);~c6 = Buffer.readChannel(s,,channels:0);
 ~c7 = Buffer.readChannel(s,,channels:0);~c8 = Buffer.readChannel(s,,channels:0);
@@ -739,9 +738,9 @@ SynthDef.new(\obuff, {
 	arg buffer=0;
 	var sig,env,gain=1;
 
-			env= EnvGen.ar(Env.sine(10),doneAction:2);
+			//env= EnvGen.ar(Env.sine(10),doneAction:2);
 
-			sig=PlayBuf.ar(1, buffer.bufnum, BufRateScale.kr(buffer.bufnum),startPos:0, loop: 0, doneAction:2)*env;
+			sig=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2);
 
 			Out.ar(4,sig*gain);
 
@@ -765,7 +764,7 @@ Synth(\obuff)
 //////////pattern for mobius strib of sequential or parallel play of directions
 	(
 
-~a=Pdef(\1, Pbind(\instrument, \obuff,
+~a=Pdef(\3, Pbind(\instrument, \obuff,
 		\dur,Pseq(~l.bumFrames/44100),
 		\buffer,Pseq(~l,inf)
 ));
@@ -774,20 +773,7 @@ TempoClock.default.tempo_(1/1);
 
 ~a.play;
 
-/*	(
-MIDIClient.init;
-MIDIIn.connectAll;
 
-		(
-MIDIdef.cc(\midi2,{ |val, num, chan, src|
-		var band;
-	//[val, num, chan, src].postln;
-	band=val;
-		band.postln;
-		if(~synth.isPlaying,{~synth.set(\gain,band)});
-},25);
-	);
-	)*/
 
 (
 ~aa.play;
