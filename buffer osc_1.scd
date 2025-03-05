@@ -510,7 +510,7 @@ SynthDef.new(\ospace1, {
 	var pitch;
 	var n1,n2,n3,rq1,rq2,rq3;
 	var mag,magx,magy,magz;
-				var sig;
+				var sig,rq;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -566,6 +566,10 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 				rq1=In.kr(0);
 				rq2=In.kr(1);
 				rq3=In.kr(2);
+				/*	rq1=MouseX.kr(0.0000001,0.1);
+				rq2=MouseX.kr(0.0000001,0.1);
+				rq3=MouseX.kr(0.0000001,0.1);
+*/
 
 osc1=VBAP.ar(4,
 					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (1 / sqrt(rq1))),
@@ -713,6 +717,17 @@ sphere.theta.raddeg,sphere.phi.raddeg
 	);
 	TempoClock.default.tempo_(1);
 
+	~b=Buffer.alloc(s,2048);
+			{
+var signal,wt,env;
+
+		env=Env([0.00001,0.05,0.1,0.05,0.00001],[10,2,2,10],[4,-4,4,-4]);
+		signal=env.asSignal(1024);
+wt=signal.asWavetable;
+		signal.plot;
+~b.loadCollection(wt);
+		}.value;
+
 (
 ~synth=(
 SynthDef.new(\obuff, {
@@ -724,9 +739,9 @@ SynthDef.new(\obuff, {
 			sig=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2);
 
 			Out.ar(4,sig*gain);
-				Out.kr(0,SinOsc.kr(0.1,phase:0.degrad).abs.linlin(0,1,0.0000001,0.01));
-				Out.kr(1,SinOsc.kr(0.1,phase:45.degrad).abs.linlin(0,1,0.0000001,0.01));
-				Out.kr(2,SinOsc.kr(0.1,phase:90.degrad).abs.linlin(0,1,0.0000001,0.01));
+				Out.kr(0,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
+				Out.kr(1,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
+				Out.kr(2,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
 
 
 }).add;
@@ -738,30 +753,9 @@ SynthDef.new(\obuff, {
 
 Buffer.freeAll;
 
-(
-~c1 = Buffer.readChannel(s,,channels:0);~c2 = Buffer.readChannel(s,,channels:0);
-~c3 = Buffer.readChannel(s,,channels:0);~c4 = Buffer.readChannel(s,,channels:0);
-~c5 = Buffer.readChannel(s,,channels:0);~c6 = Buffer.readChannel(s,,channels:0);
-~c7 = Buffer.readChannel(s,,channels:0);~c8 = Buffer.readChannel(s,,channels:0);
-~c9 = Buffer.readChannel(s,,channels:0);~c10 = Buffer.readChannel(s,,channels:0);
-
-~c11 = Buffer.readChannel(s,,channels:0);~c12 = Buffer.readChannel(s,,channels:0);
-~c13 = Buffer.readChannel(s,,channels:0);~c14 = Buffer.readChannel(s,,channels:0);
-~c15 = Buffer.readChannel(s,,channels:0);~c16 = Buffer.readChannel(s,,channels:0);
-~c17 = Buffer.readChannel(s,,channels:0);~c18 = Buffer.readChannel(s,,channels:0);
-~c19 = Buffer.readChannel(s,,channels:0);~c20 = Buffer.readChannel(s,,channels:0);
-)
-
-	(
-
-~a=Pdef(\3, Pbind(\instrument, \obuff,
-		\dur,Pseq(~l.bumFrames/44100),
-		\buffer,Pseq(~l,inf)
-));
 
 TempoClock.default.tempo_(1/1);
 
-~a.play;
 
 
 
