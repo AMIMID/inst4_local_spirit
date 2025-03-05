@@ -531,8 +531,8 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-			//	env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/2);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
+				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/10);
+				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
 
@@ -754,7 +754,7 @@ SynthDef.new(\obuff, {
 Buffer.freeAll;
 
 
-TempoClock.default.tempo_(1/1);
+TempoClock.default.tempo_(4/1);
 
 
 
