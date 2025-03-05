@@ -572,7 +572,7 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 */
 
 osc1=VBAP.ar(4,
-					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (1 / sqrt(rq1))),
+					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (rq1.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -580,7 +580,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)*(1 / sqrt(rq2))),
+					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)* (rq1.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -588,7 +588,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)*(1 / sqrt(rq3))),
+						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)* (rq1.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -721,7 +721,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			{
 var signal,wt,env;
 
-		env=Env([0.0001,0.0001,0.05,0.1,0.05,0.0001,0.0001],[20,10,2,2,10,20],[0,4,-4,4,-4,0]);
+		env=Env([0.0001,0.0001,0.01,0.1,0.1,0.01,0.0001,0.0001],[30,20,10,5,10,20,30],[0,4,-4,0,4,-4,0]);
 		signal=env.asSignal(1024);
 wt=signal.asWavetable;
 		signal.plot;
@@ -739,9 +739,9 @@ SynthDef.new(\obuff, {
 			sig=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2);
 
 			Out.ar(4,sig*gain);
-				Out.kr(0,Osc.kr(~b.bufnum,0.1,phase:0.degrad));
-				Out.kr(1,Osc.kr(~b.bufnum,0.1,phase:0.degrad));
-				Out.kr(2,Osc.kr(~b.bufnum,0.1,phase:0.degrad));
+				Out.kr(0,Osc.kr(~b.bufnum,0.05,phase:0.degrad));
+				Out.kr(1,Osc.kr(~b.bufnum,0.05,phase:0.degrad));
+				Out.kr(2,Osc.kr(~b.bufnum,0.05,phase:0.degrad));
 
 
 }).add;
