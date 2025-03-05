@@ -532,7 +532,7 @@ SynthDef.new(\ospace1, {
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
 			//	env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/2);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/2);
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
 
@@ -721,7 +721,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			{
 var signal,wt,env;
 
-		env=Env([0.00001,0.05,0.1,0.05,0.00001],[10,2,2,10],[4,-4,4,-4]);
+		env=Env([0.0001,0.0001,0.05,0.1,0.05,0.0001,0.0001],[20,10,2,2,10,20],[0,4,-4,4,-4,0]);
 		signal=env.asSignal(1024);
 wt=signal.asWavetable;
 		signal.plot;
@@ -739,9 +739,9 @@ SynthDef.new(\obuff, {
 			sig=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2);
 
 			Out.ar(4,sig*gain);
-				Out.kr(0,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
-				Out.kr(1,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
-				Out.kr(2,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
+				Out.kr(0,Osc.kr(~b.bufnum,0.1,phase:0.degrad));
+				Out.kr(1,Osc.kr(~b.bufnum,0.1,phase:0.degrad));
+				Out.kr(2,Osc.kr(~b.bufnum,0.1,phase:0.degrad));
 
 
 }).add;
