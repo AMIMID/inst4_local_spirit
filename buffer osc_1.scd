@@ -15,7 +15,9 @@ s.options.sampleRate= 44100;
 s.waitForBoot{
 /////wavetables
 Buffer.freeAll;
-
+s.meter;
+	s.freqscope;
+	s.scope;
 ~t= Buffer.alloc(s,2048);
 
 
@@ -482,7 +484,7 @@ signal=Signal.sineFill(1024,~level,~phase);
 
 wt = signal.asWavetable;
 ~t.loadCollection(wt);
-signal.plot;
+//signal.plot;
 		}.value;
 
 		//////notes
@@ -529,8 +531,8 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				//env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/2);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/2);
+				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/2);
+				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/2);
 
 //fundamental=(12*6);
 
@@ -558,13 +560,15 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 
 				sig= InFeedback.ar(4,1);
 				//rq=MouseX.kr(0.000001,1);
-				rq1=0.00001;
-				rq2=0.00001;
-				rq3=0.00001;
-//(1/rq2.sqrt)
+		/*	rq1=0.1;
+				rq2=0.1;
+				rq3=0.1;*/
+				rq1=MouseX.kr(0.000001,0.1);
+				rq2=MouseX.kr(0.000001,0.1);
+				rq3=MouseX.kr(0.000001,0.1);
 
 osc1=VBAP.ar(4,
-					BPF.ar(sig,pitch1,rq1,mul:amp1*magx.rho.round(0.00000001)*(1/rq1.sqrt)),
+					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (1 / sqrt(rq1))),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -572,7 +576,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)*(1/rq2.sqrt)),
+					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)*(1 / sqrt(rq2))),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -580,7 +584,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)*(1/rq3.sqrt)),
+						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)*(1 / sqrt(rq3))),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
