@@ -3,7 +3,7 @@ Server.default = s = Server.local;
 ////server setup
 (
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=5;
+s.options.numOutputBusChannels=6;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(1);
 s.options.memSize = 8192*128*2;
@@ -531,8 +531,8 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:1/10);
-				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
+				//env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
 
@@ -572,7 +572,7 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 */
 
 osc1=VBAP.ar(4,
-					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (rq1.reciprocal)),
+					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (rq1.sqrt.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -580,7 +580,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)* (rq1.reciprocal)),
+					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)* (rq2.sqrt.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -588,7 +588,113 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)* (rq1.reciprocal)),
+						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)* (rq3.sqrt.reciprocal)),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(osc3,mul:env));
+
+	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
+
+		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
+
+}).add;
+);
+		(
+SynthDef.new(\ospace2, {
+	arg amp=1,pl1=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
+	var ton1,ton2,ton3;
+	var fundamental;
+	var freq,pitch1,pitch2,pitch3,env;
+	var pitch;
+	var n1,n2,n3,rq1,rq2,rq3;
+	var mag,magx,magy,magz;
+				var sig,rq;
+
+			// var wrappedOut1 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut2 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var wrappedOut3 = { |busArray, signalArray|
+			// 	[busArray, signalArray].flop.do { |pair|
+			// Out.ar(pair[0], pair[1])}};
+			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
+//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
+
+//mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
+				magx=Cartesian(Select.kr(pl1,~magx), 0,0);
+				magy=Cartesian(0, Select.kr(pl1,~magy),0);
+				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
+
+				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
+				//env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
+
+//fundamental=(12*6);
+
+fundamental=(12*96);
+freq=(fundamental*octave);
+
+sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
+
+n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
+
+//ton1=n1.abs;
+//ton2=n2.abs;
+//ton3=n3.abs;
+ton1=2.pow(n1/12);
+ton2=2.pow(n2/12);
+ton3=2.pow(n3/12);
+
+amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
+amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
+amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
+
+	pitch1=(freq*ton1).round(0.0000001);
+	pitch2=(freq*ton2).round(0.0000001);
+	pitch3=(freq*ton3).round(0.0000001);
+
+				sig= InFeedback.ar(5,1);
+				//rq=MouseX.kr(0.000001,1);
+		/*	rq1=0.1;
+				rq2=0.1;
+				rq3=0.1;*/
+				rq1=In.kr(0);
+				rq2=In.kr(1);
+				rq3=In.kr(2);
+				/*	rq1=MouseX.kr(0.0000001,0.1);
+				rq2=MouseX.kr(0.0000001,0.1);
+				rq3=MouseX.kr(0.0000001,0.1);
+*/
+
+osc1=VBAP.ar(4,
+					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (rq1.sqrt.reciprocal)),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc2=VBAP.ar(4,
+					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)* (rq2.sqrt.reciprocal)),
+~b.bufnum,
+sphere.theta.raddeg,sphere.phi.raddeg
+//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+		);
+
+osc3=VBAP.ar(4,
+						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)* (rq3.sqrt.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -623,8 +729,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
 			\dur,Pseq(~dur,1),
 			//\dur,1,
-		//	\pl1,Pbrown(1,4680,13,inf),
-	\pl1,Pseq([
+			\pl1,Pbrown(1,4680,12,inf),
+	/*\pl1,Pseq([
 				Prand(
 				[Pseq(Array.rand(3,1,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
 				Pseq(Array.rand(3,52,64),1),Pseq(Array.rand(3,65,77),1),Pseq(Array.rand(3,78,90),1),Pseq(Array.rand(3,91,103),1)]
@@ -657,7 +763,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				[Pseq(Array.rand(3,728,740),1),Pseq(Array.rand(3,741,753),6,1),Pseq(Array.rand(3,754,766),1),Pseq(Array.rand(3,767,779),1),
 				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
-			],inf),
+			],inf),*/
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -666,10 +772,10 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 
-~aaa=Pdef(\2, Pbind(\instrument, \ospace1,
+~aaa=Pdef(\2, Pbind(\instrument, \ospace2,
 		\dur,Pseq(~dur,1),
 		//\dur,1.5,
-			\pl1,Pseq([
+			/*\pl1,Pseq([
 				Prand(
 				[Pseq(Array.rand(3,1,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
 				Pseq(Array.rand(3,52,64),1),Pseq(Array.rand(3,65,77),1),Pseq(Array.rand(3,78,90),1),Pseq(Array.rand(3,91,103),1)]
@@ -702,9 +808,9 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				[Pseq(Array.rand(3,728,740),1),Pseq(Array.rand(3,741,753),6,1),Pseq(Array.rand(3,754,766),1),Pseq(Array.rand(3,767,779),1),
 				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
-			],inf),
+			],inf),*/
 
-			//\pl1,Pbrown(1,4680,13,inf),
+			\pl1,Pbrown(1,4680,12,inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -712,16 +818,17 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,Pseq(~r,inf);///l system
 			//\amp,1;
 ));
+);
 
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Blazon Stone/Return To Port Royal - Definitive Edition/01 Black Chest In (Intro).wav",channels:0);
-	);
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Electric Wizard/Dopethrone/01 Vinum Sabbathi.wav",channels:0);
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Electric Wizard/Dopethrone/01 Vinum Sabbathi.wav",channels:1);
 	TempoClock.default.tempo_(1);
 
 	~b=Buffer.alloc(s,2048);
 			{
 var signal,wt,env;
 
-		env=Env([0.0001,0.0001,0.01,0.1,0.1,0.01,0.0001,0.0001],[30,20,10,5,10,20,30],[0,4,-4,0,4,-4,0]);
+		env=Env([0.0001,0.0001,0.05,0.1,0.1,0.05,0.0001,0.0001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
 		signal=env.asSignal(1024);
 wt=signal.asWavetable;
 		signal.plot;
@@ -732,16 +839,19 @@ wt=signal.asWavetable;
 ~synth=(
 SynthDef.new(\obuff, {
 	arg buffer=0;
-	var sig,env,gain=1;
+	var sig1,sig2,env,gain=1;
 
 			//env= EnvGen.ar(Env.sine(10),doneAction:2);
 
-			sig=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2);
+			sig1=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2);
+			sig2=PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2);
 
-			Out.ar(4,sig*gain);
-				Out.kr(0,Osc.kr(~b.bufnum,0.05,phase:0.degrad));
-				Out.kr(1,Osc.kr(~b.bufnum,0.05,phase:0.degrad));
-				Out.kr(2,Osc.kr(~b.bufnum,0.05,phase:0.degrad));
+
+			Out.ar(4,sig1*gain);
+				Out.ar(5,sig2*gain);
+				Out.kr(0,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
+				Out.kr(1,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
+				Out.kr(2,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
 
 
 }).add;
@@ -754,7 +864,7 @@ SynthDef.new(\obuff, {
 Buffer.freeAll;
 
 
-TempoClock.default.tempo_(4/1);
+TempoClock.default.tempo_(2/1);
 
 
 
