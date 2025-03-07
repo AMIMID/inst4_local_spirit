@@ -722,14 +722,13 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		}
 		}.value
 	);
-
-//////////pattern for mobius strib of sequential or parallel play of directions
+///pattern
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
 			\dur,Pseq(~dur,1),
 			//\dur,1,
-			\pl1,Pbrown(1,4680,12,inf),
+			\pl1,Pbrown(1,4320,12,inf),
 	/*\pl1,Pseq([
 				Prand(
 				[Pseq(Array.rand(3,1,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
@@ -810,7 +809,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				,1)
 			],inf),*/
 
-			\pl1,Pbrown(1,4680,12,inf),
+			\pl1,Pbrown(1,4320,12,inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
@@ -824,7 +823,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Electric Wizard/Dopethrone/01 Vinum Sabbathi.wav",channels:1);
 	TempoClock.default.tempo_(1);
 
-	~b=Buffer.alloc(s,2048);
+	~m=Buffer.alloc(s,2048);
 			{
 var signal,wt,env;
 
@@ -832,7 +831,7 @@ var signal,wt,env;
 		signal=env.asSignal(1024);
 wt=signal.asWavetable;
 		signal.plot;
-~b.loadCollection(wt);
+~m.loadCollection(wt);
 		}.value;
 
 (
@@ -849,9 +848,9 @@ SynthDef.new(\obuff, {
 
 			Out.ar(4,sig1*gain);
 				Out.ar(5,sig2*gain);
-				Out.kr(0,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
-				Out.kr(1,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
-				Out.kr(2,Osc.kr(~b.bufnum,0.01,phase:0.degrad));
+				Out.kr(0,Osc.kr(~m.bufnum,0.01,phase:0.degrad));
+				Out.kr(1,Osc.kr(~m.bufnum,0.01,phase:10.degrad));
+				Out.kr(2,Osc.kr(~m.bufnum,0.01,phase:20.degrad));
 
 
 }).add;
