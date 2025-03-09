@@ -503,7 +503,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=8;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=16;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -533,7 +533,7 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.5 );
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 //
 //fundamental=(12*6);
@@ -643,7 +643,7 @@ SynthDef.new(\ospace2, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.5 );
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
@@ -836,7 +836,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 var signal,wt,env;
 
 	//	env=Env([0.0001,0.0001,0.05,0.1,0.1,0.05,0.0001,0.0001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
-		env=Env([0.0001,0.0001,0.001,0.01,0.01,0.001,0.0001,0.0001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
+		env=Env([0.00001,0.00001,0.0001,0.001,0.001,0.0001,0.00001,0.00001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
 		signal=env.asSignal(1024);
 wt=signal.asWavetable;
 		//signal.plot;
@@ -847,7 +847,7 @@ wt=signal.asWavetable;
 ~synth=(
 SynthDef.new(\obuff, {
 	arg buffer=0;
-	var sig1,sig2,env,gain=1;
+	var sig1,sig2,env,gain=1/2;
 
 			//env= EnvGen.ar(Env.sine(10),doneAction:2);
 
