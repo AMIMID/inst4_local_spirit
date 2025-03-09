@@ -503,7 +503,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -531,15 +531,15 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				//env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
-
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
+				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
+//
 //fundamental=(12*6);
 
-fundamental=(12*96);
+fundamental=(12*128);
 freq=(fundamental*octave);
 
-sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
@@ -574,25 +574,25 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 osc1=VBAP.ar(4,
 					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (rq1.sqrt.reciprocal)),
 ~b.bufnum,
-sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//sphere.theta.raddeg,sphere.phi.raddeg
+Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 osc2=VBAP.ar(4,
 					BPF.ar(sig,pitch2,rq2,mul:amp2*magy.rho.round(0.00000001)* (rq2.sqrt.reciprocal)),
 ~b.bufnum,
-sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//sphere.theta.raddeg,sphere.phi.raddeg
+Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 osc3=VBAP.ar(4,
 						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)* (rq3.sqrt.reciprocal)),
 ~b.bufnum,
-sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//sphere.theta.raddeg,sphere.phi.raddeg
+Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
@@ -609,7 +609,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		(
 SynthDef.new(\ospace2, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=1;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -637,15 +637,15 @@ SynthDef.new(\ospace2, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				//env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
+				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.1 );
+				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
 
-fundamental=(12*96);
+fundamental=(12*128);
 freq=(fundamental*octave);
 
-sphere=Spherical(64,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
@@ -680,9 +680,9 @@ amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 osc1=VBAP.ar(4,
 					BPF.ar(sig, pitch1, rq1, mul: amp1 * magx.rho.round(0.00000001) * (rq1.sqrt.reciprocal)),
 ~b.bufnum,
-sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//sphere.theta.raddeg,sphere.phi.raddeg
+Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 osc2=VBAP.ar(4,
@@ -696,9 +696,9 @@ sphere.theta.raddeg,sphere.phi.raddeg
 osc3=VBAP.ar(4,
 						BPF.ar(sig,pitch3,rq3,mul:amp3*magz.rho.round(0.00000001)* (rq3.sqrt.reciprocal)),
 ~b.bufnum,
-sphere.theta.raddeg,sphere.phi.raddeg
-//Osc.ar(~t.bufnum,1/2,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
-//Osc.ar(~t.bufnum,1/4,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
+//sphere.theta.raddeg,sphere.phi.raddeg
+Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
+Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
@@ -819,8 +819,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ));
 );
 
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Electric Wizard/Dopethrone/01 Vinum Sabbathi.wav",channels:0);
-~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Electric Wizard/Dopethrone/01 Vinum Sabbathi.wav",channels:1);
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/PAST PROJECTS FILES/AUDIO FILES/vh/vh.wav",channels:0);
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/PAST PROJECTS FILES/AUDIO FILES/vh/vh.wav",channels:0);
 	TempoClock.default.tempo_(1);
 
 	~m=Buffer.alloc(s,2048);
@@ -863,7 +863,7 @@ SynthDef.new(\obuff, {
 Buffer.freeAll;
 
 
-TempoClock.default.tempo_(2/1);
+TempoClock.default.tempo_(4/1);
 
 
 
