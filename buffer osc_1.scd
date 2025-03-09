@@ -512,7 +512,7 @@ SynthDef.new(\ospace1, {
 	var mag,magx,magy,magz;
 				var sig,rq;
 					var ratio1,ratio2,ratio3;
-		var scale,nn=49.neg;
+		var scale,nn=25.neg;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -537,12 +537,12 @@ SynthDef.new(\ospace1, {
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 //
 //fundamental=(12*6);
-				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
+				scale=49.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
 fundamental=(12*128);
 freq=(fundamental*octave);
 
-sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(24,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
@@ -551,9 +551,9 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 
 ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 
-				ton1 = 2.pow(Select.kr(ratio1.linlin(48.neg, 48, 0, 96), scale) / 12);
-ton2 = 2.pow(Select.kr(ratio2.linlin(48.neg, 48, 0, 96), scale) /12);
-ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
+				ton1 = 2.pow(Select.kr(ratio1.linlin(24.neg, 24, 0, 48), scale) / 12);
+ton2 = 2.pow(Select.kr(ratio2.linlin(24.neg, 24, 0, 48), scale) /12);
+ton3 = 2.pow(Select.kr(ratio3.linlin(24.neg, 24, 0, 48), scale) / 12);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -622,7 +622,7 @@ SynthDef.new(\ospace2, {
 	var mag,magx,magy,magz;
 				var sig,rq;
 					var ratio1,ratio2,ratio3;
-		var scale,nn=49.neg;
+		var scale,nn=25.neg;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -647,12 +647,12 @@ SynthDef.new(\ospace2, {
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
-				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
+				scale=49.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
 fundamental=(12*128);
 freq=(fundamental*octave);
 
-sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(24,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
@@ -661,9 +661,9 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 
 ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 
-		ton1 = 2.pow(Select.kr(ratio1.linlin(48.neg, 48, 0, 96), scale) / 12);
-ton2 = 2.pow(Select.kr(ratio2.linlin(48.neg, 48, 0, 96), scale) / 12);
-ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
+		ton1 = 2.pow(Select.kr(ratio1.linlin(24.neg, 24, 0, 48), scale) / 12);
+ton2 = 2.pow(Select.kr(ratio2.linlin(24.neg, 48, 0, 48), scale) / 12);
+ton3 = 2.pow(Select.kr(ratio3.linlin(24.neg, 48, 0, 48), scale) / 12);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -836,7 +836,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 var signal,wt,env;
 
 	//	env=Env([0.0001,0.0001,0.05,0.1,0.1,0.05,0.0001,0.0001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
-		env=Env([0.00001,0.00001,0.0001,0.001,0.001,0.0001,0.00001,0.00001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
+		env=Env([0.00001,0.00001,0.001,0.01,0.01,0.001,0.00001,0.00001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
 		signal=env.asSignal(1024);
 wt=signal.asWavetable;
 		//signal.plot;
