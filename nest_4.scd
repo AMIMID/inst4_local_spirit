@@ -532,7 +532,7 @@ SynthDef.new(\ospace1, {
 				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:0.01);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 //fundamental=(12*6);
-				scale=97.collect{nn=nn+1;Scale.major.performDegreeToKey(nn,12)};
+				scale=97.collect{nn=nn+1;Scale.phrygian.performDegreeToKey(nn,12)};
 
 fundamental=(12*128);
 freq=(fundamental*octave);
@@ -546,9 +546,9 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 
 ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 
-ton1 = 2.pow(Select.kr(ratio1.linlin(-48, 48, 0, 97), scale) / 12);
-ton2 = 2.pow(Select.kr(ratio2.linlin(-48, 48, 0, 97), scale) / 12);
-ton3 = 2.pow(Select.kr(ratio3.linlin(-48, 48, 0, 97), scale) / 12);
+ton1 = 2.pow(Select.kr(ratio1.linlin(-48, 48, 0, 96), scale) / 12);
+ton2 = 2.pow(Select.kr(ratio2.linlin(-48, 48, 0, 96), scale) / 12);
+ton3 = 2.pow(Select.kr(ratio3.linlin(-48, 48, 0, 96), scale) / 12);
 
 
 
@@ -713,7 +713,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 }
 )
-
+Scale.directory;
 
 (
 ~aa.play;
