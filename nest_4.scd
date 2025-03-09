@@ -546,12 +546,12 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 
 ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 
-ton1 = 2.pow(Select.kr(ratio1.linlin(-48, 48, 0, 96), scale) / 12);
-ton2 = 2.pow(Select.kr(ratio2.linlin(-48, 48, 0, 96), scale) / 12);
-ton3 = 2.pow(Select.kr(ratio3.linlin(-48, 48, 0, 96), scale) / 12);
+ton1 = 2.pow(Select.kr(ratio1.linlin(48.neg, 48, 0, 96), scale) / 12);
+ton2 = 2.pow(Select.kr(ratio2.linlin(48.neg, 48, 0, 96), scale) / 12);
+ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
 
-
+ton1.poll;
 	amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 
 	pitch1=(freq*ton1).round(0.0000001);pitch2=(freq*ton2).round(0.0000001);pitch3=(freq*ton3).round(0.0000001);
@@ -583,13 +583,13 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-					Out.ar(0,LeakDC.ar(osc3,mul:env));
+				Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/2),mul:env));
 
-	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
-					Out.ar(0,LeakDC.ar(osc2,mul:env));
+	//	wrappedOut2.value(out1,LeakDC.ar( osc2,mul:env));
+					Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/2),mul:env));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-					Out.ar(0,LeakDC.ar(osc1,mul:env));
+					Out.ar(0,LeakDC.ar(Limiter.ar(osc1,1/2),mul:env));
 
 }).add;
 );
@@ -610,7 +610,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
 			\dur,Pseq(~dur,1),
 			//\dur,1,
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(1,4319,12,inf),
 			// \pl1,Pseq([
 			// 	Prand(
 			// 		[Pseq(Array.rand(3,1,12),1),Pseq(Array.rand(3,13,25),1),Pseq(Array.rand(3,26,38),1),Pseq(Array.rand(3,39,51),1),
@@ -693,7 +693,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 				Pseq(Array.rand(3,780,792),1),Pseq(Array.rand(3,793,805),1),Pseq(Array.rand(3,806,818),1),Pseq(Array.rand(3,819,831),1)]
 				,1)
 			],inf),*/
-			\pl1,Pbrown(1,4320,12,inf),
+			\pl1,Pbrown(1,4319,12,inf),
 			//\pl1,Pseq(~list1,inf),
 		//\out1,Pn(Pshuf([0, 1, 2, 3], 1), inf).clump(4).collect([_]),
 		//	\out2,Pn(Pshuf([0, 1, 2, 3, 4, 5], 1), inf).clump(6).collect([_]),
