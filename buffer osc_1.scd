@@ -503,7 +503,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -511,6 +511,8 @@ SynthDef.new(\ospace1, {
 	var n1,n2,n3,rq1,rq2,rq3;
 	var mag,magx,magy,magz;
 				var sig,rq;
+					var ratio1,ratio2,ratio3;
+		var scale,nn=49.neg;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -535,6 +537,7 @@ SynthDef.new(\ospace1, {
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 //
 //fundamental=(12*6);
+				scale=97.collect{nn=nn+1;Scale.major.performDegreeToKey(nn,12)};
 
 fundamental=(12*128);
 freq=(fundamental*octave);
@@ -543,12 +546,14 @@ sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
-//ton1=n1.abs;
-//ton2=n2.abs;
-//ton3=n3.abs;
-ton1=2.pow(n1/12);
-ton2=2.pow(n2/12);
-ton3=2.pow(n3/12);
+//ton1=n1.abs;ton2=n2.abs;ton3=n3.abs;
+//ton1=2.pow(n1.round(1)/12);ton2=2.pow(n2.round(1)/12);ton3=2.pow(n3.round(1)/12);
+
+ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
+
+				ton1=2.pow(Select.kr(ratio1,scale)/12);
+				ton2=2.pow(Select.kr(ratio2,scale)/12);
+					ton3=2.pow(Select.kr(ratio3,scale)/12);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -609,7 +614,7 @@ Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90
 		(
 SynthDef.new(\ospace2, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=1;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -617,6 +622,8 @@ SynthDef.new(\ospace2, {
 	var n1,n2,n3,rq1,rq2,rq3;
 	var mag,magx,magy,magz;
 				var sig,rq;
+					var ratio1,ratio2,ratio3;
+		var scale,nn=49.neg;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -641,6 +648,7 @@ SynthDef.new(\ospace2, {
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
+				scale=97.collect{nn=nn+1;Scale.major.performDegreeToKey(nn,12)};
 
 fundamental=(12*128);
 freq=(fundamental*octave);
@@ -649,12 +657,14 @@ sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
-//ton1=n1.abs;
-//ton2=n2.abs;
-//ton3=n3.abs;
-ton1=2.pow(n1/12);
-ton2=2.pow(n2/12);
-ton3=2.pow(n3/12);
+//ton1=n1.abs;ton2=n2.abs;ton3=n3.abs;
+//ton1=2.pow(n1.round(1)/12);ton2=2.pow(n2.round(1)/12);ton3=2.pow(n3.round(1)/12);
+
+ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
+
+				ton1=2.pow(Select.kr(ratio1,scale)/12);
+				ton2=2.pow(Select.kr(ratio2,scale)/12);
+					ton3=2.pow(Select.kr(ratio3,scale)/12);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -819,8 +829,8 @@ Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90
 ));
 );
 
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/PAST PROJECTS FILES/AUDIO FILES/vh/vh.wav",channels:0);
-~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/PAST PROJECTS FILES/AUDIO FILES/vh/vh.wav",channels:0);
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/bpf samples/red sparrows.wav",channels:0);
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/bpf samples/red sparrows.wav",channels:0);
 	TempoClock.default.tempo_(1);
 
 	~m=Buffer.alloc(s,2048);
@@ -830,7 +840,7 @@ var signal,wt,env;
 		env=Env([0.0001,0.0001,0.05,0.1,0.1,0.05,0.0001,0.0001],[40,30,20,10,20,30,40],[0,12,-4,0,4,-12,0]);
 		signal=env.asSignal(1024);
 wt=signal.asWavetable;
-		signal.plot;
+		//signal.plot;
 ~m.loadCollection(wt);
 		}.value;
 
@@ -842,8 +852,8 @@ SynthDef.new(\obuff, {
 
 			//env= EnvGen.ar(Env.sine(10),doneAction:2);
 
-			sig1=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 0, doneAction:2);
-			sig2=PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 0, doneAction:2);
+			sig1=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 1, doneAction:2);
+			sig2=PlayBuf.ar(1, ~c2.bufnum, BufRateScale.kr(~c2.bufnum),startPos:0, loop: 1, doneAction:2);
 
 
 			Out.ar(4,sig1*gain);
