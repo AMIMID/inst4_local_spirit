@@ -500,7 +500,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=6,pl2=0,envp,octave=16;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=6,pl2=0,envp,octave=8;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -546,9 +546,10 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 
 ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 
-				ton1=2.pow(Select.kr(ratio1,scale)/12);
-				ton2=2.pow(Select.kr(ratio2,scale)/12);
-					ton3=2.pow(Select.kr(ratio3,scale)/12);
+ton1 = 2.pow(Select.kr(ratio1.linlin(-48, 48, 0, 97), scale) / 12);
+ton2 = 2.pow(Select.kr(ratio2.linlin(-48, 48, 0, 97), scale) / 12);
+ton3 = 2.pow(Select.kr(ratio3.linlin(-48, 48, 0, 97), scale) / 12);
+
 
 
 	amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
@@ -706,7 +707,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 
 
 	);
-	TempoClock.default.tempo_(2);
+	TempoClock.default.tempo_(4);
 
 
 
