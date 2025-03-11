@@ -394,8 +394,9 @@ Pen.translate(400,400);
 };
 { while { run } {~v.background_(Color.black); ~v.refresh; (1/1000).wait } }.fork(AppClock);
 );
+
 (
-var data;
+var data=[];
 var az=0,el=0;
 var m=600,sph,az1,el1,pl=0,daz,del,harm,mag,r;
 var r1,harm1,r2,harm2,rad;
@@ -419,7 +420,7 @@ w = Window.new("3D Scatterplot", Rect(40,40, 800, 800)).front;
 	el=~el.[pl];
 	mag=~magz.[pl];
 	//mag=Cartesian(~magx.[pl],~magy.[pl],~magz.[pl]).rho/(2.sqrt);
-		data =[ Spherical(mag*600,az,el).asCartesian.asArray];
+		data =data++[ Spherical(mag*600,az,el).asCartesian.asArray];
 {
             ~scatterPlot.data = data;
             ~v.refresh;
@@ -430,7 +431,7 @@ w = Window.new("3D Scatterplot", Rect(40,40, 800, 800)).front;
 ~v.drawFunc ={
 Pen.translate(400,400);
 
-		a.rot(ot,ot,ot);
+		~scatterPlot.rot(ot,ot,ot);
     ~v.refresh;
 
 		ot=ot+1.degrad;
