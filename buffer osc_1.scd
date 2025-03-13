@@ -542,7 +542,7 @@ SynthDef.new(\ospace1, {
 fundamental=(12*128);
 freq=(fundamental*octave);
 
-sphere=Spherical(24,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
@@ -652,7 +652,7 @@ SynthDef.new(\ospace2, {
 fundamental=(12*128);
 freq=(fundamental*octave);
 
-sphere=Spherical(24,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
