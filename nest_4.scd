@@ -500,7 +500,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=6,pl2=0,envp,octave=8;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=8;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -529,7 +529,7 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.02,decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.perc(0.05,decay,amp),doneAction:2,levelScale:0.01);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
@@ -537,7 +537,7 @@ SynthDef.new(\ospace1, {
 fundamental=(12*128);
 freq=(fundamental*octave);
 
-sphere=Spherical(24,Select.kr(pl1,~az),Select.kr(pl1,~el));
+sphere=Spherical(48,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).round(0.00000005);
 
@@ -550,8 +550,6 @@ ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 ton2 = 2.pow(Select.kr(ratio2.linlin(48.neg, 48, 0, 96), scale) / 12);
 ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
-
-ton1.poll;
 	amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);amp3=(ton3.reciprocal*octave.reciprocal).round(0.00000001);
 
 	pitch1=(freq*ton1).round(0.0000001);pitch2=(freq*ton2).round(0.0000001);pitch3=(freq*ton3).round(0.0000001);
