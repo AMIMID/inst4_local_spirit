@@ -503,7 +503,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=2;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -512,7 +512,7 @@ SynthDef.new(\ospace1, {
 	var mag,magx,magy,magz;
 				var sig,rq;
 					var ratio1,ratio2,ratio3;
-		var scale,nn=25.neg;
+	var scale,nn=49.neg;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -535,9 +535,9 @@ SynthDef.new(\ospace1, {
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
 				env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:0.5 );
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
-//
+
 //fundamental=(12*6);
-				scale=49.collect{nn=nn+1;Scale.major.performDegreeToKey(nn,12)};
+				scale=97.collect{nn=nn+1;Scale.major.performDegreeToKey(nn,12)};
 
 fundamental=(12*128);
 freq=(fundamental*octave);
@@ -551,9 +551,9 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 
 ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 
-				ton1 = 2.pow(Select.kr(ratio1.linlin(24.neg, 24, 0, 48), scale) / 12);
-ton2 = 2.pow(Select.kr(ratio2.linlin(24.neg, 24, 0, 48), scale) /12);
-ton3 = 2.pow(Select.kr(ratio3.linlin(24.neg, 24, 0, 48), scale) / 12);
+		ton1 = 2.pow(Select.kr(ratio1.linlin(48.neg, 48, 0, 96), scale) / 12);
+ton2 = 2.pow(Select.kr(ratio2.linlin(48.neg, 48, 0, 96), scale) / 12);
+ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -601,19 +601,19 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-					Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/2),mul:env));
+					Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/6,0.1),mul:env));
 	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
-					Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/2),mul:env));
+					Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/6),0.1,mul:env));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-				Out.ar(0,LeakDC.ar(Limiter.ar(osc1,1/2),mul:env));
+				Out.ar(0,LeakDC.ar(Limiter.ar(osc1,1/6,0.1),mul:env));
 
 }).add;
 );
 		(
 SynthDef.new(\ospace2, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=2;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -622,7 +622,7 @@ SynthDef.new(\ospace2, {
 	var mag,magx,magy,magz;
 				var sig,rq;
 					var ratio1,ratio2,ratio3;
-		var scale,nn=25.neg;
+		var scale,nn=49.neg;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -647,7 +647,7 @@ SynthDef.new(\ospace2, {
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1/10);
 
 //fundamental=(12*6);
-				scale=49.collect{nn=nn+1;Scale.major.performDegreeToKey(nn,12)};
+				scale=97.collect{nn=nn+1;Scale.major.performDegreeToKey(nn,12)};
 
 fundamental=(12*128);
 freq=(fundamental*octave);
@@ -661,9 +661,9 @@ n1=(sphere.x).round(0.00000001); n2=(sphere.y).round(0.00000001); n3=(sphere.z).
 
 ratio1=n1.round(1);ratio2=n2.round(1);ratio3=n3.round(1);
 
-		ton1 = 2.pow(Select.kr(ratio1.linlin(24.neg, 24, 0, 48), scale) / 12);
-ton2 = 2.pow(Select.kr(ratio2.linlin(24.neg, 24, 0, 48), scale) / 12);
-ton3 = 2.pow(Select.kr(ratio3.linlin(24.neg, 24, 0, 48), scale) / 12);
+		ton1 = 2.pow(Select.kr(ratio1.linlin(48.neg, 48, 0, 96), scale) / 12);
+ton2 = 2.pow(Select.kr(ratio2.linlin(48.neg, 48, 0, 96), scale) / 12);
+ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
 amp1=(ton1.reciprocal*octave.reciprocal).round(0.00000001);
 amp2=(ton2.reciprocal*octave.reciprocal).round(0.00000001);
@@ -711,13 +711,13 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-						Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/4),mul:env));
+						Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/6,0.1),mul:env));
 
 	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
-						Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/4),mul:env));
+						Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/6,0.1),mul:env));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-						Out.ar(0,LeakDC.ar(Limiter.ar(osc1,1/4),mul:env));
+						Out.ar(0,LeakDC.ar(Limiter.ar(osc1,1/6,0.1),mul:env));
 }).add;
 );
 );
@@ -827,8 +827,8 @@ sphere.theta.raddeg,sphere.phi.raddeg
 ));
 );
 
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/bpf samples/red sparrows.wav",channels:0);
-~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/bpf samples/red sparrows.wav",channels:0);
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/askhsh4/piano_spectrum freeze.wav",channels:0);
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/askhsh4/piano_spectrum freeze.wav",channels:0);
 	TempoClock.default.tempo_(1);
 
 	~m=Buffer.alloc(s,2048);
@@ -872,7 +872,7 @@ SynthDef.new(\obuff, {
 Buffer.freeAll;
 
 
-TempoClock.default.tempo_(6/1);
+TempoClock.default.tempo_(8/1);
 
 Scale.directory;
 
