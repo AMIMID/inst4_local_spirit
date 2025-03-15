@@ -500,7 +500,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=8;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -554,7 +554,7 @@ ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
 	pitch1=(freq*ton1).round(0.0000001);pitch2=(freq*ton2).round(0.0000001);pitch3=(freq*ton3).round(0.0000001);
 
-		phase=sphere.theta+sphere.phi;
+				phase=Complex(sphere.theta.linlin(pi.neg,pi,1.neg,1),sphere.phi.linlin((pi/2).neg,(pi/2),1.neg,1)).theta;
 
 osc1=VBAP.ar(4,
 					SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:phase),
