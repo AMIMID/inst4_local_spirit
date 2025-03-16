@@ -3,7 +3,7 @@ Server.default = s = Server.local;
 ////server setup
 (
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=4;
+s.options.numOutputBusChannels=6;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(1);
 s.options.memSize = 8192*128*2;
@@ -529,7 +529,7 @@ SynthDef.new(\ospace1, {
 				magz=Cartesian(0, 0,Select.kr(pl1,~magz));*/
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:1);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
@@ -564,12 +564,15 @@ osc3=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
 				Out.kr(0,(ZeroCrossing.ar(osc1)*0.1).poll);
+				//Out.kr(3, Amplitude.ar(osc1, 0.01, 0.25,3).poll);
 
 	//	wrappedOut2.value(out1,LeakDC.ar( osc2,mul:env));
 					Out.kr(1,(ZeroCrossing.ar(osc2)*0.1));
+				//Out.kr(4, Amplitude.ar(osc2, 0.01, 0.25,3));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
 					Out.kr(2,(ZeroCrossing.ar(osc3)*0.1));
+				//Out.kr(5, Amplitude.ar(osc3, 0.01, 0.25,3));
 
 }).add;
 );
@@ -586,6 +589,7 @@ SynthDef.new(\ospace2, {
 	var mag,magx,magy,magz,mag_x,mag_y,mag_z;
 					var ratio1,ratio2,ratio3;
 		var scale,nn=49.neg;
+				var ampx,ampy,ampz;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -602,9 +606,13 @@ SynthDef.new(\ospace2, {
 					m_x=In.kr(0);
 	m_y=In.kr(1);
 	m_z=In.kr(2);
-				sph3=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
-					sph4=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
-		sph5=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
+				//ampx=In.kr(3);
+				//ampy=In.kr(4);
+				//ampz=In.kr(5);
+
+				sph3=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
+					sph4=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
+		sph5=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 			magx=(
 	 /*mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
@@ -736,7 +744,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 	);
-	TempoClock.default.tempo_(8);
+	TempoClock.default.tempo_(4);
 
 
 
