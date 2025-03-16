@@ -38,8 +38,8 @@ OSCdef(\freq2, { |msg|
 (
 Buffer.freeAll;
 (
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Electric Wizard/Dopethrone/01 Vinum Sabbathi.wav",channels:0);
-~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Electric Wizard/Dopethrone/01 Vinum Sabbathi.wav",channels:1);
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/askhsh4/piano.wav",channels:0);
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/askhsh4/piano.wav",channels:1);
 );
 ~controlBus_mx = Bus.control(s, 1);
 ~controlBus_my = Bus.control(s, 1);
@@ -112,6 +112,7 @@ a.background = Color.black;
 	data=[];
 	m_x=~controlBus_mx.getSynchronous;
 	m_y=~controlBus_my.getSynchronous;
+	m_z=2;
 
 	(
 {
@@ -174,7 +175,7 @@ magnitudey=(12).collect{
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 };
 
-/*magnitudez=(12).collect{
+magnitudez=(12).collect{
 
 			az5 = (angle+(360*2.pow(pl5/12))).wrap(180.neg,180);  // Increment azimuth
 				el5 = (angle+(180*2.pow(pl5/12))).wrap(90.neg,90);
@@ -189,7 +190,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	);
 ////z axis   ambi..  sin for odd numbers, cos for even
 
-};*/angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
+};angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
 
 				};
 }.value;
@@ -203,9 +204,8 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 
 	az=~az.[pla];
 	el=~el.[pla];
-	//magg=~magy.[pla];
 
-	magg=Cartesian(~magx.[pla],~magy.[pla],0).rho/(2.sqrt);
+	magg=Cartesian(~magx.[pla],~magy.[pla],~magz.[pla]).rho/(2.sqrt);
 	pla=pla+1;
 
 		sph=Spherical(magg*400,az,el).asCartesian.asArray;
@@ -233,7 +233,7 @@ Pen.translate(400,400);
 		ot=ot+1.degrad;
 
 };
-{ while { run } {~v.background_(Color.black); ~v.refresh; (0.05).wait } }.fork(AppClock);
+{ while { run } {~v.background_(Color.black); ~v.refresh; (0.02).wait } }.fork(AppClock);
 );
 
 
