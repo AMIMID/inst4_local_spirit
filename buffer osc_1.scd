@@ -599,11 +599,10 @@ sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
 //Osc.ar(~t.bufnum,1,phase:sphere.phi.linlin((pi/2).neg,(pi/2),2pi.neg,2pi),mul:90)
 		);
-
-	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-					Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/100,0.10),mul:env));
+//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
+					Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/100,0.01),mul:env));
 	//	wrappedOut2.value(out1,LeakDC.ar(osc2,mul:env));
-					Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/100),0.01,mul:env));
+				Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/100,0.01),mul:env));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
 				Out.ar(0,LeakDC.ar(Limiter.ar(osc1,1/100,0.01),mul:env));

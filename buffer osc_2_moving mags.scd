@@ -703,7 +703,7 @@ SynthDef.new(\obuff, {
 Buffer.freeAll;
 
 
-TempoClock.default.tempo_(4);
+TempoClock.default.tempo_(1);
 
 
 Scale.directory;
