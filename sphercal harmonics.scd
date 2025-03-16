@@ -51,7 +51,7 @@ SynthDef.new(\player,{
 	var sig1, sig2, sig3, sig4;
 
 	sig1=SinOsc.ar(MouseX.kr(1,1000));
-	sig2=SinOsc.ar(MouseX.kr(1,1000));
+	sig2=SinOsc.ar(MouseX.kr(1,1000),90.degrad);
 
 	// ~a = Amplitude.ar(sig1, 0.01, 0.25,3).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/a', ~a);
 	//
@@ -111,7 +111,7 @@ a.background = Color.black;
   r= Routine({loop{
 
 	data=[];
-	m_x=~controlBus_my.getSynchronous;
+	m_x=~controlBus_mx.getSynchronous;
 	m_y=~controlBus_my.getSynchronous;
 	m_z=~controlBus_my.getSynchronous;
 	amplitude=~controlBus_a.getSynchronous;
