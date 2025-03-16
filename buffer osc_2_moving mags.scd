@@ -475,9 +475,9 @@ SynthDef.new(\ospace1, {
 				m_x=In.kr(0);
 	m_y=In.kr(0);
 	m_z=In.kr(0);
-				sph3=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
-					sph4=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
-		sph5=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
+				sph3=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
+					sph4=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
+		sph5=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 			~magx=(
 	 /*mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
