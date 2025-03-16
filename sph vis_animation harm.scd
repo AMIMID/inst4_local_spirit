@@ -110,9 +110,9 @@ a.background = Color.black;
   r= Routine({loop{
 
 	data=[];
-	m_x=~controlBus_mx.getSynchronous;
+	m_x=~controlBus_my.getSynchronous;
 	m_y=~controlBus_my.getSynchronous;
-	m_z=2;
+	m_z=~controlBus_my.getSynchronous;
 
 	(
 {
@@ -182,12 +182,13 @@ magnitudez=(12).collect{
 		pl5=(pl5+1).mod(12);
 
 		sph5=Spherical(1,(az5.degrad),(el5.degrad));
+					mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 
-if(
+/*if(
 m_z.even,
 mag_z=Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho,
 mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
-	);
+	);*/
 ////z axis   ambi..  sin for odd numbers, cos for even
 
 };angle=(angle+(360-(360/1.6180339887499))).wrap(0,360);~az=~az++azimuth;~el=~el++elevation;~magx=~magx++magnitudex;~magy=~magy++magnitudey;~magz=~magz++magnitudez;
@@ -200,7 +201,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 ~magz=~magz/(2.sqrt);
  );
 );
-	     dota=(360*6).collect{
+	dota=(360*6).collect{
 
 	az=~az.[pla];
 	el=~el.[pla];
@@ -233,7 +234,7 @@ Pen.translate(400,400);
 		ot=ot+1.degrad;
 
 };
-{ while { run } {~v.background_(Color.black); ~v.refresh; (0.02).wait } }.fork(AppClock);
+{ while { run } {~v.background_(Color.black); ~v.refresh; (0.001).wait } }.fork(AppClock);
 );
 
 
