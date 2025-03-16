@@ -524,12 +524,12 @@ SynthDef.new(\ospace1, {
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 
 //mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-				magx=Cartesian(Select.kr(pl1,~magx), 0,0);
+			/*	magx=Cartesian(Select.kr(pl1,~magx), 0,0);
 				magy=Cartesian(0, Select.kr(pl1,~magy),0);
-				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
+				magz=Cartesian(0, 0,Select.kr(pl1,~magz));*/
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.05,decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
@@ -556,20 +556,20 @@ ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
 				phase=Complex(sphere.theta.linlin(pi.neg,pi,1.neg,1),sphere.phi.linlin((pi/2).neg,(pi/2),1.neg,1)).theta;
 
-osc1=SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:phase);
+osc1=SinOsc.ar(pitch1,mul:amp1,phase:phase);
 
-osc2=SinOsc.ar(pitch2,mul:amp2*magy.rho.round(0.00000001),phase:phase));
+osc2=SinOsc.ar(pitch2,mul:amp2,phase:phase);
 
-osc3=SinOsc.ar(pitch3,mul:amp3*magz.rho.round(0.00000001),phase:phase);
+osc3=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-				Out.kr(0,(ZeroCrossing.ar(osc1)*0.005).poll);
+				Out.kr(0,(ZeroCrossing.ar(osc1)*0.1).poll);
 
 	//	wrappedOut2.value(out1,LeakDC.ar( osc2,mul:env));
-					Out.kr(1,(ZeroCrossing.ar(osc2)*0.005).poll);
+					Out.kr(1,(ZeroCrossing.ar(osc2)*0.1));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-					Out.kr(2,(ZeroCrossing.ar(osc3)*0.005).poll);
+					Out.kr(2,(ZeroCrossing.ar(osc3)*0.1));
 
 }).add;
 );
@@ -600,13 +600,13 @@ SynthDef.new(\ospace2, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 					m_x=In.kr(0);
-	m_y=In.kr(0);
-	m_z=In.kr(0);
+	m_y=In.kr(1);
+	m_z=In.kr(2);
 				sph3=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
 					sph4=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
 		sph5=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~ez));
 
-			~magx=(
+			magx=(
 	 /*mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
 */
 ////for in-between harmonics multiply sin(phi) after cos, when m is 2 then harm 3/2 is formed in oder 3, when m is 3 harm 4/3 is formed in oder 4 and when m is 3 for theta and 2 for phi harm 4/2 is formed for order4//////same for y axis
@@ -619,7 +619,7 @@ SynthDef.new(\ospace2, {
 
 						);
 
-~magy=((Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
+magy=((Complex(sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi)),
 		sin((sph4.theta.round(0.00001)*m_y).wrap(pi.neg,pi))).rho*
 		Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/
 		2)))).rho)*sph4.rho;
@@ -628,7 +628,7 @@ SynthDef.new(\ospace2, {
 //Complex(cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph4.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph4.rho;
 						);
 
-~magz=(Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
+magz=(Complex(cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),cos((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2)))).rho*sph5.rho
 
 /*if(
 m_z.even,
@@ -638,19 +638,13 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 ////z axis   ambi..  sin for odd numbers, cos for even
 
 						);
-//mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-				magx=~magx.value;
-				magy= ~magy.value;
-				magz=~magz.value;
-				magx.poll;
-
-//mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-				magx=Cartesian(Select.kr(pl1,~magx), 0,0);
-				magy=Cartesian(0, Select.kr(pl1,~magy),0);
-				magz=Cartesian(0, 0,Select.kr(pl1,~magz));
+				mag_x=magx.value;
+				mag_y= magy.value;
+				mag_z=magz.value;
+				mag_x.poll;
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.05,decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
@@ -678,7 +672,7 @@ ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 				phase=Complex(sphere.theta.linlin(pi.neg,pi,1.neg,1),sphere.phi.linlin((pi/2).neg,(pi/2),1.neg,1)).theta;
 
 osc1=VBAP.ar(4,
-					SinOsc.ar(pitch1,mul:amp1*magx.rho.round(0.00000001),phase:phase),
+					SinOsc.ar(pitch1,mul:amp1*mag_x,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -686,7 +680,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2*magy.rho.round(0.00000001),phase:phase),
+						SinOsc.ar(pitch2,mul:amp2*mag_y,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -694,7 +688,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-					SinOsc.ar(pitch3,mul:amp3*magz.rho.round(0.00000001),phase:phase),
+					SinOsc.ar(pitch3,mul:amp3*mag_z,phase:phase),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -742,7 +736,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 			\amp,1;
 ));
 	);
-	TempoClock.default.tempo_(4);
+	TempoClock.default.tempo_(8);
 
 
 
