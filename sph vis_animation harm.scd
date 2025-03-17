@@ -1,6 +1,6 @@
 (
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=2;
+s.options.numOutputBusChannels=6;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(1);
 s.options.memSize = 8192*32*2;
