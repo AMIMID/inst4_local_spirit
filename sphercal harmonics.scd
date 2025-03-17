@@ -49,8 +49,10 @@ SynthDef.new(\player,{
 	var env;
 	var sig1, sig2, sig3, sig4;
 
-	sig1=SinOsc.ar(MouseX.kr(0.01,10000))*0.1;
-	sig2=SinOsc.ar(MouseX.kr(0.01,10000),90.degrad)*0.1;
+	sig1=SinOsc.ar(MouseX.kr(0.01,10000),0.degrad);
+	sig2=SinOsc.ar(MouseX.kr(0.01,10000),90.degrad);
+		sig3=SinOsc.kr(MouseX.kr(0.01,10000),0.degrad);
+	sig4=SinOsc.kr(MouseX.kr(0.01,10000),90.degrad);
 
 	// ~a = Amplitude.ar(sig1, 0.01, 0.25,3).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/a', ~a);
 	//
@@ -61,10 +63,9 @@ SynthDef.new(\player,{
 	//~controlBus_my.set(In.kr(1));
 	Out.kr(~controlBus_mx.index, (ZeroCrossing.ar(sig1)*0.005));
 Out.kr(~controlBus_my.index, (ZeroCrossing.ar(sig2)*0.005));
-	Out.kr(~controlBus_a.index, Amplitude.ar(sig1, 0.01, 0.25,7).poll);
-	Out.kr(~controlBus_ac.index,Lag.ar( Amplitude.ar(sig1, 0.01, 0.25,7)));
-	Out.kr(~controlBus_ab.index, Lag.ar(Amplitude.ar(sig2, 0.01, 0.25,7)));
-
+	Out.kr(~controlBus_a.index,sig3);
+	Out.kr(~controlBus_ac.index,sig3);
+	Out.kr(~controlBus_ab.index,sig4);
 //~c = Amplitude.ar(sig2, 0.01, 0.25,3).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/c', ~c);
 
 //~d = (ZeroCrossing.ar(sig2)*0.001).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/d', ~d);
@@ -215,7 +216,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	magg=Cartesian(~magx.[pla],~magy.[pla],~magz.[pla]).rho/(2.sqrt);
 	pla=pla+1;
 
-		sph=Spherical((magg)*1000,az,el).asCartesian.asArray;
+		sph=Spherical((magg)*800,az,el).asCartesian.asArray;
 
 
 

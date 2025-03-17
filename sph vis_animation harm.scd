@@ -1,6 +1,6 @@
 (
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=6;
+s.options.numOutputBusChannels=2;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(1);
 s.options.memSize = 8192*32*2;
@@ -63,11 +63,11 @@ SynthDef.new(\player,{
 	//Out.kr(1,ZeroCrossing.ar(sig1));
 	//~controlBus_mx.set(In.kr(1));
 	//~controlBus_my.set(In.kr(1));
-	Out.kr(~controlBus_mx.index, Lag.ar((ZeroCrossing.ar(sig1)*0.005)));
-	Out.kr(~controlBus_my.index, Lag.ar((ZeroCrossing.ar(sig2)*0.005)));
-	Out.kr(~controlBus_a.index,Lag.ar( Amplitude.ar(sig1, 0.01, 0.25,6)));
-	Out.kr(~controlBus_ac.index,Lag.ar( Amplitude.ar(sig1, 0.01, 0.25,6)));
-	Out.kr(~controlBus_ab.index, Lag.ar(Amplitude.ar(sig2, 0.01, 0.25,6)));
+	Out.kr(~controlBus_mx.index, (ZeroCrossing.ar(sig1)*0.005));
+Out.kr(~controlBus_my.index, (ZeroCrossing.ar(sig2)*0.005));
+	Out.kr(~controlBus_a.index, Amplitude.ar(sig1, 0.01, 0.25,6));
+	Out.kr(~controlBus_ac.index, Amplitude.ar(sig1, 0.01, 0.25,6));
+	Out.kr(~controlBus_ab.index, Amplitude.ar(sig2, 0.01, 0.25,6));
 
 //~c = Amplitude.ar(sig2, 0.01, 0.25,3).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/c', ~c);
 
