@@ -1,14 +1,15 @@
 (
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=2;
+s.options.numOutputBusChannels=6;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(1);
 s.options.memSize = 8192*32*2;
 s.options.blockSize = 64*4;
 s.options.maxNodes = 1024 * 16;
 s.options.sampleRate= 44100;
+s.boot;
 )
-s.boot
+
 
 Buffer.freeAll
 
@@ -38,8 +39,8 @@ OSCdef(\freq2, { |msg|
 (
 Buffer.freeAll;
 (
-~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/askhsh4/piano2.wav",channels:0);
-~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/askhsh4/piano2.wav",channels:1);
+~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Blazon Stone/Return To Port Royal - Definitive Edition/02 Return To Port Royal.wav",channels:0);
+~c2 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Dokuments/EXTERNAL/music/band album library/Blazon Stone/Return To Port Royal - Definitive Edition/02 Return To Port Royal.wav",channels:1);
 );
 ~controlBus_mx = Bus.control(s, 1);
 ~controlBus_my = Bus.control(s, 1);
@@ -128,7 +129,7 @@ a.background = Color.black;
 {
 			~az=[];~el=[];~magx=[];~magy=[];~magz=[];~dur=[];
 
-		360.do{
+		380.do{
 azimuth=(12).collect{
 
 			az1 = (angle+(360*2.pow(pl1/12))).wrap(180.neg,180);  // Increment azimuth
@@ -216,10 +217,10 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	az=~az.[pla];
 	el=~el.[pla];
 
-	magg=Cartesian(~magx.[pla],~magy.[pla],~magz.[pla]).rho/(2.sqrt);
+	magg=Cartesian(0,0,~magz.[pla]).rho/(2.sqrt);
 	pla=pla+1;
 
-		sph=Spherical((magg)*400,az,el).asCartesian.asArray;
+		sph=Spherical((magg)*150,az,el).asCartesian.asArray;
 
 
 

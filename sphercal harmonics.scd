@@ -1,14 +1,15 @@
 (
 s.options.numWireBufs = 1024*4;
-s.options.numOutputBusChannels=2;
+s.options.numOutputBusChannels=8;
 s.options.numInputBusChannels=0;
 TempoClock.default.tempo_(1);
 s.options.memSize = 8192*32*2;
 s.options.blockSize = 64*4;
 s.options.maxNodes = 1024 * 16;
 s.options.sampleRate= 44100;
+s.boot;
 )
-s.boot
+
 
 Buffer.freeAll
 
@@ -47,12 +48,14 @@ Buffer.freeAll;
 SynthDef.new(\player,{
 	arg tempo;
 	var env;
-	var sig1, sig2, sig3, sig4;
+	var sig1, sig2, sig3, sig4,control,sig;
+	control=MouseY.kr(1,100);
 
-	sig1=SinOsc.ar(MouseX.kr(0.01,10000),0.degrad);
-	sig2=SinOsc.ar(MouseX.kr(0.01,10000),90.degrad);
-		sig3=SinOsc.kr(MouseX.kr(0.01,10000),0.degrad);
-	sig4=SinOsc.kr(MouseX.kr(0.01,10000),90.degrad);
+	sig1=SinOsc.kr(control,0.degrad,control.reciprocal);
+	sig2=SinOsc.kr(control,90.degrad,control.reciprocal);
+		sig3=SinOsc.kr(MouseX.kr(0.01,1),0.degrad);
+	sig4=SinOsc.kr(MouseX.kr(0.01,1),90.degrad);
+	sig=SinOsc.ar(control,0.degrad,control.reciprocal);
 
 	// ~a = Amplitude.ar(sig1, 0.01, 0.25,3).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/a', ~a);
 	//
@@ -61,18 +64,18 @@ SynthDef.new(\player,{
 	//Out.kr(1,ZeroCrossing.ar(sig1));
 	//~controlBus_mx.set(In.kr(1));
 	//~controlBus_my.set(In.kr(1));
-	Out.kr(~controlBus_mx.index, (ZeroCrossing.ar(sig1)*0.005));
-Out.kr(~controlBus_my.index, (ZeroCrossing.ar(sig2)*0.005));
-	Out.kr(~controlBus_a.index,sig3);
-	Out.kr(~controlBus_ac.index,sig3);
-	Out.kr(~controlBus_ab.index,sig4);
+	Out.kr(~controlBus_mx.index, (ZeroCrossing.kr(sig1)*0.5).poll);
+Out.kr(~controlBus_my.index, (ZeroCrossing.kr(sig2)*0.5));
+	Out.kr(~controlBus_a.index, Amplitude.kr(sig3, 0.01, 0.25,6));
+	Out.kr(~controlBus_ac.index,Amplitude.kr(sig3, 0.01, 0.25,6));
+	Out.kr(~controlBus_ab.index,Amplitude.kr(sig4, 0.01, 0.25,6));
 //~c = Amplitude.ar(sig2, 0.01, 0.25,3).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/c', ~c);
 
 //~d = (ZeroCrossing.ar(sig2)*0.001).round(0.00001).poll;SendReply.ar(Impulse.ar(100), '/d', ~d);
 
 
-Out.ar(0,sig1*1);
-Out.ar(1,sig2*1);
+Out.ar(0,sig*1);
+Out.ar(1,sig*1);
 
 }).add;
 )
@@ -157,11 +160,11 @@ magnitudex=(12).collect{
 
 ////for in-between harmonics multiply sin(phi) after cos, when m is 2 then harm 3/2 is formed in oder 3, when m is 3 harm 4/3 is formed in oder 4 and when m is 3 for theta and 2 for phi harm 4/2 is formed for order4//////same for y axis
 
-		mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),
+/*		mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),
 			cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*
 		 	Complex(sin((sph3.phi.round(0.00001)*(m_x-1)).wrap((pi/2).neg,(pi/2))),sin((sph3.phi.round(0.00001)*(m_x-1)).wrap((pi/
 		 	2).neg,(pi/2)))).rho*
-		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
+		 Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;*/
 
 };
 
@@ -208,7 +211,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 ~magz=~magz/(2.sqrt);
  );
 );
-	dota=(360*6).collect{
+	dota=(360).collect{
 
 	az=~az.[pla];
 	el=~el.[pla];
@@ -216,7 +219,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 	magg=Cartesian(~magx.[pla],~magy.[pla],~magz.[pla]).rho/(2.sqrt);
 	pla=pla+1;
 
-		sph=Spherical((magg)*800,az,el).asCartesian.asArray;
+		sph=Spherical((magg)*100,az,el).asCartesian.asArray;
 
 
 
