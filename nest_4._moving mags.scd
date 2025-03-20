@@ -512,7 +512,7 @@ SynthDef.new(\ospace1, {
 				var osc11,osc22,osc33;
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-			env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
+			env=EnvGen.kr(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
 				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
@@ -550,15 +550,15 @@ osc22=SinOsc.ar(pitch2,mul:amp2,phase:phase);
 osc33=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 
 
-				Out.kr(0,Lag.kr((ZeroCrossing.kr(osc1)*0.1),0.1));
+				Out.kr(0,Lag.kr((ZeroCrossing.kr(osc1*env)*0.05),0.1));
 				Out.kr(3,osc11.abs);
 
 
-					Out.kr(1,Lag.kr((ZeroCrossing.kr(osc2)*0.1),0.1));
+					Out.kr(1,Lag.kr((ZeroCrossing.kr(osc2*env)*0.05),0.1));
 						Out.kr(4, osc22.abs);
 
 
-							Out.kr(2,Lag.kr((ZeroCrossing.kr(osc3)*0.1),0.1));
+							Out.kr(2,Lag.kr((ZeroCrossing.kr(osc3*env)*0.05),0.1));
 							Out.kr(5,osc33.abs);
 
 }).add;
@@ -590,7 +590,7 @@ SynthDef.new(\ospace2, {
 			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
-					m_x=In.kr(0);
+					m_x=In.kr(0).poll;
 	m_y=In.kr(1);
 	m_z=In.kr(2);
 				ampx=In.kr(3).lag(0.1);
@@ -636,11 +636,11 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 				mag_x=magx.value;
 				mag_y= magy.value;
 				mag_z=magz.value;
-				mag_x.poll;
+				//mag_x.poll;
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
 				//env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.001);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
