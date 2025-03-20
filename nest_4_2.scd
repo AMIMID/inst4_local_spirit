@@ -598,11 +598,11 @@ SynthDef.new(\ospace2, {
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 				8.do{
 					m_x=In.kr(0+channel).poll;
-	m_y=In.kr(1+channel);
-	m_z=In.kr(2+channel);
-				ampx=In.kr(3+channel).lag(0.1);
-				ampy=In.kr(4+channel).lag(0.1);
-				ampz=In.kr(5+channel).lag(0.1);
+	m_y=In.kr(15+channel);
+	m_z=In.kr(31+channel);
+				ampx=In.kr(7+channel).lag(0.1);
+				ampy=In.kr(23+channel).lag(0.1);
+				ampz=In.kr(39+channel).lag(0.1);
 
 				sph3=Spherical(ampx,Select.kr(pl1+variant,~az),Select.kr(pl1+variant,~el));
 					sph4=Spherical(ampy,Select.kr(pl1+variant,~az),Select.kr(pl1+variant,~el));
