@@ -564,6 +564,7 @@ osc33=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 							Out.kr(39+channel,osc33.abs*envp);
 					variant=variant+1;
 					channel=channel+1;
+					nn=49.neg;
 
 				}
 
@@ -647,7 +648,7 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 //
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
 				//env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.001);
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
@@ -707,6 +708,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 					Out.ar(0,LeakDC.ar(osc1,mul:env));
 					variant=variant+1;
 					channel=channel+1;
+					nn=49.neg;
 				};
 
 }).add;
