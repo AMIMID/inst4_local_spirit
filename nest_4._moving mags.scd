@@ -512,8 +512,9 @@ SynthDef.new(\ospace1, {
 				var osc11,osc22,osc33;
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-			env=EnvGen.kr(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
-				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
+		//	env=EnvGen.kr(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
+					env=EnvGen.kr(Env.sine(decay,amp),doneAction:2,levelScale:1);
+				envp=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
@@ -551,15 +552,15 @@ osc33=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 
 
 				Out.kr(0,Lag.kr((ZeroCrossing.kr(osc1*env)*0.05),0.1));
-				Out.kr(3,osc11.abs);
+				Out.kr(3,osc11.abs*envp);
 
 
 					Out.kr(1,Lag.kr((ZeroCrossing.kr(osc2*env)*0.05),0.1));
-						Out.kr(4, osc22.abs);
+						Out.kr(4, osc22.abs*envp);
 
 
 							Out.kr(2,Lag.kr((ZeroCrossing.kr(osc3*env)*0.05),0.1));
-							Out.kr(5,osc33.abs);
+							Out.kr(5,osc33.abs*envp);
 
 }).add;
 );
