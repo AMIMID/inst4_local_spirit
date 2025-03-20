@@ -547,21 +547,21 @@ osc2=SinOsc.kr(pitch2,mul:amp2,phase:phase);
 
 osc3=SinOsc.kr(pitch3,mul:amp3,phase:phase);
 
-osc11=SinOsc.ar(pitch1,mul:amp1,phase:phase);
-osc22=SinOsc.ar(pitch2,mul:amp2,phase:phase);
-osc33=SinOsc.ar(pitch3,mul:amp3,phase:phase);
+//osc11=SinOsc.ar(pitch1,mul:amp1,phase:phase);
+//osc22=SinOsc.ar(pitch2,mul:amp2,phase:phase);
+//osc33=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 
 
 					Out.kr(0+channel,Lag.kr((ZeroCrossing.kr(osc1)*env),0.1));
-				Out.kr(7+channel,osc11.abs*envp);
+				Out.kr(7+channel,Amplitude.kr(osc1, 0.01, 0.25,6)*envp);
 
 
 					Out.kr(15+channel,Lag.kr((ZeroCrossing.kr(osc2)*env),0.1));
-						Out.kr(23+channel, osc22.abs*envp);
+						Out.kr(23+channel, Amplitude.kr(osc2, 0.01, 0.25,6)*envp);
 
 
 							Out.kr(31+channel,Lag.kr((ZeroCrossing.kr(osc3)*env),0.1));
-							Out.kr(39+channel,osc33.abs*envp);
+							Out.kr(39+channel,Amplitude.kr(osc3, 0.01, 0.25,6)*envp);
 					variant=variant+1;
 					channel=channel+1;
 					nn=49.neg;
@@ -598,9 +598,9 @@ SynthDef.new(\ospace2, {
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 				8.do{
-					m_x=In.kr(0+channel).poll;
-	m_y=In.kr(15+channel);
-	m_z=In.kr(31+channel);
+					m_x=In.kr(0+channel).lag(0.1);
+	m_y=In.kr(15+channel).lag(0.1);
+	m_z=In.kr(31+channel).lag(0.1);
 				ampx=In.kr(7+channel).lag(0.1);
 				ampy=In.kr(23+channel).lag(0.1);
 				ampz=In.kr(39+channel).lag(0.1);
@@ -644,11 +644,11 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 				mag_x=magx.value;
 				mag_y= magy.value;
 				mag_z=magz.value;
-			//	mag_x.poll;
+			mag_x.poll;
 //
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
 				//env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
-				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.005);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
