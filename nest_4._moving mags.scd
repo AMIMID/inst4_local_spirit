@@ -500,7 +500,7 @@ wt = signal.asWavetable;
 (
 SynthDef.new(\ospace1, {
 	arg amp=1,pl1=1;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=3,pl2=0,envp,octave=4;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -509,28 +509,11 @@ SynthDef.new(\ospace1, {
 	var mag,magx,magy,magz;
 	var ratio1,ratio2,ratio3;
 		var scale,nn=49.neg;
-
-			// var wrappedOut1 = { |busArray, signalArray|
-			// 	[busArray, signalArray].flop.do { |pair|
-			// Out.ar(pair[0], pair[1])}};
-			// var wrappedOut2 = { |busArray, signalArray|
-			// 	[busArray, signalArray].flop.do { |pair|
-			// Out.ar(pair[0], pair[1])}};
-			// var wrappedOut3 = { |busArray, signalArray|
-			// 	[busArray, signalArray].flop.do { |pair|
-			// Out.ar(pair[0], pair[1])}};
-			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
-//	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
-//	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
-
-//mag=Cartesian(Select.kr(pl1,~magx), Select.kr(pl1,~magy),Select.kr(pl1,~magz));
-			/*	magx=Cartesian(Select.kr(pl1,~magx), 0,0);
-				magy=Cartesian(0, Select.kr(pl1,~magy),0);
-				magz=Cartesian(0, 0,Select.kr(pl1,~magz));*/
+				var osc11,osc22,osc33;
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:1);
-				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
+			env=EnvGen.ar(Env.perc(0.01,decay,amp),doneAction:2,levelScale:1);
+				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:1);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
@@ -556,23 +539,27 @@ ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
 				phase=Complex(sphere.theta.linlin(pi.neg,pi,1.neg,1),sphere.phi.linlin((pi/2).neg,(pi/2),1.neg,1)).theta;
 
-osc1=SinOsc.ar(pitch1,mul:amp1,phase:phase);
+osc1=SinOsc.kr(pitch1,mul:amp1,phase:phase);
 
-osc2=SinOsc.ar(pitch2,mul:amp2,phase:phase);
+osc2=SinOsc.kr(pitch2,mul:amp2,phase:phase);
 
-osc3=SinOsc.ar(pitch3,mul:amp3,phase:phase);
+osc3=SinOsc.kr(pitch3,mul:amp3,phase:phase);
 
-	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-				Out.kr(0,(ZeroCrossing.ar(osc1)*0.1).poll);
-				//Out.kr(3, Amplitude.ar(osc1, 0.01, 0.25,3).poll);
+osc11=SinOsc.ar(pitch1,mul:amp1,phase:phase);
+osc22=SinOsc.ar(pitch2,mul:amp2,phase:phase);
+osc33=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 
-	//	wrappedOut2.value(out1,LeakDC.ar( osc2,mul:env));
-					Out.kr(1,(ZeroCrossing.ar(osc2)*0.1));
-				//Out.kr(4, Amplitude.ar(osc2, 0.01, 0.25,3));
 
-		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-					Out.kr(2,(ZeroCrossing.ar(osc3)*0.1));
-				//Out.kr(5, Amplitude.ar(osc3, 0.01, 0.25,3));
+				Out.kr(0,Lag.kr((ZeroCrossing.kr(osc1)*0.1),0.1));
+				Out.kr(3,osc11.abs);
+
+
+					Out.kr(1,Lag.kr((ZeroCrossing.kr(osc2)*0.1),0.1));
+						Out.kr(4, osc22.abs);
+
+
+							Out.kr(2,Lag.kr((ZeroCrossing.kr(osc3)*0.1),0.1));
+							Out.kr(5,osc33.abs);
 
 }).add;
 );
@@ -580,7 +567,7 @@ osc3=SinOsc.ar(pitch3,mul:amp3,phase:phase);
 SynthDef.new(\ospace2, {
 	arg amp=1,pl1=1;
 	var sph3,sph4,sph5,m_x=2,m_y=2,m_z=2;
-	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=4,pl2=0,envp,octave=4;
+	var phase,osc1,osc2,osc3,sphere,amp1,amp2,amp3,decay=8,pl2=0,envp,octave=4;
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
@@ -606,13 +593,13 @@ SynthDef.new(\ospace2, {
 					m_x=In.kr(0);
 	m_y=In.kr(1);
 	m_z=In.kr(2);
-				//ampx=In.kr(3);
-				//ampy=In.kr(4);
-				//ampz=In.kr(5);
+				ampx=In.kr(3).lag(0.1);
+				ampy=In.kr(4).lag(0.1);
+				ampz=In.kr(5).lag(0.1);
 
-				sph3=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
-					sph4=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
-		sph5=Spherical(1,Select.kr(pl1,~az),Select.kr(pl1,~el));
+				sph3=Spherical(ampx,Select.kr(pl1,~az),Select.kr(pl1,~el));
+					sph4=Spherical(ampy,Select.kr(pl1,~az),Select.kr(pl1,~el));
+		sph5=Spherical(ampz,Select.kr(pl1,~az),Select.kr(pl1,~el));
 
 			magx=(
 	 /*mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
@@ -652,8 +639,8 @@ mag_z=Complex(sin((sph5.phi.round(0.00001)*m_z).wrap((pi/2).neg,(pi/2))),sin((sp
 				mag_x.poll;
 
 				//env=EnvGen.ar(Env.adsr(0.05,0.5,0.5,decay),gate,doneAction:2,levelScale:0.1);
-				env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
-				//env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
+				//env=EnvGen.ar(Env.perc(0.1,decay,amp),doneAction:2,levelScale:0.01);
+				env=EnvGen.ar(Env.sine(decay,amp),doneAction:2,levelScale:0.01);
 //fundamental=(12*6);
 				scale=97.collect{nn=nn+1;Scale.minor.performDegreeToKey(nn,12)};
 
@@ -704,13 +691,13 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 	//wrappedOut3.value(out1,LeakDC.ar(osc3,mul:env));
-				Out.ar(0,LeakDC.ar(Limiter.ar(osc3,1/2),mul:env));
+				Out.ar(0,LeakDC.ar(osc3,mul:env));
 
 	//	wrappedOut2.value(out1,LeakDC.ar( osc2,mul:env));
-					Out.ar(0,LeakDC.ar(Limiter.ar(osc2,1/2),mul:env));
+					Out.ar(0,LeakDC.ar(osc2,mul:env));
 
 		//wrappedOut1.value(out1,LeakDC.ar(osc1,mul:env));
-					Out.ar(0,LeakDC.ar(Limiter.ar(osc1,1/2),mul:env));
+					Out.ar(0,LeakDC.ar(osc1,mul:env));
 
 }).add;
 );
@@ -724,27 +711,27 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		}
 		}.value
 	);
-
+~list1=~list1.scramble;
 //////////pattern for mobius strib of sequential or parallel play of directions
 	(
 
 ~aa=Pdef(\1, Pbind(\instrument, \ospace1,
-			\dur,Pseq(~dur,1),
-			//\dur,1,
+			//\dur,Pseq(~dur,1),
+			\dur,1,
 			\pl1,Pseq(~list1,inf),
 			//\amp,Pseq(~r,inf);///l system
 			\amp,1;
 ));
 
-		~ab=Pdef(\1, Pbind(\instrument, \ospace2,
-			\dur,Pseq(~dur,1),
-			//\dur,1,
+		~ab=Pdef(\2, Pbind(\instrument, \ospace2,
+			//\dur,Pseq(~dur,1),
+			\dur,1,
 			\pl1,Pseq(~list1,inf),
 			//\amp,Pseq(~r,inf);///l system
 			\amp,1;
 ));
 	);
-	TempoClock.default.tempo_(4);
+	TempoClock.default.tempo_(2);
 
 
 
