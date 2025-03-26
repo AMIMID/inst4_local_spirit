@@ -18,6 +18,7 @@ Buffer.freeAll;
 
 ~t= Buffer.alloc(s,2048);
 s.meter;s.freqscope;s.scope;
+		~c1 = Buffer.readChannel(s,"/Users/petrostatsiopoulos/Desktop/PROJECT  FILES/uni/ksyme:cmrc/askhsh4/piano distorted sample1.wav",channels:0);
 
 ////////////////////////////////////speaker setup///other
 /*(
@@ -505,12 +506,13 @@ SynthDef.new(\ospace, {
 	var ton1,ton2,ton3;
 	var fundamental;
 	var freq,pitch1,pitch2,pitch3,env;
-	var pitch;
+	var pitch,rq=0.0001;
 	var n1,n2,n3,rq1,rq2,rq3;
 	var mag,magx,magy,magz,mag_x,mag_y,mag_z;
 					var ratio1,ratio2,ratio3;
 		var scale,nn=49.neg;
 				var ampx,ampy,ampz;
+				var sig;
 
 			// var wrappedOut1 = { |busArray, signalArray|
 			// 	[busArray, signalArray].flop.do { |pair|
@@ -524,12 +526,13 @@ SynthDef.new(\ospace, {
 			// var out1 = NamedControl.kr(\out1, [0, 1, 2, 3]);  // multiple buses!
 //	var out2 = NamedControl.kr(\out2, [0, 1, 2, 3, 4, 5]);  // multiple buses!
 //	var out3 = NamedControl.kr(\out3, [0, 1, 2, 3, 4, 5]);  // multiple buses!
-					m_x=harm.lag(0.1);
+				sig=PlayBuf.ar(1, ~c1.bufnum, BufRateScale.kr(~c1.bufnum),startPos:0, loop: 1, doneAction:2);
+				m_x=harm.lag(0.1);
 	m_y=harm.lag(0.1);
 	m_z=harm.lag(0.1);
-				ampx=SinOsc.ar(lfo_amp.lag(0.1),0.degrad,mul:lfo_amp.lag(0.1).reciprocal);
-				ampy=SinOsc.ar(lfo_amp.lag(0.1),90.degrad,mul:lfo_amp.lag(0.1).reciprocal);
-				ampz=SinOsc.ar(lfo_amp.lag(0.1),90.degrad,mul:lfo_amp.lag(0.1).reciprocal);
+				ampx=SinOsc.ar(lfo_amp.lag(0.1),0.degrad);
+				ampy=SinOsc.ar(lfo_amp.lag(0.1),90.degrad);
+				ampz=SinOsc.ar(lfo_amp.lag(0.1),90.degrad);
 
 				sph3=Spherical(ampx,azimuth.lag(0.1),elevation.lag(0.1));
 					sph4=Spherical(ampy,azimuth.lag(0.1),elevation.lag(0.1));
@@ -598,10 +601,10 @@ ton3 = 2.pow(Select.kr(ratio3.linlin(48.neg, 48, 0, 96), scale) / 12);
 
 	pitch1=(freq*ton1).round(0.0000001);pitch2=(freq*ton2).round(0.0000001);pitch3=(freq*ton3).round(0.0000001);
 
-				phase=Complex(sphere.theta.linlin(pi.neg,pi,1.neg,1),sphere.phi.linlin((pi/2).neg,(pi/2),1.neg,1)).theta;
+
 
 osc1=VBAP.ar(4,
-					SinOsc.ar(pitch1,mul:amp1*mag_x,phase:phase),
+				BPF.ar(sig, pitch1, rq, mul: amp1 * mag_x* (rq.sqrt.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -609,7 +612,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc2=VBAP.ar(4,
-						SinOsc.ar(pitch2,mul:amp2*mag_y,phase:phase),
+						BPF.ar(sig, pitch1, rq, mul: amp1 * mag_y* (rq.sqrt.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
@@ -617,7 +620,7 @@ sphere.theta.raddeg,sphere.phi.raddeg
 		);
 
 osc3=VBAP.ar(4,
-					SinOsc.ar(pitch3,mul:amp3*mag_z,phase:phase),
+					BPF.ar(sig, pitch1, rq, mul: amp1 * mag_z* (rq.sqrt.reciprocal)),
 ~b.bufnum,
 sphere.theta.raddeg,sphere.phi.raddeg
 //Osc.ar(~t.bufnum,1,phase:sphere.theta.linlin(pi.neg,pi,2pi.neg,2pi),mul:180),
