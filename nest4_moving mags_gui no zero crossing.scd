@@ -527,13 +527,13 @@ SynthDef.new(\ospace, {
 					m_x=harm.lag(0.1);
 	m_y=harm.lag(0.1);
 	m_z=harm.lag(0.1);
-				ampx=SinOsc.ar(lfo_amp.lag(0.1),0.degrad,mul:lfo_amp.lag(0.1).reciprocal);
-				ampy=SinOsc.ar(lfo_amp.lag(0.1),90.degrad,mul:lfo_amp.lag(0.1).reciprocal);
-				ampz=SinOsc.ar(lfo_amp.lag(0.1),90.degrad,mul:lfo_amp.lag(0.1).reciprocal);
+				ampx=SinOsc.ar(lfo_amp.lag(0.1),0.degrad,mul:harm.lag(0.1).reciprocal);
+				ampy=SinOsc.ar(lfo_amp.lag(0.1),90.degrad,mul:harm.lag(0.1).reciprocal);
+				ampz=SinOsc.ar(lfo_amp.lag(0.1),90.degrad,mul:harm.lag(0.1).reciprocal);
 
 				sph3=Spherical(ampx,azimuth.lag(0.1),elevation.lag(0.1));
 					sph4=Spherical(ampy,azimuth.lag(0.1),elevation.lag(0.1));
-		sph5=Spherical(ampz,azimuth,elevation);
+		sph5=Spherical(ampz,azimuth.lag(0.1),elevation.lag(0.1));
 
 			magx=(
 	 /*mag_x=(Complex(cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi)),cos((sph3.theta.round(0.00001)*m_x).wrap(pi.neg,pi))).rho*Complex(cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2))),cos((sph3.phi.round(0.00001)).wrap((pi/2).neg,(pi/2)))).rho)*sph3.rho;
